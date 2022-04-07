@@ -34,7 +34,7 @@ Blockly.CSharp['controls_if'] = function(block) {
           block), Blockly.CSharp.INDENT) + branchCode;
     }
     code += (n > 0 ? ' else ' : '') +
-        'if (' + conditionCode + ') {\n' + branchCode + '}';
+        'if (' + conditionCode + ')\n{\n' + branchCode + '}';
     ++n;
   } while (block.getInput('IF' + n));
 
@@ -45,7 +45,7 @@ Blockly.CSharp['controls_if'] = function(block) {
           Blockly.CSharp.injectId(Blockly.CSharp.STATEMENT_SUFFIX,
           block), Blockly.CSharp.INDENT) + branchCode;
     }
-    code += ' else {\n' + branchCode + '}';
+    code += ' else \n{\n' + branchCode + '}';
   }
   return code + '\n';
 };
@@ -53,45 +53,22 @@ Blockly.CSharp['controls_if'] = function(block) {
 Blockly.CSharp['controls_ifelse'] = Blockly.CSharp['controls_if'];
 
 Blockly.CSharp['logic_compare'] = function(block) {
-  // Comparison operator.
-  var OPERATORS = {
-    'EQ': '==',
-    'NEQ': '!=',
-    'LT': '<',
-    'LTE': '<=',
-    'GT': '>',
-    'GTE': '>='
-  };
-  var operator = OPERATORS[block.getFieldValue('OP')];
+  var mode = this.getTitleValue('OP');
+  var operator = Blockly.CSharp.logic_compare.OPERATORS[mode];
   var order = (operator == '==' || operator == '!=') ?
       Blockly.CSharp.ORDER_EQUALITY : Blockly.CSharp.ORDER_RELATIONAL;
-  var argument0 = Blockly.CSharp.valueToCode(block, 'A', order) || '0';
-  var argument1 = Blockly.CSharp.valueToCode(block, 'B', order) || '0';
+  var argument0 = Blockly.CSharp.valueToCode(this, 'A', order) || 'null';
+  var argument1 = Blockly.CSharp.valueToCode(this, 'B', order) || 'null';
   var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
 
 Blockly.CSharp['logic_operation'] = function(block) {
-  // Operations 'and', 'or'.
-  var operator = (block.getFieldValue('OP') == 'AND') ? '&&' : '||';
+  var operator = (this.getTitleValue('OP') == 'AND') ? '&&' : '||';
   var order = (operator == '&&') ? Blockly.CSharp.ORDER_LOGICAL_AND :
       Blockly.CSharp.ORDER_LOGICAL_OR;
-  var argument0 = Blockly.CSharp.valueToCode(block, 'A', order);
-  var argument1 = Blockly.CSharp.valueToCode(block, 'B', order);
-  if (!argument0 && !argument1) {
-    // If there are no arguments, then the return value is false.
-    argument0 = 'false';
-    argument1 = 'false';
-  } else {
-    // Single missing arguments have no effect on the return value.
-    var defaultArgument = (operator == '&&') ? 'true' : 'false';
-    if (!argument0) {
-      argument0 = defaultArgument;
-    }
-    if (!argument1) {
-      argument1 = defaultArgument;
-    }
-  }
+  var argument0 = Blockly.CSharp.valueToCode(this, 'A', order) || 'false';
+  var argument1 = Blockly.CSharp.valueToCode(this, 'B', order) || 'false';
   var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
