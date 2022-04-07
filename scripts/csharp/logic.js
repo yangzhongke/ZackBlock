@@ -53,18 +53,26 @@ Blockly.CSharp['controls_if'] = function(block) {
 Blockly.CSharp['controls_ifelse'] = Blockly.CSharp['controls_if'];
 
 Blockly.CSharp['logic_compare'] = function(block) {
-  var mode = this.getTitleValue('OP');
-  var operator = Blockly.CSharp.logic_compare.OPERATORS[mode];
+  // Comparison operator.
+  var OPERATORS = {
+    'EQ': '==',
+    'NEQ': '!=',
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
+  };
+  var operator = OPERATORS[block.getFieldValue('OP')];
   var order = (operator == '==' || operator == '!=') ?
       Blockly.CSharp.ORDER_EQUALITY : Blockly.CSharp.ORDER_RELATIONAL;
-  var argument0 = Blockly.CSharp.valueToCode(this, 'A', order) || 'null';
-  var argument1 = Blockly.CSharp.valueToCode(this, 'B', order) || 'null';
+  var argument0 = Blockly.CSharp.valueToCode(block, 'A', order) || '0';
+  var argument1 = Blockly.CSharp.valueToCode(block, 'B', order) || '0';
   var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, order];
 };
 
 Blockly.CSharp['logic_operation'] = function(block) {
-  var operator = (this.getTitleValue('OP') == 'AND') ? '&&' : '||';
+  var operator = (this.getFieldValue('OP') == 'AND') ? '&&' : '||';
   var order = (operator == '&&') ? Blockly.CSharp.ORDER_LOGICAL_AND :
       Blockly.CSharp.ORDER_LOGICAL_OR;
   var argument0 = Blockly.CSharp.valueToCode(this, 'A', order) || 'false';

@@ -36,7 +36,7 @@ Blockly.CSharp['controls_repeat_ext'] = function(block) {
         'repeat_end', Blockly.VARIABLE_CATEGORY_NAME);
     code += 'var ' + endVar + ' = ' + repeats + ';\n';
   }
-  code += 'for (var ' + loopVar + ' = 0; ' +
+  code += 'for (int ' + loopVar + ' = 0; ' +
       loopVar + ' < ' + endVar + '; ' +
       loopVar + '++) {\n' +
       branch + '}\n';
