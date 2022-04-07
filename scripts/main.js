@@ -26,7 +26,8 @@
   
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
-	  let code = Blockly.JavaScript.workspaceToCode(workspace);
+	  let code = Blockly.CSharp.workspaceToCode(workspace);
+	  //let code = Blockly.JavaScript.workspaceToCode(workspace);
 	  document.getElementById("code").innerText=code;
 	  save();
   });
