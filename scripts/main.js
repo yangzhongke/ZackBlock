@@ -14,7 +14,14 @@
   var execute=function(){
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
     code += 'MusicMaker.play();';
-    eval(code);  
+    try
+	{
+		eval(code);  
+	}
+	catch(err)
+	{
+		alert("Error: "+err);
+	}
   }
   document.getElementById("btnExecute").onclick=execute;
   

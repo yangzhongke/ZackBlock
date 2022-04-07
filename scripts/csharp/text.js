@@ -41,7 +41,7 @@ Blockly.CSharp.text.forceString_ = function(value) {
   if (Blockly.CSharp.text.forceString_.strRegExp.test(value)) {
     return [value, Blockly.CSharp.ORDER_ATOMIC];
   }
-  return ['String(' + value + ')', Blockly.CSharp.ORDER_FUNCTION_CALL];
+  return ['Convert.ToString(' + value + ')', Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
 /**
@@ -93,68 +93,62 @@ Blockly.CSharp['text_length'] = function(block) {
   // String or array length.
   var text = Blockly.CSharp.valueToCode(block, 'VALUE',
       Blockly.CSharp.ORDER_MEMBER) || '\'\'';
-  return [text + '.length', Blockly.CSharp.ORDER_MEMBER];
+  return [text + '.Length', Blockly.CSharp.ORDER_MEMBER];
 };
 
 Blockly.CSharp['text_isEmpty'] = function(block) {
-  // Is the string null or array empty?
-  var text = Blockly.CSharp.valueToCode(block, 'VALUE',
-      Blockly.CSharp.ORDER_MEMBER) || '\'\'';
-  return ['!' + text + '.length', Blockly.CSharp.ORDER_LOGICAL_NOT];
+  var argument0 = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_MEMBER) || '""';
+  return [argument0 + '.Length == 0', Blockly.CSharp.ORDER_EQUALITY];
 };
 
 Blockly.CSharp['text_indexOf'] = function(block) {
-  // Search the text for a substring.
-  var operator = block.getFieldValue('END') == 'FIRST' ?
-      'indexOf' : 'lastIndexOf';
-  var substring = Blockly.CSharp.valueToCode(block, 'FIND',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  var text = Blockly.CSharp.valueToCode(block, 'VALUE',
-      Blockly.CSharp.ORDER_MEMBER) || '\'\'';
-  var code = text + '.' + operator + '(' + substring + ')';
-  // Adjust index if using one-based indices.
-  if (block.workspace.options.oneBasedIndex) {
-    return [code + ' + 1', Blockly.CSharp.ORDER_ADDITION];
-  }
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+  var operator = this.getFieldValue('END') == 'FIRST' ?
+      'IndexOf' : 'LastIndexOf';
+  var argument0 = Blockly.CSharp.valueToCode(this, 'FIND', Blockly.CSharp.ORDER_NONE) || '""';
+  var argument1 = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_MEMBER) || '""';
+  var code = argument1 + '.' + operator + '(' + argument0 + ')';
+  return [code, Blockly.CSharp.ORDER_MEMBER];
 };
 
 Blockly.CSharp['text_charAt'] = function(block) {
-  // Get letter at index.
-  // Note: Until January 2013 this block did not have the WHERE input.
-  var where = block.getFieldValue('WHERE') || 'FROM_START';
-  var textOrder = (where == 'RANDOM') ? Blockly.CSharp.ORDER_NONE :
-      Blockly.CSharp.ORDER_MEMBER;
-  var text = Blockly.CSharp.valueToCode(block, 'VALUE',
-      textOrder) || '\'\'';
+  var where = this.getFieldValue('WHERE') || 'FROM_START';
+  var at = Blockly.CSharp.valueToCode(this, 'AT',
+      Blockly.CSharp.ORDER_UNARY_NEGATION) || '1';
+  var text = Blockly.CSharp.valueToCode(this, 'VALUE',
+      Blockly.CSharp.ORDER_MEMBER) || '""';
+
+  // Blockly uses one-based indicies.
+
   switch (where) {
     case 'FIRST':
-      var code = text + '.charAt(0)';
+      var code = text + '.First()';
       return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
     case 'LAST':
-      var code = text + '.slice(-1)';
+      var code = text + '.Last()';
       return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
     case 'FROM_START':
-      var at = Blockly.CSharp.getAdjusted(block, 'AT');
-      // Adjust index if using one-based indices.
-      var code = text + '.charAt(' + at + ')';
+      var code = text + '[' + at + ' - 1]';
       return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
     case 'FROM_END':
-      var at = Blockly.CSharp.getAdjusted(block, 'AT', 1, true);
-      var code = text + '.slice(' + at + ').charAt(0)';
+        var code = text + '[text.Length - ' + at + ']';
       return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
     case 'RANDOM':
-      var functionName = Blockly.CSharp.provideFunction_(
-          'textRandomLetter',
-          ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-              '(text) {',
-           '  var x = Math.floor(Math.random() * text.length);',
-           '  return text[x];',
-           '}']);
-      var code = functionName + '(' + text + ')';
+      if (!Blockly.CSharp.definitions_['text_random_letter']) {
+        var functionName = Blockly.CSharp.variableDB_.getDistinctName(
+            'text_random_letter', Blockly.Generator.NAME_TYPE);
+        Blockly.CSharp.text_charAt.text_random_letter = functionName;
+        var func = [];
+        func.push('var ' + functionName + ' = new Func<string, char>((text) => {');
+        func.push('  var x = (new Random()).Next(text.length);');
+        func.push('  return text[x];');
+        func.push('});');
+        Blockly.CSharp.definitions_['text_random_letter'] = func.join('\n');
+      }
+      code = Blockly.CSharp.text_charAt.text_random_letter +
+          '(' + text + ')';
       return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
   }
-  throw Error('Unhandled option (text_charAt).');
+  throw 'Unhandled option (text_charAt).';
 };
 
 /**
@@ -169,9 +163,9 @@ Blockly.CSharp.text.getIndex_ = function(stringName, where, opt_at) {
   if (where == 'FIRST') {
     return '0';
   } else if (where == 'FROM_END') {
-    return stringName + '.length - 1 - ' + opt_at;
+    return stringName + '.Length - 1 - ' + opt_at;
   } else if (where == 'LAST') {
-    return stringName + '.length - 1';
+    return stringName + '.Length - 1';
   } else {
     return opt_at;
   }
@@ -255,118 +249,97 @@ Blockly.CSharp['text_getSubstring'] = function(block) {
 
 Blockly.CSharp['text_changeCase'] = function(block) {
   // Change capitalization.
-  var OPERATORS = {
-    'UPPERCASE': '.toUpperCase()',
-    'LOWERCASE': '.toLowerCase()',
-    'TITLECASE': null
-  };
-  var operator = OPERATORS[block.getFieldValue('CASE')];
-  var textOrder = operator ? Blockly.CSharp.ORDER_MEMBER :
-      Blockly.CSharp.ORDER_NONE;
-  var text = Blockly.CSharp.valueToCode(block, 'TEXT',
-      textOrder) || '\'\'';
+  var mode = this.getFieldValue('CASE');
+  var operator = Blockly.CSharp.text_changeCase.OPERATORS[mode];
+  var code;
   if (operator) {
-    // Upper and lower case are functions built into JavaScript.
-    var code = text + operator;
+    // Upper and lower case are functions built into CSharp.
+    var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT', Blockly.CSharp.ORDER_MEMBER) || '""';
+    code = argument0 + operator;
   } else {
-    // Title case is not a native JavaScript function.  Define one.
-    var functionName = Blockly.CSharp.provideFunction_(
-        'textToTitleCase',
-        ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-            '(str) {',
-         '  return str.replace(/\\S+/g,',
-         '      function(txt) {return txt[0].toUpperCase() + ' +
-            'txt.substring(1).toLowerCase();});',
-         '}']);
-    var code = functionName + '(' + text + ')';
+    if (!Blockly.CSharp.definitions_['text_toTitleCase']) {
+      // Title case is not a native CSharp function.  Define one.
+      var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_toTitleCase', Blockly.Generator.NAME_TYPE);
+      Blockly.CSharp.text_changeCase.toTitleCase = functionName;
+      var func = [];
+      func.push('var ' + functionName + ' = new Func<string, string>((str) => {');
+      func.push('  var buf = new StringBuilder(str.Length);');
+      func.push('  var toUpper = true;');
+      func.push('  foreach (var ch in str) {');
+      func.push('    buf.Append(toUpper ? Char.ToUpper(ch) : ch);');
+      func.push('    toUpper = Char.IsWhiteSpace(ch);');
+      func.push('  }');
+      func.push('  return buf.ToString();');
+      func.push('});');
+      Blockly.CSharp.definitions_['text_toTitleCase'] = func.join('\n');
+    }
+    var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT',
+        Blockly.CSharp.ORDER_NONE) || '""';
+    code = Blockly.CSharp.text_changeCase.toTitleCase + '(' + argument0 + ')';
   }
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
+Blockly.CSharp.text_changeCase.OPERATORS = {
+  UPPERCASE: '.ToUpper()',
+  LOWERCASE: '.ToLower()',
+  TITLECASE: null
+};
+
 Blockly.CSharp['text_trim'] = function(block) {
   // Trim spaces.
-  var OPERATORS = {
-    'LEFT': ".replace(/^[\\s\\xa0]+/, '')",
-    'RIGHT': ".replace(/[\\s\\xa0]+$/, '')",
-    'BOTH': '.trim()'
-  };
-  var operator = OPERATORS[block.getFieldValue('MODE')];
-  var text = Blockly.CSharp.valueToCode(block, 'TEXT',
-      Blockly.CSharp.ORDER_MEMBER) || '\'\'';
-  return [text + operator, Blockly.CSharp.ORDER_FUNCTION_CALL];
+  var mode = this.getFieldValue('MODE');
+  var operator = Blockly.CSharp.text_trim.OPERATORS[mode];
+  var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT', Blockly.CSharp.ORDER_MEMBER) || '""';
+  return [argument0 + operator, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
+
+Blockly.CSharp.text_trim.OPERATORS = {
+  LEFT: '.TrimStart()',
+  RIGHT: '.TrimEnd()',
+  BOTH: '.Trim()'
+};
+
 
 Blockly.CSharp['text_print'] = function(block) {
   // Print statement.
   var msg = Blockly.CSharp.valueToCode(block, 'TEXT',
       Blockly.CSharp.ORDER_NONE) || '\'\'';
-  return 'window.alert(' + msg + ');\n';
+  return 'Console.WriteLine(' + msg + ');\n';
 };
 
-Blockly.CSharp['text_prompt_ext'] = function(block) {
-  // Prompt function.
-  if (block.getField('TEXT')) {
-    // Internal message.
-    var msg = Blockly.CSharp.quote_(block.getFieldValue('TEXT'));
-  } else {
-    // External message.
-    var msg = Blockly.CSharp.valueToCode(block, 'TEXT',
-        Blockly.CSharp.ORDER_NONE) || '\'\'';
-  }
-  var code = 'window.prompt(' + msg + ')';
-  var toNumber = block.getFieldValue('TYPE') == 'NUMBER';
-  if (toNumber) {
-    code = 'Number(' + code + ')';
-  }
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
+Blockly.CSharp['text_prompt'] = function(block) {
+    var msg = Blockly.CSharp.quote_(this.getFieldValue('TEXT'));
+    var toNumber = this.getFieldValue('TYPE') == 'NUMBER';
 
-Blockly.CSharp['text_prompt'] = Blockly.CSharp['text_prompt_ext'];
+	var code;
+	if(toNumber)
+	{
+		var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_promptInputNumber', Blockly.Generator.NAME_TYPE);
+		Blockly.CSharp.text_prompt.promptInputNumber = functionName;
+		var func = [];		
+		func.push('var ' + functionName + ' = new Func<string, double>((msg) => {');
+		func.push('  Console.WriteLine(msg);');
+		func.push('  var res = Console.ReadLine();');
+		func.push('  return Double.Parse(res);');
+		func.push('});');
+		Blockly.CSharp.definitions_['text_promptInputNumber'] = func.join('\n');
+		var code = Blockly.CSharp.text_prompt.promptInputNumber + '(' + msg + ')';		
+	}
+	else
+	{
+		var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_promptInputString', Blockly.Generator.NAME_TYPE);
+		Blockly.CSharp.text_prompt.promptInputString = functionName;
+		var func = [];
+		func.push('var ' + functionName + ' = new Func<string, string>((msg) => {');
+		func.push('  Console.WriteLine(msg);');
+		func.push('  var res = Console.ReadLine();');
+		func.push('  return res;');
+		func.push('});');	
+		Blockly.CSharp.definitions_['text_promptInputString'] = func.join('\n');
+		var code = Blockly.CSharp.text_prompt.promptInputString + '(' + msg + ')';		
+	}
 
-Blockly.CSharp['text_count'] = function(block) {
-  var text = Blockly.CSharp.valueToCode(block, 'TEXT',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  var sub = Blockly.CSharp.valueToCode(block, 'SUB',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  var functionName = Blockly.CSharp.provideFunction_(
-      'textCount',
-      ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-          '(haystack, needle) {',
-       '  if (needle.length === 0) {',
-       '    return haystack.length + 1;',
-       '  } else {',
-       '    return haystack.split(needle).length - 1;',
-       '  }',
-       '}']);
-  var code = functionName + '(' + text + ', ' + sub + ')';
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
-
-Blockly.CSharp['text_replace'] = function(block) {
-  var text = Blockly.CSharp.valueToCode(block, 'TEXT',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  var from = Blockly.CSharp.valueToCode(block, 'FROM',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  var to = Blockly.CSharp.valueToCode(block, 'TO',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  // The regex escaping code below is taken from the implementation of
-  // goog.string.regExpEscape.
-  var functionName = Blockly.CSharp.provideFunction_(
-      'textReplace',
-      ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-          '(haystack, needle, replacement) {',
-       '  needle = ' +
-           'needle.replace(/([-()\\[\\]{}+?*.$\\^|,:#<!\\\\])/g,"\\\\$1")',
-       '                 .replace(/\\x08/g,"\\\\x08");',
-       '  return haystack.replace(new RegExp(needle, \'g\'), replacement);',
-       '}']);
-  var code = functionName + '(' + text + ', ' + from + ', ' + to + ')';
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
-
-Blockly.CSharp['text_reverse'] = function(block) {
-  var text = Blockly.CSharp.valueToCode(block, 'TEXT',
-      Blockly.CSharp.ORDER_MEMBER) || '\'\'';
-  var code = text + '.split(\'\').reverse().join(\'\')';
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+    
+    return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };

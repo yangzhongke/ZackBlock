@@ -211,8 +211,8 @@ Blockly.CSharp.quote_ = function(string) {
   // JS string literals use single quotes.
   string = string.replace(/\\/g, '\\\\')
                  .replace(/\n/g, '\\\n')
-                 .replace(/'/g, '\\\'');
-  return '\'' + string + '\'';
+                 .replace(/"/g, '\\\"');
+  return '\"' + string + '\"';
 };
 
 /**
