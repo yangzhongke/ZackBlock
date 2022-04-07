@@ -25,7 +25,7 @@
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
       <block type="logic_boolean"></block>
-      <block type="logic_null" disabled="true"></block>
+      <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
     <category name="Loops" categorystyle="loop_category">
@@ -146,6 +146,21 @@
       <block type="math_random_float"></block>
     </category>
     <category name="Text" categorystyle="text_category">
+      <block type="text_print">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_prompt">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>	
+      <label text="String function:" web-class="ioLabel"></label>	  
       <block type="text"></block>
       <block type="text_multiline"></block>
       <block type="text_join"></block>
@@ -207,22 +222,7 @@
             <field name="TEXT">abc</field>
           </shadow>
         </value>
-      </block>
-      <label text="Input/Output:" web-class="ioLabel"></label>
-      <block type="text_print">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_prompt">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>	  
+      </block>  
     </category>
     <category name="Colour" categorystyle="colour_category">
       <block type="colour_picker"></block>
@@ -267,13 +267,6 @@
     <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
 	<category name="Tools" categorystyle="colour_category">
 		<block kind="block" type="play_sound"></block>
-		<block type="text_print">
-		  <value name="TEXT">
-			<block type="text">
-			  <field name="TEXT">hello</field>
-			</block>
-		  </value>
-		</block>
     </category>
   </xml>	
 
