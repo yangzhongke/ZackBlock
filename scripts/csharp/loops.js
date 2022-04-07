@@ -28,11 +28,11 @@ Blockly.CSharp['controls_repeat_ext'] = function(block) {
   var branch = Blockly.CSharp.statementToCode(block, 'DO');
   branch = Blockly.CSharp.addLoopTrap(branch, block);
   var code = '';
-  var loopVar = Blockly.CSharp.variableDB_.getDistinctName(
+  var loopVar = Blockly.CSharp.nameDB_.getDistinctName(
       'count', Blockly.VARIABLE_CATEGORY_NAME);
   var endVar = repeats;
   if (!repeats.match(/^\w+$/) && !Blockly.isNumber(repeats)) {
-    endVar = Blockly.CSharp.variableDB_.getDistinctName(
+    endVar = Blockly.CSharp.nameDB_.getDistinctName(
         'repeat_end', Blockly.VARIABLE_CATEGORY_NAME);
     code += 'var ' + endVar + ' = ' + repeats + ';\n';
   }
@@ -62,7 +62,7 @@ Blockly.CSharp['controls_whileUntil'] = function(block) {
 
 Blockly.CSharp['controls_for'] = function(block) {
   // For loop.
-  var variable0 = Blockly.CSharp.variableDB_.getName(
+  var variable0 = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   var argument0 = Blockly.CSharp.valueToCode(block, 'FROM',
       Blockly.CSharp.ORDER_ASSIGNMENT) || '0';
@@ -92,19 +92,19 @@ Blockly.CSharp['controls_for'] = function(block) {
     // Cache non-trivial values to variables to prevent repeated look-ups.
     var startVar = argument0;
     if (!argument0.match(/^\w+$/) && !Blockly.isNumber(argument0)) {
-      startVar = Blockly.CSharp.variableDB_.getDistinctName(
+      startVar = Blockly.CSharp.nameDB_.getDistinctName(
           variable0 + '_start', Blockly.VARIABLE_CATEGORY_NAME);
       code += 'var ' + startVar + ' = ' + argument0 + ';\n';
     }
     var endVar = argument1;
     if (!argument1.match(/^\w+$/) && !Blockly.isNumber(argument1)) {
-      endVar = Blockly.CSharp.variableDB_.getDistinctName(
+      endVar = Blockly.CSharp.nameDB_.getDistinctName(
           variable0 + '_end', Blockly.VARIABLE_CATEGORY_NAME);
       code += 'var ' + endVar + ' = ' + argument1 + ';\n';
     }
     // Determine loop direction at start, in case one of the bounds
     // changes during loop execution.
-    var incVar = Blockly.CSharp.variableDB_.getDistinctName(
+    var incVar = Blockly.CSharp.nameDB_.getDistinctName(
         variable0 + '_inc', Blockly.VARIABLE_CATEGORY_NAME);
     code += 'var ' + incVar + ' = ';
     if (Blockly.isNumber(increment)) {
@@ -127,7 +127,7 @@ Blockly.CSharp['controls_for'] = function(block) {
 
 Blockly.CSharp['controls_forEach'] = function(block) {
   // For each loop.
-  var variable0 = Blockly.CSharp.variableDB_.getName(
+  var variable0 = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   var argument0 = Blockly.CSharp.valueToCode(block, 'LIST',
       Blockly.CSharp.ORDER_ASSIGNMENT) || '[]';
@@ -137,11 +137,11 @@ Blockly.CSharp['controls_forEach'] = function(block) {
   // Cache non-trivial values to variables to prevent repeated look-ups.
   var listVar = argument0;
   if (!argument0.match(/^\w+$/)) {
-    listVar = Blockly.CSharp.variableDB_.getDistinctName(
+    listVar = Blockly.CSharp.nameDB_.getDistinctName(
         variable0 + '_list', Blockly.VARIABLE_CATEGORY_NAME);
     code += 'var ' + listVar + ' = ' + argument0 + ';\n';
   }
-  var indexVar = Blockly.CSharp.variableDB_.getDistinctName(
+  var indexVar = Blockly.CSharp.nameDB_.getDistinctName(
       variable0 + '_index', Blockly.VARIABLE_CATEGORY_NAME);
   branch = Blockly.CSharp.INDENT + variable0 + ' = ' +
       listVar + '[' + indexVar + '];\n' + branch;

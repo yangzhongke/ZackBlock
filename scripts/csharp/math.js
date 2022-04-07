@@ -207,7 +207,7 @@ Blockly.CSharp['math_change'] = function(block) {
   // Add to a variable in place.
   var argument0 = Blockly.CSharp.valueToCode(block, 'DELTA',
       Blockly.CSharp.ORDER_ADDITION) || '0';
-  var varName = Blockly.CSharp.variableDB_.getName(
+  var varName = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   return varName + ' = (typeof ' + varName + ' == \'number\' ? ' + varName +
       ' : 0) + ' + argument0 + ';\n';

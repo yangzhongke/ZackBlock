@@ -174,7 +174,7 @@ Blockly.CSharp['lists_setIndex'] = function(block) {
     if (list.match(/^\w+$/)) {
       return '';
     }
-    var listVar = Blockly.CSharp.variableDB_.getDistinctName(
+    var listVar = Blockly.CSharp.nameDB_.getDistinctName(
         'tmpList', Blockly.VARIABLE_CATEGORY_NAME);
     var code = 'var ' + listVar + ' = ' + list + ';\n';
     list = listVar;
@@ -220,7 +220,7 @@ Blockly.CSharp['lists_setIndex'] = function(block) {
       break;
     case ('RANDOM'):
       var code = cacheList();
-      var xVar = Blockly.CSharp.variableDB_.getDistinctName(
+      var xVar = Blockly.CSharp.nameDB_.getDistinctName(
           'tmpX', Blockly.VARIABLE_CATEGORY_NAME);
       code += 'var ' + xVar + ' = Math.floor(Math.random() * ' + list +
           '.length);\n';

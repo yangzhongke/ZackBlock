@@ -32,15 +32,22 @@ Blockly.CSharp = new Blockly.Generator('CSharp');
  * accidentally clobbering a built-in object or function.
  * @private
  */
-Blockly.CSharp.addReservedWords(
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords
-    'break,case,catch,class,const,continue,debugger,default,delete,do,else,export,extends,finally,for,function,if,import,in,instanceof,new,return,super,switch,this,throw,try,typeof,var,void,while,with,yield,' +
-    'enum,' +
-    'implements,interface,let,package,private,protected,public,static,' +
+ 
+var reservedWords='abstract,event,namespace,as,explicit,string,base,extern,struct,bool,'+
+	'object,operator,float,override,params,checked,goto,uint,implicit,readonly,'
+	+'unchecked,ref,unsafe,decimal,interface,sbyte,using,delegate,internal,'+
+     'sealed,virtual,double,lock,sizeof,volatile,long,stackalloc,'+'break,case,catch,class,const,continue,default,do,else,finally,for,if,in,new,return,switch,this,throw,try,typeof,var,void,while,with,yield,' +
+    'enum,byte,fixed,out,int,ushort,' +
+    'private,protected,public,static,' +
     'await,' +
-    'null,true,false,' +
-    // Magic variable.
-    'arguments,' +
+    'null,true,false';
+var contextualKeywords='add,get,notnull,set,and,global,nuint,unmanaged,alias,group,'+
+'on,ascending,init,or,args,into,orderby,async,join,partial,let,value,by,'+
+'managed,record,descending,remove,when,dynamic,select,equals,nameof,where,'+
+'from,nint,not,with';
+Blockly.CSharp.addReservedWords(
+    //https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/
+     reservedWords+','+contextualKeywords+','+
     // Everything in the current environment (835 items in Chrome, 104 in Node).
     Object.getOwnPropertyNames(Blockly.utils.global).join(','));
 

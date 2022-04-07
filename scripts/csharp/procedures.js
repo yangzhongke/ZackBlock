@@ -17,7 +17,7 @@ goog.require('Blockly.CSharp');
 
 Blockly.CSharp['procedures_defreturn'] = function(block) {
   // Define a procedure with a return value.
-  var funcName = Blockly.CSharp.variableDB_.getName(
+  var funcName = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
   var xfix1 = '';
   if (Blockly.CSharp.STATEMENT_PREFIX) {
@@ -51,7 +51,7 @@ Blockly.CSharp['procedures_defreturn'] = function(block) {
   var args = [];
   var variables = block.getVars();
   for (var i = 0; i < variables.length; i++) {
-    args[i] = Blockly.CSharp.variableDB_.getName(variables[i],
+    args[i] = Blockly.CSharp.nameDB_.getName(variables[i],
         Blockly.VARIABLE_CATEGORY_NAME);
   }
   var code = 'function ' + funcName + '(' + args.join(', ') + ') {\n' +
@@ -69,7 +69,7 @@ Blockly.CSharp['procedures_defnoreturn'] =
 
 Blockly.CSharp['procedures_callreturn'] = function(block) {
   // Call a procedure with a return value.
-  var funcName = Blockly.CSharp.variableDB_.getName(
+  var funcName = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
   var args = [];
   var variables = block.getVars();
