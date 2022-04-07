@@ -20,7 +20,7 @@
   
   Blockly.inject('blocklyDiv', {
     toolbox: document.getElementById('toolbox-categories'),
-    scrollbars: false,
+    scrollbars: true,
   });
   load();
   
