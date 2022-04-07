@@ -9,25 +9,15 @@
 </head>
 
 <body>
-    <div class="blockly-editor" id="blocklyEditor">
+    <div class="blockly-editor" id="blocklyEditor" style="float:left;">
       <div id="blocklyDiv" style="height: 480px; width: 400px;"></div>
-      <xml id="toolbox">
-        <block type="controls_repeat_ext">
-          <value name="TIMES">
-            <shadow type="math_number">
-              <field name="NUM">5</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="play_sound"></block>
-      </xml>
     </div>
-	<button id="btnExecute">执行</button>
-	<button id="btnSave">保存</button>
-	<button id="btnLoad">加载</button>
-	<pre id="code">
-	</pre>	
-  <!-- Toolbox Definition -->
+	<div style="float:left;margin-left:10px;">
+		<button id="btnExecute">执行</button>
+		<pre id="code">
+		</pre>		
+	</div>
+
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-categories" style="display: none">
     <category name="Logic" categorystyle="logic_category">
       <block type="controls_if"></block>
