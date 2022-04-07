@@ -24,6 +24,11 @@
 	}
   }
   document.getElementById("btnExecute").onclick=execute;
+  document.getElementById("btnNew").onclick=function(){
+	  if(!confirm("确认要清除现在的项目，创建新的？"))return;
+	  const workspace = Blockly.getMainWorkspace();
+	  Blockly.serialization.workspaces.load({}, workspace);		  
+  };
   
   Blockly.inject('blocklyDiv', {
     toolbox: document.getElementById('toolbox-categories'),
