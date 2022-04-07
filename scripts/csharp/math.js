@@ -49,62 +49,65 @@ Blockly.CSharp['math_arithmetic'] = function(block) {
 
 Blockly.CSharp['math_single'] = function(block) {
   // Math operators with single operand.
-  var operator = block.getFieldValue('OP');
+  var operator = this.getFieldValue('OP');
   var code;
   var arg;
   if (operator == 'NEG') {
     // Negation is a special case given its different operator precedence.
-    arg = Blockly.CSharp.valueToCode(block, 'NUM',
-        Blockly.CSharp.ORDER_UNARY_NEGATION) || '0';
+    arg = Blockly.CSharp.valueToCode(this, 'NUM',
+        Blockly.CSharp.ORDER_UNARY_NEGATION) || '0.0';
     if (arg[0] == '-') {
-      // --3 is not legal in JS.
+      // --3 is not allowed
       arg = ' ' + arg;
     }
     code = '-' + arg;
     return [code, Blockly.CSharp.ORDER_UNARY_NEGATION];
   }
   if (operator == 'SIN' || operator == 'COS' || operator == 'TAN') {
-    arg = Blockly.CSharp.valueToCode(block, 'NUM',
+    arg = Blockly.CSharp.valueToCode(this, 'NUM',
         Blockly.CSharp.ORDER_DIVISION) || '0';
   } else {
-    arg = Blockly.CSharp.valueToCode(block, 'NUM',
-        Blockly.CSharp.ORDER_NONE) || '0';
+    arg = Blockly.CSharp.valueToCode(this, 'NUM',
+        Blockly.CSharp.ORDER_NONE) || '0.0';
   }
   // First, handle cases which generate values that don't need parentheses
   // wrapping the code.
   switch (operator) {
     case 'ABS':
-      code = 'Math.abs(' + arg + ')';
+      code = 'Math.Abs(' + arg + ')';
       break;
     case 'ROOT':
-      code = 'Math.sqrt(' + arg + ')';
+      code = 'Math.Sqrt(' + arg + ')';
       break;
     case 'LN':
-      code = 'Math.log(' + arg + ')';
+      code = 'Math.Log(' + arg + ')';
+      break;
+    case 'LOG10':
+      code = 'Math.Log10(' + arg + ')';
       break;
     case 'EXP':
-      code = 'Math.exp(' + arg + ')';
+      code = 'Math.Exp(' + arg + ')';
       break;
     case 'POW10':
-      code = 'Math.pow(10,' + arg + ')';
+      code = 'Math.Pow(' + arg + ', 10)';
       break;
     case 'ROUND':
-      code = 'Math.round(' + arg + ')';
+      code = 'Math.Round(' + arg + ')';
       break;
     case 'ROUNDUP':
-      code = 'Math.ceil(' + arg + ')';
+      code = 'Math.Ceil(' + arg + ')';
       break;
     case 'ROUNDDOWN':
-      code = 'Math.floor(' + arg + ')';
+      code = 'Math.Floor(' + arg + ')';
       break;
     case 'SIN':
-      code = 'Math.sin(' + arg + ' / 180 * Math.PI)';
+      code = 'Math.Sin(' + arg + ' / 180 * Math.PI)';
       break;
     case 'COS':
-      code = 'Math.cos(' + arg + ' / 180 * Math.PI)';
+      code = 'Math.Cos(' + arg + ' / 180 * Math.PI)';
       break;
     case 'TAN':
-      code = 'Math.tan(' + arg + ' / 180 * Math.PI)';
+      code = 'Math.Tan(' + arg + ' / 180 * Math.PI)';
       break;
   }
   if (code) {
@@ -113,20 +116,17 @@ Blockly.CSharp['math_single'] = function(block) {
   // Second, handle cases which generate values that may need parentheses
   // wrapping the code.
   switch (operator) {
-    case 'LOG10':
-      code = 'Math.log(' + arg + ') / Math.log(10)';
-      break;
     case 'ASIN':
-      code = 'Math.asin(' + arg + ') / Math.PI * 180';
+      code = 'Math.Asin(' + arg + ') / Math.PI * 180';
       break;
     case 'ACOS':
-      code = 'Math.acos(' + arg + ') / Math.PI * 180';
+      code = 'Math.Acos(' + arg + ') / Math.PI * 180';
       break;
     case 'ATAN':
-      code = 'Math.atan(' + arg + ') / Math.PI * 180';
+      code = 'Math.Atan(' + arg + ') / Math.PI * 180';
       break;
     default:
-      throw Error('Unknown math operator: ' + operator);
+      throw 'Unknown math operator: ' + operator;
   }
   return [code, Blockly.CSharp.ORDER_DIVISION];
 };
@@ -218,136 +218,6 @@ Blockly.CSharp['math_round'] = Blockly.CSharp['math_single'];
 // Trigonometry functions have a single operand.
 Blockly.CSharp['math_trig'] = Blockly.CSharp['math_single'];
 
-Blockly.CSharp['math_on_list'] = function(block) {
-  // Math functions for lists.
-  var func = block.getFieldValue('OP');
-  var list, code;
-  switch (func) {
-    case 'SUM':
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_MEMBER) || '[]';
-      code = list + '.reduce(function(x, y) {return x + y;})';
-      break;
-    case 'MIN':
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = 'Math.min.apply(null, ' + list + ')';
-      break;
-    case 'MAX':
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = 'Math.max.apply(null, ' + list + ')';
-      break;
-    case 'AVERAGE':
-      // mathMean([null,null,1,3]) == 2.0.
-      var functionName = Blockly.CSharp.provideFunction_(
-          'mathMean',
-          ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-              '(myList) {',
-            '  return myList.reduce(function(x, y) {return x + y;}) / ' +
-                  'myList.length;',
-            '}']);
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = functionName + '(' + list + ')';
-      break;
-    case 'MEDIAN':
-      // mathMedian([null,null,1,3]) == 2.0.
-      var functionName = Blockly.CSharp.provideFunction_(
-          'mathMedian',
-          ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-              '(myList) {',
-            '  var localList = myList.filter(function (x) ' +
-              '{return typeof x == \'number\';});',
-            '  if (!localList.length) return null;',
-            '  localList.sort(function(a, b) {return b - a;});',
-            '  if (localList.length % 2 == 0) {',
-            '    return (localList[localList.length / 2 - 1] + ' +
-              'localList[localList.length / 2]) / 2;',
-            '  } else {',
-            '    return localList[(localList.length - 1) / 2];',
-            '  }',
-            '}']);
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = functionName + '(' + list + ')';
-      break;
-    case 'MODE':
-      // As a list of numbers can contain more than one mode,
-      // the returned result is provided as an array.
-      // Mode of [3, 'x', 'x', 1, 1, 2, '3'] -> ['x', 1].
-      var functionName = Blockly.CSharp.provideFunction_(
-          'mathModes',
-          ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-              '(values) {',
-            '  var modes = [];',
-            '  var counts = [];',
-            '  var maxCount = 0;',
-            '  for (var i = 0; i < values.length; i++) {',
-            '    var value = values[i];',
-            '    var found = false;',
-            '    var thisCount;',
-            '    for (var j = 0; j < counts.length; j++) {',
-            '      if (counts[j][0] === value) {',
-            '        thisCount = ++counts[j][1];',
-            '        found = true;',
-            '        break;',
-            '      }',
-            '    }',
-            '    if (!found) {',
-            '      counts.push([value, 1]);',
-            '      thisCount = 1;',
-            '    }',
-            '    maxCount = Math.max(thisCount, maxCount);',
-            '  }',
-            '  for (var j = 0; j < counts.length; j++) {',
-            '    if (counts[j][1] == maxCount) {',
-            '        modes.push(counts[j][0]);',
-            '    }',
-            '  }',
-            '  return modes;',
-            '}']);
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = functionName + '(' + list + ')';
-      break;
-    case 'STD_DEV':
-      var functionName = Blockly.CSharp.provideFunction_(
-          'mathStandardDeviation',
-          ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-              '(numbers) {',
-            '  var n = numbers.length;',
-            '  if (!n) return null;',
-            '  var mean = numbers.reduce(function(x, y) {return x + y;}) / n;',
-            '  var variance = 0;',
-            '  for (var j = 0; j < n; j++) {',
-            '    variance += Math.pow(numbers[j] - mean, 2);',
-            '  }',
-            '  variance = variance / n;',
-            '  return Math.sqrt(variance);',
-            '}']);
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = functionName + '(' + list + ')';
-      break;
-    case 'RANDOM':
-      var functionName = Blockly.CSharp.provideFunction_(
-          'mathRandomList',
-          ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-              '(list) {',
-            '  var x = Math.floor(Math.random() * list.length);',
-            '  return list[x];',
-            '}']);
-      list = Blockly.CSharp.valueToCode(block, 'LIST',
-          Blockly.CSharp.ORDER_NONE) || '[]';
-      code = functionName + '(' + list + ')';
-      break;
-    default:
-      throw Error('Unknown operator: ' + func);
-  }
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
-
 Blockly.CSharp['math_modulo'] = function(block) {
   // Remainder computation.
   var argument0 = Blockly.CSharp.valueToCode(block, 'DIVIDEND',
@@ -373,37 +243,26 @@ Blockly.CSharp['math_constrain'] = function(block) {
 
 Blockly.CSharp['math_random_int'] = function(block) {
   // Random integer between [X] and [Y].
-  var argument0 = Blockly.CSharp.valueToCode(block, 'FROM',
-      Blockly.CSharp.ORDER_NONE) || '0';
-  var argument1 = Blockly.CSharp.valueToCode(block, 'TO',
-      Blockly.CSharp.ORDER_NONE) || '0';
-  var functionName = Blockly.CSharp.provideFunction_(
-      'mathRandomInt',
-      ['function ' + Blockly.CSharp.FUNCTION_NAME_PLACEHOLDER_ +
-          '(a, b) {',
-       '  if (a > b) {',
-       '    // Swap a and b to ensure a is smaller.',
-       '    var c = a;',
-       '    a = b;',
-       '    b = c;',
-       '  }',
-       '  return Math.floor(Math.random() * (b - a + 1) + a);',
-       '}']);
-  var code = functionName + '(' + argument0 + ', ' + argument1 + ')';
+  var argument0 = Blockly.CSharp.valueToCode(this, 'FROM',
+      Blockly.CSharp.ORDER_COMMA) || '0.0';
+  var argument1 = Blockly.CSharp.valueToCode(this, 'TO',
+      Blockly.CSharp.ORDER_COMMA) || '0.0';
+  if (!Blockly.CSharp.definitions_['math_random_int']) {
+    var functionName = Blockly.CSharp.variableDB_.getDistinctName(
+        'math_random_int', Blockly.Generator.NAME_TYPE);
+    Blockly.CSharp.math_random_int.random_function = functionName;
+    var func = [];
+    func.push('var ' + functionName + '= new Func<int,int,int>((a, b) => {');
+    func.push('  int delta=Math.Abs(a-b);');
+    func.push('  return (int)Math.Floor(a + Random.Shared.Next(delta));');
+    func.push('});');
+    Blockly.CSharp.definitions_['math_random_int'] = func.join('\n');
+  }
+  var code = Blockly.CSharp.math_random_int.random_function +
+      '(' + argument0 + ', ' + argument1 + ')';
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
 Blockly.CSharp['math_random_float'] = function(block) {
-  // Random fraction between 0 and 1.
-  return ['Math.random()', Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
-
-Blockly.CSharp['math_atan2'] = function(block) {
-  // Arctangent of point (X, Y) in degrees from -180 to 180.
-  var argument0 = Blockly.CSharp.valueToCode(block, 'X',
-      Blockly.CSharp.ORDER_NONE) || '0';
-  var argument1 = Blockly.CSharp.valueToCode(block, 'Y',
-      Blockly.CSharp.ORDER_NONE) || '0';
-  return ['Math.atan2(' + argument1 + ', ' + argument0 + ') / Math.PI * 180',
-      Blockly.CSharp.ORDER_DIVISION];
+  return ['Random.Shared.NextDouble()', Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
