@@ -139,34 +139,34 @@ Blockly.CSharp.init = function(workspace) {
   // to actual function names (to avoid collisions with user functions).
   Blockly.CSharp.functionNames_ = Object.create(null);
 
-  if (!Blockly.CSharp.variableDB_) {
-    Blockly.CSharp.variableDB_ =
+  if (!Blockly.CSharp.nameDB_) {
+    Blockly.CSharp.nameDB_ =
         new Blockly.Names(Blockly.CSharp.RESERVED_WORDS_);
   } else {
-    Blockly.CSharp.variableDB_.reset();
+    Blockly.CSharp.nameDB_.reset();
   }
 
-  Blockly.CSharp.variableDB_.setVariableMap(workspace.getVariableMap());
+  Blockly.CSharp.nameDB_.setVariableMap(workspace.getVariableMap());
 
   var defvars = [];
   // Add developer variables (not created or named by the user).
   var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
   for (var i = 0; i < devVarList.length; i++) {
-    defvars.push(Blockly.CSharp.variableDB_.getName(devVarList[i],
+    defvars.push(Blockly.CSharp.nameDB_.getName(devVarList[i],
         Blockly.Names.DEVELOPER_VARIABLE_TYPE));
   }
 
   // Add user variables, but only ones that are being used.
   var variables = Blockly.Variables.allUsedVarModels(workspace);
   for (var i = 0; i < variables.length; i++) {
-    defvars.push(Blockly.CSharp.variableDB_.getName(variables[i].getId(),
+    defvars.push(Blockly.CSharp.nameDB_.getName(variables[i].getId(),
         Blockly.VARIABLE_CATEGORY_NAME));
   }
 
   // Declare all of the variables.
   if (defvars.length) {
     Blockly.CSharp.definitions_['variables'] =
-        'var ' + defvars.join(', ') + ';';
+        'dynamic ' + defvars.join(', ') + ';';
   }
   this.isInitialized = true;
 };
@@ -185,7 +185,7 @@ Blockly.CSharp.finish = function(code) {
   // Clean up temporary data.
   delete Blockly.CSharp.definitions_;
   delete Blockly.CSharp.functionNames_;
-  Blockly.CSharp.variableDB_.reset();
+  Blockly.CSharp.nameDB_.reset();
   return definitions.join('\n\n') + '\n\n\n' + code;
 };
 
