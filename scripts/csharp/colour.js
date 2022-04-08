@@ -51,7 +51,7 @@ Blockly.CSharp['colour_blend'] = function(block) {
         'colour_blend', Blockly.Generator.NAME_TYPE);
     Blockly.CSharp.colour_blend.functionName = functionName;
     var func = [];
-    func.push('var ' + functionName + ' = delegate(System.Drawing.Color c1, System.Drawing.Color c2, double ratio) {');
+    func.push('System.Drawing.Color ' + functionName + '(System.Drawing.Color c1, System.Drawing.Color c2, double ratio) {');
     func.push('  ratio = Math.Max(Math.Min((double)ratio, 1), 0);');
     func.push('  var r = (int)Math.Round(c1.R * (1 - ratio) + c2.R * ratio);');
     func.push('  var g = (int)Math.Round(c1.G * (1 - ratio) + c2.G * ratio);');

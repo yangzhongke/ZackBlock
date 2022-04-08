@@ -138,7 +138,7 @@ Blockly.CSharp['text_charAt'] = function(block) {
             'text_random_letter', Blockly.Generator.NAME_TYPE);
         Blockly.CSharp.text_charAt.text_random_letter = functionName;
         var func = [];
-        func.push('var ' + functionName + ' = delegate(string text){');
+        func.push('char '+functionName + '(string text){');
         func.push('  var x = (new Random()).Next(text.length);');
         func.push('  return text[x];');
         func.push('};');
@@ -262,7 +262,7 @@ Blockly.CSharp['text_changeCase'] = function(block) {
       var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_toTitleCase', Blockly.Generator.NAME_TYPE);
       Blockly.CSharp.text_changeCase.toTitleCase = functionName;
       var func = [];
-      func.push('var ' + functionName + ' = delegate(string str){');
+      func.push('string ' + functionName + '(string str){');
       func.push('  var buf = new System.Text.StringBuilder(str.Length);');
       func.push('  var toUpper = true;');
       func.push('  foreach (var ch in str) {');
@@ -322,7 +322,7 @@ Blockly.CSharp['text_prompt'] = function(block) {
 				var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_promptInputNumber', Blockly.Generator.NAME_TYPE);
 				Blockly.CSharp.text_prompt.promptInputNumber = functionName;
 				var func = [];		
-				func.push('var ' + functionName + ' = delegate(string msg){');
+				func.push('int ' + functionName + '(string msg){');
 				func.push('  Console.WriteLine(msg);');
 				func.push('  var res = Console.ReadLine();');
 				func.push('  return int.Parse(res);');
@@ -338,7 +338,7 @@ Blockly.CSharp['text_prompt'] = function(block) {
 				var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_promptInputString', Blockly.Generator.NAME_TYPE);
 				Blockly.CSharp.text_prompt.promptInputString = functionName;
 				var func = [];
-				func.push('var ' + functionName + ' = delegate(string msg){');
+				func.push('string ' + functionName + '(string msg){');
 				func.push('  Console.WriteLine(msg);');
 				func.push('  var res = Console.ReadLine();');
 				func.push('  return res;');

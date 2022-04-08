@@ -1,8 +1,12 @@
 Blockly.defineBlocksWithJsonArray([
   {
     "type": "convert",
-    "message0": "convert %2 to %1",
+    "message0": "convert %1 to %2",
     "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      },
       {
         "type": "field_dropdown",
         "name": "TYPE",
@@ -14,11 +18,7 @@ Blockly.defineBlocksWithJsonArray([
           ["long", "long"],
 		  ["DateTime", "DateTime"]
         ]
-      },
-      {
-        "type": "input_value",
-        "name": "VALUE"
-      }
+      }	  
     ],
 	"output":null,
     "style": "text_blocks",
@@ -27,8 +27,8 @@ Blockly.defineBlocksWithJsonArray([
 
 Blockly.JavaScript['convert'] = function(block) {
   let type = block.getFieldValue('TYPE');
-  var argument0 = Blockly.CSharp.valueToCode(block, 'VALUE',
-      Blockly.CSharp.ORDER_MODULUS);
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
+      Blockly.JavaScript.ORDER_MODULUS);
   var code;
   switch(type)
   {
@@ -47,7 +47,7 @@ Blockly.JavaScript['convert'] = function(block) {
 	default:
 		throw "unknown type "+type;
   }
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 Blockly.CSharp['convert'] = function(block) {
   let type = block.getFieldValue('TYPE');

@@ -13,7 +13,7 @@
   }
   var execute=function(){
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
-    code += 'MusicMaker.play();';
+	console.log(code);
     try
 	{
 		eval(code);  
