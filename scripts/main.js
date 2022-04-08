@@ -29,6 +29,12 @@
 	  const workspace = Blockly.getMainWorkspace();
 	  Blockly.serialization.workspaces.load({}, workspace);		  
   };
+  document.getElementById("code").ondblclick=function(){
+	var range = document.createRange();
+	range.selectNode(this);
+	window.getSelection().removeAllRanges();
+	window.getSelection().addRange(range);	  
+  };
   
   Blockly.inject('blocklyDiv', {
     toolbox: document.getElementById('toolbox-categories'),
@@ -38,9 +44,16 @@
   
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
-	  let code = Blockly.CSharp.workspaceToCode(workspace);
-	  //let code = Blockly.JavaScript.workspaceToCode(workspace);
-	  document.getElementById("code").innerText=code;
-	  save();
+	try
+	{
+		let code = Blockly.CSharp.workspaceToCode(workspace);
+		//let code = Blockly.JavaScript.workspaceToCode(workspace);
+		document.getElementById("code").innerText=code;
+		save();
+	}
+	catch(err)
+	{
+		alert("Error: "+err);
+	}
   });
 })();

@@ -138,10 +138,10 @@ Blockly.CSharp['text_charAt'] = function(block) {
             'text_random_letter', Blockly.Generator.NAME_TYPE);
         Blockly.CSharp.text_charAt.text_random_letter = functionName;
         var func = [];
-        func.push('var ' + functionName + ' = new Func<string, char>((text) => {');
+        func.push('var ' + functionName + ' = delegate(string text){');
         func.push('  var x = (new Random()).Next(text.length);');
         func.push('  return text[x];');
-        func.push('});');
+        func.push('};');
         Blockly.CSharp.definitions_['text_random_letter'] = func.join('\n');
       }
       code = Blockly.CSharp.text_charAt.text_random_letter +
@@ -262,15 +262,15 @@ Blockly.CSharp['text_changeCase'] = function(block) {
       var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_toTitleCase', Blockly.Generator.NAME_TYPE);
       Blockly.CSharp.text_changeCase.toTitleCase = functionName;
       var func = [];
-      func.push('var ' + functionName + ' = new Func<string, string>((str) => {');
-      func.push('  var buf = new StringBuilder(str.Length);');
+      func.push('var ' + functionName + ' = delegate(string str){');
+      func.push('  var buf = new System.Text.StringBuilder(str.Length);');
       func.push('  var toUpper = true;');
       func.push('  foreach (var ch in str) {');
       func.push('    buf.Append(toUpper ? Char.ToUpper(ch) : ch);');
       func.push('    toUpper = Char.IsWhiteSpace(ch);');
       func.push('  }');
       func.push('  return buf.ToString();');
-      func.push('});');
+      func.push('};');
       Blockly.CSharp.definitions_['text_toTitleCase'] = func.join('\n');
     }
     var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT',
@@ -318,11 +318,11 @@ Blockly.CSharp['text_prompt'] = function(block) {
 		var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_promptInputNumber', Blockly.Generator.NAME_TYPE);
 		Blockly.CSharp.text_prompt.promptInputNumber = functionName;
 		var func = [];		
-		func.push('var ' + functionName + ' = new Func<string, double>((msg) => {');
+		func.push('var ' + functionName + ' = delegate(string msg){');
 		func.push('  Console.WriteLine(msg);');
 		func.push('  var res = Console.ReadLine();');
 		func.push('  return Double.Parse(res);');
-		func.push('});');
+		func.push('};');
 		Blockly.CSharp.definitions_['text_promptInputNumber'] = func.join('\n');
 		var code = Blockly.CSharp.text_prompt.promptInputNumber + '(' + msg + ')';		
 	}
@@ -331,11 +331,11 @@ Blockly.CSharp['text_prompt'] = function(block) {
 		var functionName = Blockly.CSharp.variableDB_.getDistinctName('text_promptInputString', Blockly.Generator.NAME_TYPE);
 		Blockly.CSharp.text_prompt.promptInputString = functionName;
 		var func = [];
-		func.push('var ' + functionName + ' = new Func<string, string>((msg) => {');
+		func.push('var ' + functionName + ' = delegate(string msg){');
 		func.push('  Console.WriteLine(msg);');
 		func.push('  var res = Console.ReadLine();');
 		func.push('  return res;');
-		func.push('});');	
+		func.push('};');	
 		Blockly.CSharp.definitions_['text_promptInputString'] = func.join('\n');
 		var code = Blockly.CSharp.text_prompt.promptInputString + '(' + msg + ')';		
 	}

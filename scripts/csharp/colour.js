@@ -16,7 +16,7 @@ goog.require('Blockly.CSharp');
 
 
 Blockly.CSharp['colour_picker'] = function(block) {
-  var code = 'ColorTranslator.FromHtml("' + this.getFieldValue('COLOUR') + '")';
+  var code = 'System.Drawing.ColorTranslator.FromHtml("' + this.getFieldValue('COLOUR') + '")';
   return [code, Blockly.CSharp.ORDER_ATOMIC];
 };
 
@@ -26,11 +26,11 @@ Blockly.CSharp['colour_random'] = function(block) {
         'colour_random', Blockly.Generator.NAME_TYPE);
     Blockly.CSharp.colour_random.functionName = functionName;
     var func = [];
-    func.push('var ' + functionName + ' = new Func<Color>(() => {');
+    func.push('var ' + functionName + ' = delegate(){');
     func.push('  var random = Random.Shared;');
-    func.push('  var res = Color.FromArgb(1, random.Next(256), random.Next(256), random.Next(256));');
+    func.push('  var res = System.Drawing.Color.FromArgb(1, random.Next(256), random.Next(256), random.Next(256));');
     func.push('  return res;');
-    func.push('});');
+    func.push('};');
     Blockly.CSharp.definitions_['colour_random'] = func.join('\n');
   }
   var code = Blockly.CSharp.colour_random.functionName + '()';
@@ -45,23 +45,7 @@ Blockly.CSharp['colour_rgb'] = function(block) {
       Blockly.CSharp.ORDER_COMMA) || 0;
   var blue = Blockly.CSharp.valueToCode(this, 'BLUE',
       Blockly.CSharp.ORDER_COMMA) || 0;
-
-  if (!Blockly.CSharp.definitions_['colour_rgb']) {
-    var functionName = Blockly.CSharp.variableDB_.getDistinctName(
-        'colour_rgb', Blockly.Generator.NAME_TYPE);
-    Blockly.CSharp.colour_rgb.functionName = functionName;
-    var func = [];
-    func.push('var ' + functionName + ' = new Func<byte, byte, byte, Color>((r, g, b) => {');
-    func.push('  r = (int)Math.Round(Math.Max(Math.Min((int)r, 100), 0) * 2.55);');
-    func.push('  g = (int)Math.Round(Math.Max(Math.Min((int)g, 100), 0) * 2.55);');
-    func.push('  b = (int)Math.Round(Math.Max(Math.Min((int)b, 100), 0) * 2.55);');
-    func.push('  var res = Color.FromArgb(1, r, g, b);');
-    func.push('  return res;');
-    func.push('});');
-    Blockly.CSharp.definitions_['colour_rgb'] = func.join('\n');
-  }
-  var code = Blockly.CSharp.colour_rgb.functionName +
-      '(' + red + ', ' + green + ', ' + blue + ')';
+  var code = 'System.Drawing.Color.FromArgb(' + red + ', ' + green + ', ' + blue + ')';
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
@@ -79,14 +63,14 @@ Blockly.CSharp['colour_blend'] = function(block) {
         'colour_blend', Blockly.Generator.NAME_TYPE);
     Blockly.CSharp.colour_blend.functionName = functionName;
     var func = [];
-    func.push('var ' + functionName + ' = new Func<Color, Color, double, Color>((c1, c2, ratio) => {');
+    func.push('var ' + functionName + ' = delegate(System.Drawing.Color c1, System.Drawing.Color c2, double ratio) {');
     func.push('  ratio = Math.Max(Math.Min((double)ratio, 1), 0);');
     func.push('  var r = (int)Math.Round(c1.R * (1 - ratio) + c2.R * ratio);');
     func.push('  var g = (int)Math.Round(c1.G * (1 - ratio) + c2.G * ratio);');
     func.push('  var b = (int)Math.Round(c1.B * (1 - ratio) + c2.B * ratio);');
-    func.push('  var res = Color.FromArgb(1, r, g, b);');
+    func.push('  var res = System.Drawing.Color.FromArgb(1, r, g, b);');
     func.push('  return res;');
-    func.push('});');
+    func.push('};');
     Blockly.CSharp.definitions_['colour_blend'] = func.join('\n');
   }
   var code = Blockly.CSharp.colour_blend.functionName +
