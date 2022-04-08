@@ -20,6 +20,7 @@
 	}
 	catch(err)
 	{
+		console.error(err);
 		alert("Error: "+err);
 	}
   }
@@ -44,16 +45,9 @@
   
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
-	try
-	{
-		let code = Blockly.CSharp.workspaceToCode(workspace);
-		//let code = Blockly.JavaScript.workspaceToCode(workspace);
-		document.getElementById("code").innerText=code;
-		save();
-	}
-	catch(err)
-	{
-		alert("Error: "+err);
-	}
+	let code = Blockly.CSharp.workspaceToCode(workspace);
+	//let code = Blockly.JavaScript.workspaceToCode(workspace);
+	document.getElementById("code").innerText=code;
+	save();
   });
 })();

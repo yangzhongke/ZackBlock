@@ -209,8 +209,10 @@ Blockly.CSharp['math_change'] = function(block) {
       Blockly.CSharp.ORDER_ADDITION) || '0';
   var varName = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+	  /*
   return varName + ' = (typeof ' + varName + ' == \'number\' ? ' + varName +
-      ' : 0) + ' + argument0 + ';\n';
+      ' : 0) + ' + argument0 + ';\n';*/
+	  return varName +'='+varName+"+"+argument0+";\n";
 };
 
 // Rounding functions have a single operand.
