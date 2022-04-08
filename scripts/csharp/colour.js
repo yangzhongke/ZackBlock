@@ -21,19 +21,7 @@ Blockly.CSharp['colour_picker'] = function(block) {
 };
 
 Blockly.CSharp['colour_random'] = function(block) {
-  if (!Blockly.CSharp.definitions_['colour_random']) {
-    var functionName = Blockly.CSharp.variableDB_.getDistinctName(
-        'colour_random', Blockly.Generator.NAME_TYPE);
-    Blockly.CSharp.colour_random.functionName = functionName;
-    var func = [];
-    func.push('var ' + functionName + ' = delegate(){');
-    func.push('  var random = Random.Shared;');
-    func.push('  var res = System.Drawing.Color.FromArgb(1, random.Next(256), random.Next(256), random.Next(256));');
-    func.push('  return res;');
-    func.push('};');
-    Blockly.CSharp.definitions_['colour_random'] = func.join('\n');
-  }
-  var code = Blockly.CSharp.colour_random.functionName + '()';
+  var code = 'System.Drawing.Color.FromArgb(1, Random.Shared.Next(256), Random.Shared.Next(256), Random.Shared.Next(256))';
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 

@@ -247,19 +247,8 @@ Blockly.CSharp['math_random_int'] = function(block) {
       Blockly.CSharp.ORDER_COMMA) || '0.0';
   var argument1 = Blockly.CSharp.valueToCode(this, 'TO',
       Blockly.CSharp.ORDER_COMMA) || '0.0';
-  if (!Blockly.CSharp.definitions_['math_random_int']) {
-    var functionName = Blockly.CSharp.variableDB_.getDistinctName(
-        'math_random_int', Blockly.Generator.NAME_TYPE);
-    Blockly.CSharp.math_random_int.random_function = functionName;
-    var func = [];
-    func.push('var ' + functionName + '= delegate(int a,int b){');
-    func.push('  int delta=Math.Abs(a-b);');
-    func.push('  return (int)Math.Floor(a + (double)Random.Shared.Next(delta));');
-    func.push('};');
-    Blockly.CSharp.definitions_['math_random_int'] = func.join('\n');
-  }
-  var code = Blockly.CSharp.math_random_int.random_function +
-      '(' + argument0 + ', ' + argument1 + ')';
+  var code='(int)('+argument0+' + (double)Random.Shared.Next(Math.Abs('
+	+argument0+' - '+argument1+')))';
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
