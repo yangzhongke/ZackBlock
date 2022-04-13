@@ -1,15 +1,21 @@
 (function() {
-  var save=function(){
+  var saveToString=function(){
 	  var flow = Blockly.serialization.workspaces.save(
         Blockly.getMainWorkspace());
-	  var code = JSON.stringify(flow);
-	  localStorage.setItem("savedCode",code);	  
+	  return JSON.stringify(flow);
+  }
+  var loadFromString=function(str){
+	  var flow = JSON.parse(str);
+	  const workspace = Blockly.getMainWorkspace();
+	  Blockly.serialization.workspaces.load(flow, workspace);	
+  }
+  var save=function(){
+	  let str = saveToString();
+	  localStorage.setItem("savedCode",str);	  
   }
   var load=function(){
-	  var code = localStorage.getItem("savedCode");
-	  var flow = JSON.parse(code);
-	  const workspace = Blockly.getMainWorkspace();
-	  Blockly.serialization.workspaces.load(flow, workspace);	  	  
+	  var str = localStorage.getItem("savedCode");
+	  loadFromString(str);	  
   }
   var execute=function(){
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
@@ -35,6 +41,25 @@
 	range.selectNode(this);
 	window.getSelection().removeAllRanges();
 	window.getSelection().addRange(range);	  
+  };
+  document.getElementById("btnSave").onclick=function(){
+	  var code = saveToString();
+	  var file = new File([code], "project.zbk", { type: "text/plain;charset=utf-8" });
+      saveAs(file);
+  };
+  document.getElementById("btnOpen").onclick=function(){
+	  document.getElementById("fileLoadFrom").click();
+  };  
+  document.getElementById("fileLoadFrom").onchange=function(){
+	if(!this.files.length) return;
+	var inputFile = this;
+	let file = this.files[0];
+	let reader = new FileReader();
+	reader.onload = function(){
+		loadFromString(this.result);
+		inputFile.value=null;//确保让下次重新打开同一个文件的时候，还会触发onchange事件
+	};
+	reader.readAsText(file);  
   };
   
   Blockly.inject('blocklyDiv', {

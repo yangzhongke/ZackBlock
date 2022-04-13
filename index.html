@@ -15,9 +15,12 @@
 	<div style="float:left;margin-left:10px;width: 46vw;overflow-x: scroll;">
 		<input id="btnExecute" type="button" value="执行"/>
 		<input id="btnNew" type="button" value="新建" />
+		<input type="button" id="btnOpen" value="打开"/>
+		<input id="btnSave" type="button" value="保存" /> 
+		<input type="file" id="fileLoadFrom" name="upload" style="display:none"/>
 		<pre id="code">
-		</pre>		
-	</div>
+		</pre>			
+   </div>	
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-categories" style="display: none">
     <category name="Logic" categorystyle="logic_category">
@@ -292,6 +295,6 @@
   <script src="scripts/convert.js"></script>
   <script src="scripts/date.js"></script>
   <script src="scripts/main.js"></script> 
-
+  <script src="scripts/FileSaver.js"></script> 
 </body>
 </html>
