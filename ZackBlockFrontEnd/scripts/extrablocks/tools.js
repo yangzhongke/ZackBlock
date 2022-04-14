@@ -80,7 +80,7 @@ Blockly.defineBlocksWithJsonArray([
     "message0": "confirm(\"%1\")",
     "args0": [
       {
-        "type": "input_value",
+        "type": "field_input",
         "name": "MESSAGE",
 		'check': 'String'
       }  
@@ -91,28 +91,26 @@ Blockly.defineBlocksWithJsonArray([
 ]);
 
 Blockly.JavaScript['confirm'] = function(block) {
-  let message = Blockly.JavaScript.valueToCode(block, 'MESSAGE',
-      Blockly.JavaScript.ORDER_MODULUS);
-  var code="confirm("+message+")"
+  var message = this.getFieldValue('MESSAGE');
+  var code="confirm('"+message+"')"
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 Blockly.CSharp['confirm'] = function(block) {
-	var message = Blockly.CSharp.valueToCode(block, 'MESSAGE',
-	  Blockly.CSharp.ORDER_MODULUS);	  
-	
+	var message = this.getFieldValue('MESSAGE');
+
 	if (!Blockly.CSharp.definitions_['ShowConfirm']) 
 	{
 	  var functionName = Blockly.CSharp.variableDB_.getDistinctName('ShowConfirm', Blockly.Generator.NAME_TYPE);
 	  var func = [];
 	  func.push('bool ' + functionName + '(string message){');
-	  func.push('  Console.WriteLine('+message+');');
+	  func.push('  Console.WriteLine(message);');
 	  func.push('  Console.WriteLine("确认请输入y，输入其他为否认。");');	  
 	  func.push('  string ret = Console.ReadLine();');
 	  func.push('  return ret.ToLower()=="y";');
 	  func.push('};');
 	  Blockly.CSharp.definitions_['ShowConfirm'] = func.join('\n');
 	}  
-	var code='ShowConfirm('+message+')';
+	var code='ShowConfirm("'+message+'")';
 	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
