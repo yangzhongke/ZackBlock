@@ -46,9 +46,9 @@ Blockly.CSharp['colour_blend'] = function(block) {
   var ratio = Blockly.CSharp.valueToCode(this, 'RATIO',
       Blockly.CSharp.ORDER_COMMA) || 0.5;
 
-  if (!Blockly.CSharp.definitions_['colour_blend']) {
+  if (!Blockly.CSharp.definitions_['Colour_blend']) {
     var functionName = Blockly.CSharp.variableDB_.getDistinctName(
-        'colour_blend', Blockly.Generator.NAME_TYPE);
+        'Colour_blend', Blockly.Generator.NAME_TYPE);
     Blockly.CSharp.colour_blend.functionName = functionName;
     var func = [];
     func.push('System.Drawing.Color ' + functionName + '(System.Drawing.Color c1, System.Drawing.Color c2, double ratio) {');
@@ -59,7 +59,7 @@ Blockly.CSharp['colour_blend'] = function(block) {
     func.push('  var res = System.Drawing.Color.FromArgb(1, r, g, b);');
     func.push('  return res;');
     func.push('};');
-    Blockly.CSharp.definitions_['colour_blend'] = func.join('\n');
+    Blockly.CSharp.definitions_['Colour_blend'] = func.join('\n');
   }
   var code = Blockly.CSharp.colour_blend.functionName +
       '(' + c1 + ', ' + c2 + ', ' + ratio + ')';
