@@ -61,13 +61,11 @@
 	};
 	reader.readAsText(file);  
   };
-  
   Blockly.inject('blocklyDiv', {
     toolbox: document.getElementById('toolbox-categories'),
     scrollbars: true,
   });
   load();
-  
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
 	let code = Blockly.CSharp.workspaceToCode(workspace);
@@ -75,6 +73,4 @@
 	document.getElementById("code").innerText=code;
 	save();
   });
-  
-  //Blockly.setLocale('zh-hans');
 })();
