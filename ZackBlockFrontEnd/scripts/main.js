@@ -22,7 +22,8 @@
 	console.log(code);
     try
 	{
-		eval(code);  
+		//eval(code);  
+		eval("(async () => {" + code + "})()")
 	}
 	catch(err)
 	{

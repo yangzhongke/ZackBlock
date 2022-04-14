@@ -115,3 +115,29 @@ Blockly.CSharp['confirm'] = function(block) {
 	var code='ShowConfirm('+message+')';
 	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "delay",
+    "message0": "delay for %1 ms",
+    'args0': [{
+      'type': 'field_number',
+      'name': 'VALUE',
+      'value': 1000,
+    }],
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks"
+  }
+]);
+
+Blockly.JavaScript['delay'] = function(block) {
+	var value = this.getFieldValue('VALUE');
+	var code="await new Promise(r => setTimeout(r, "+value+"));\r\n";
+	return code;
+};
+Blockly.CSharp['delay'] = function(block) {
+	var value = this.getFieldValue('VALUE');
+	var code='await Task.Delay('+value+');\r\n';
+	return code;
+};
