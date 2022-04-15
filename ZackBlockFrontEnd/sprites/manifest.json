@@ -1,0 +1,736 @@
+[
+  {
+    "name": "ball1",
+    "animations": [
+      {
+        "name": "rotate",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ball2",
+    "animations": [
+      {
+        "name": "rotate",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bird",
+    "animations": [
+      {
+        "name": "fly",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bomb",
+    "animations": [
+      {
+        "name": "fire",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      },
+      {
+        "name": "laser",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "boy",
+    "animations": [
+      {
+        "name": "blink",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "cough",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      },
+      {
+        "name": "faint",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "fallover",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      },
+      {
+        "name": "fly",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "jump",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png"
+        ]
+      },
+      {
+        "name": "jump2",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "run",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "slip",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png"
+        ]
+      },
+      {
+        "name": "squat",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      },
+      {
+        "name": "throw",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "walk",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bufferflygirl",
+    "animations": [
+      {
+        "name": "dance1",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "fly",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "killed",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      },
+      {
+        "name": "kiss",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      },
+      {
+        "name": "kunfu2",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png"
+        ]
+      },
+      {
+        "name": "kungfu1",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "startfly",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "coin",
+    "animations": [
+      {
+        "name": "rotate",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "girl",
+    "animations": [
+      {
+        "name": "cry",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      },
+      {
+        "name": "dance1",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "dance2",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png"
+        ]
+      },
+      {
+        "name": "faint",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "jump",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      },
+      {
+        "name": "lookback",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "stand",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png"
+        ]
+      },
+      {
+        "name": "stronghit",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "ti",
+        "fileNames": [
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      },
+      {
+        "name": "victory",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "walk",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      },
+      {
+        "name": "weakhit",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "guizi",
+    "animations": [
+      {
+        "name": "beginrun",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "jump",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "lookright",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png"
+        ]
+      },
+      {
+        "name": "run",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      },
+      {
+        "name": "shenlanyao",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png"
+        ]
+      },
+      {
+        "name": "victory",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "10.png",
+          "11.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png",
+          "9.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ll",
+    "animations": [
+      {
+        "name": "attack1",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "10.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png",
+          "9.png"
+        ]
+      },
+      {
+        "name": "attack3",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "10.png",
+          "11.png",
+          "12.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png",
+          "9.png"
+        ]
+      },
+      {
+        "name": "attack4",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "10.png",
+          "11.png",
+          "12.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png",
+          "9.png"
+        ]
+      },
+      {
+        "name": "attcak2",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "10.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png",
+          "9.png"
+        ]
+      },
+      {
+        "name": "forwardhit",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      },
+      {
+        "name": "head",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      },
+      {
+        "name": "idle",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "mario",
+    "animations": [
+      {
+        "name": "fly",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      },
+      {
+        "name": "great",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "happyrun",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "idle",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png",
+          "8.png"
+        ]
+      },
+      {
+        "name": "jump",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      },
+      {
+        "name": "jump2",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      },
+      {
+        "name": "laugh",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "read",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "shuaidao",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png",
+          "7.png"
+        ]
+      },
+      {
+        "name": "sit",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png"
+        ]
+      },
+      {
+        "name": "sleep",
+        "fileNames": [
+          "0.png"
+        ]
+      },
+      {
+        "name": "walk",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png"
+        ]
+      },
+      {
+        "name": "yundao",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png",
+          "4.png",
+          "5.png",
+          "6.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "robot",
+    "animations": [
+      {
+        "name": "run",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "tiger",
+    "animations": [
+      {
+        "name": "run",
+        "fileNames": [
+          "0.png",
+          "1.png",
+          "2.png",
+          "3.png"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "tuoluo",
+    "animations": [
+      {
+        "name": "rotate",
+        "fileNames": [
+          "0.png",
+          "1.png"
+        ]
+      }
+    ]
+  }
+]

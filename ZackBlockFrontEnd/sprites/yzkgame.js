@@ -1,5 +1,7 @@
 let textItems = new Array();
 let imageItems = new Array();
+let spriteItems = new Array();
+
 let offscreenCanvas = document.createElement('canvas');
 
 function TextItem(num,txt)
@@ -86,26 +88,25 @@ function showText(num)
 	}	
 }
 
+function _createImg(url)
+{
+	let img = new Image();
+	img.loaded = false;
+	img.onload=function()
+	{
+		img.loaded = true;	
+	}
+	img.src = url;
+	return img;
+}
+
 function ImageItem(num, imgURL)
 {
 	this.num=num;
     this.imgLoaded=false;
-	this.width=0;
-	this.height=0;
-	let img = new Image();
-	let imgItem = this;
-	img.onload=function()
-	{
-		imgItem.imgLoaded = true;
-		imgItem.width=this.width;
-		imgItem.height=this.height;		
-	}
-	img.src = imgURL;
-	this.img=img;
+	this.img=_createImg(imgURL);
 	this.x=0;
 	this.y=0;
-	//this.width;
-	//this.height;
 	this.visible=true;	
 }
 
@@ -143,17 +144,7 @@ function setImageURL(num, imgURL)
 	let item = findImage(num);
 	if(item)
 	{
-		let img = new Image();
-		item.imgLoaded = false;
-		item.width=0;
-		item.height=0;		
-		img.onload=function()
-		{
-			item.imgLoaded = true;
-			item.width=this.width;
-			item.height=this.height;				
-		}
-		img.src = imgURL;
+		let img = _createImg(imgURL);
 		item.img=img;
 	}	
 }
@@ -183,14 +174,133 @@ function SpriteItem(num,spriteName)
 	this.currentAnimationName=null;//当前动作名
 	this.x=0;
 	this.y=0;
-	this.width=0;
-	this.height=0;
-	this.frameFilePaths=new Array();//帧画面文件路径的List
+	this.frameImages=new Array();//帧画面的数组
 	this.currentFrameIndex=-1;
 	this.visible=true;
 	this.isFlipX=false;//是否x方向翻转
 	this.isFlipY=false;//是否y方向翻转
-	this.isRepeat=true;//是否重复播放当前动作
+}
+
+function findSprite(num)
+{
+	var items = spriteItems.filter(e=>e.num==num);
+	if(items.length<=0)
+	{
+		return null;
+	}
+	else
+	{
+		return items[0];
+	}	
+}
+function createSprite(num,spriteName)
+{
+	if(findSprite(num)!=null)
+		throw num+" already exists";
+	let item = new SpriteItem(num,spriteName);
+	spriteItems.push(item);
+}
+
+function setSpritePosition(num, x, y)
+{
+	let item = findSprite(num);
+	if(item)
+	{
+		item.x=x;
+		item.y=y;
+	}
+}
+
+function setSpriteFlipX(num, isFlipX)
+{
+	let item = findSprite(num);
+	if(item)
+	{
+		item.isFlipX=isFlipX;
+	}	
+}
+
+function setSpriteFlipY(num, isFlipY)
+{
+	let item = findSprite(num);
+	if(item)
+	{
+		item.isFlipY=isFlipY;
+	}	
+}
+
+function showSprite(num)
+{
+	let item = findSprite(num);
+	if(item)
+	{
+		item.visible=true;
+	}	
+}
+
+function hideSprite(num)
+{
+	let item = findSprite(num);
+	if(item)
+	{
+		item.visible=false;
+	}	
+}
+
+function playSpriteAnimation(num, animateName)
+{
+	let item = findSpriteItem(num);
+	if(!item)return;
+	if(item.currentAnimationName==animateName)return;
+	item.frameFilePaths=new Array();
+	item.currentAnimationName = animateName;
+	item.currentFrameIndex = 0;
+	
+	sprintf(animateDir, "%s\\%s", item->spritePath, animateName);
+	if (access(animateDir, 0) != 0)
+	{
+		LeaveCriticalSection(&csModels);
+		reportErrorExit("%s精灵中没有名字为%s的动作，因为查找%s这个路径不存在", item->spriteName, animateName, animateDir);
+		return;
+	}
+
+	//搜索所有*.png文件
+	
+	sprintf(searchFormat, "%s\\*.png", animateDir);
+	
+	SL_Creat(&subFiles);
+	getSubFiles(searchFormat, subFiles);
+
+	filesCount = SL_Size(subFiles);
+	//准备进行排序的文件名数组
+	fileNames = (char**)malloc(sizeof(char*)*filesCount);	
+	for (i = 0; i < filesCount; i++)
+	{
+		char* animteFileName = (char*)SL_GetItem(subFiles, i);
+		fileNames[i] = animteFileName;
+	}
+
+	//按照文件名的数字部分进行正序排序
+	qsort(fileNames, filesCount, sizeof(char*), fileNameIntCompare);
+
+	SL_Creat(&item->frameFilePaths);
+	//把文件名全路径拼接上
+	for (i = 0; i < filesCount; i++)
+	{
+		char* filename = fileNames[i];
+		char frameFilePath[PR_MAX_PATH] = { 0 };
+		sprintf(frameFilePath, "%s\\%s", animateDir, filename);
+		SL_Append(item->frameFilePaths, strdup(frameFilePath));
+	}
+
+
+	//因为getSubFiles中把搜索出来的文件名strdup了，所以需要手动释放内存
+	for (i = 0; i < SL_Size(subFiles); i++)
+	{
+		char* animteFileName = (char*)SL_GetItem(subFiles, i);
+		free(animteFileName);
+	}
+	SL_Clear(&subFiles);//释放内存
 }
 
 function rpDisplay(canvas)
@@ -214,7 +324,7 @@ function rpDisplay(canvas)
 	for(var i=0;i<imageItems.length;i++)
 	{
 		let item = imageItems[i];
-		if(!item.visible||!item.imgLoaded) continue;
+		if(!item.visible||!item.img.loaded) continue;
 		offscreenCtx.drawImage(item.img,item.x,item.y);
 	}		
 	let ctx = canvas.getContext('2d');
