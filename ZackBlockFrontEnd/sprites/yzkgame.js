@@ -1,6 +1,7 @@
 let textItems = new Array();
 let imageItems = new Array();
 let spriteItems = new Array();
+let spriteManifest=null;
 
 let offscreenCanvas = document.createElement('canvas');
 
@@ -167,6 +168,25 @@ function hideImage(num)
 	}		
 }
 
+async function initSpriteAsync()
+{
+	setInterval(function(){
+		for(var i=0;i<spriteItems.length;i++)
+		{
+			var item = spriteItems[i];
+			let currentFrameIndex = item.currentFrameIndex;
+			currentFrameIndex++;
+			if (currentFrameIndex >= item.frameImages.length)
+			{
+				currentFrameIndex = 0;//如果到了最后一张，则重新回到第一张
+			}
+			item.currentFrameIndex = currentFrameIndex;//更换为下一张			
+		}
+	},200);	
+	var res = await axios('sprites/manifest.json');	
+	spriteManifest = res.data;
+}
+
 function SpriteItem(num,spriteName)
 {
 	this.num=num;
@@ -174,6 +194,8 @@ function SpriteItem(num,spriteName)
 	this.currentAnimationName=null;//当前动作名
 	this.x=0;
 	this.y=0;
+	this.width=0;
+	this.height=0;
 	this.frameImages=new Array();//帧画面的数组
 	this.currentFrameIndex=-1;
 	this.visible=true;
@@ -249,58 +271,23 @@ function hideSprite(num)
 
 function playSpriteAnimation(num, animateName)
 {
-	let item = findSpriteItem(num);
+	let item = findSprite(num);
 	if(!item)return;
 	if(item.currentAnimationName==animateName)return;
 	item.frameFilePaths=new Array();
 	item.currentAnimationName = animateName;
 	item.currentFrameIndex = 0;
-	
-	sprintf(animateDir, "%s\\%s", item->spritePath, animateName);
-	if (access(animateDir, 0) != 0)
+	let sprite = spriteManifest.filter(s=>s.name==item.spriteName)[0];
+	let animation = sprite.animations.filter(a=>a.name==animateName)[0];
+	item.frameImages = new Array();
+	for(var i=0;i<animation.fileNames.length;i++)
 	{
-		LeaveCriticalSection(&csModels);
-		reportErrorExit("%s精灵中没有名字为%s的动作，因为查找%s这个路径不存在", item->spriteName, animateName, animateDir);
-		return;
+		let imgName = animation.fileNames[i];
+		let imgURL = "sprites/"+item.spriteName+"/"
+			+animateName+"/"+imgName;
+		let img = _createImg(imgURL);
+		item.frameImages.push(img);
 	}
-
-	//搜索所有*.png文件
-	
-	sprintf(searchFormat, "%s\\*.png", animateDir);
-	
-	SL_Creat(&subFiles);
-	getSubFiles(searchFormat, subFiles);
-
-	filesCount = SL_Size(subFiles);
-	//准备进行排序的文件名数组
-	fileNames = (char**)malloc(sizeof(char*)*filesCount);	
-	for (i = 0; i < filesCount; i++)
-	{
-		char* animteFileName = (char*)SL_GetItem(subFiles, i);
-		fileNames[i] = animteFileName;
-	}
-
-	//按照文件名的数字部分进行正序排序
-	qsort(fileNames, filesCount, sizeof(char*), fileNameIntCompare);
-
-	SL_Creat(&item->frameFilePaths);
-	//把文件名全路径拼接上
-	for (i = 0; i < filesCount; i++)
-	{
-		char* filename = fileNames[i];
-		char frameFilePath[PR_MAX_PATH] = { 0 };
-		sprintf(frameFilePath, "%s\\%s", animateDir, filename);
-		SL_Append(item->frameFilePaths, strdup(frameFilePath));
-	}
-
-
-	//因为getSubFiles中把搜索出来的文件名strdup了，所以需要手动释放内存
-	for (i = 0; i < SL_Size(subFiles); i++)
-	{
-		char* animteFileName = (char*)SL_GetItem(subFiles, i);
-		free(animteFileName);
-	}
-	SL_Clear(&subFiles);//释放内存
 }
 
 function rpDisplay(canvas)
@@ -326,7 +313,21 @@ function rpDisplay(canvas)
 		let item = imageItems[i];
 		if(!item.visible||!item.img.loaded) continue;
 		offscreenCtx.drawImage(item.img,item.x,item.y);
-	}		
+	}
+	for(var i=0;i<spriteItems.length;i++)
+	{
+		let spriteItem = spriteItems[i];
+		if(!spriteItem.visible) continue;
+
+		let currentFrameIndex = spriteItem.currentFrameIndex;
+		let currentFrameImg = spriteItem.frameImages[currentFrameIndex];
+		if (!currentFrameImg.loaded) continue;
+		spriteItem.height = currentFrameImg.height;
+		spriteItem.width = currentFrameImg.width;
+		let posX = spriteItem.x;
+		let posY = spriteItem.y;
+		offscreenCtx.drawImage(currentFrameImg,posX,posY);
+	}
 	let ctx = canvas.getContext('2d');
 	ctx.clearRect(0, 0, width, height);
 	ctx.drawImage(offscreenCanvas, 0, 0);

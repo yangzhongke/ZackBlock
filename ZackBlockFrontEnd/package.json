@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.26.1",
     "blockly": "^8.0.0"
   }
 }

@@ -15,7 +15,10 @@
   }
   var load=function(){
 	  var str = localStorage.getItem("savedCode");
-	  loadFromString(str);	  
+	  if(str)
+	  {
+		  loadFromString(str);	  
+	  }	  
   }
   var execute=function(){
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());

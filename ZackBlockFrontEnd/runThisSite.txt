@@ -1,0 +1,4 @@
+npm install http-server -g
+
+#在当前目录启动项目
+http-server .
