@@ -19,7 +19,8 @@
 		<input id="btnSave" type="button" value="保存" /> 
 		<input type="file" id="fileLoadFrom" name="upload" style="display:none"/>
 		<pre id="code">
-		</pre>			
+		</pre>	
+		<canvas id="canvas" style="width:100%;"></canvas>
    </div>	
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-categories" style="display: none">
@@ -294,6 +295,40 @@
   <script src="scripts/extrablocks/date.js"></script>
   <script src="scripts/main.js"></script> 
   <script src="scripts/FileSaver.js"></script> 
-
+  <script src="sprites/yzkgame.js"></script> 
+  <script>
+	  window.onload=async function(){
+		  createText(1,'hello');
+		  createImage(1,'sprites/boy/blink/0.png');
+		  while(true)
+		  {
+		      for(var x=0;x<300;x+=1)
+			  {
+			     setImagePosition(1,x,0);
+				 await new Promise(r => setTimeout(r, 20)); 
+				 setImageURL(1,"sprites/boy/blink/"+(x%4)+".png");
+			  }
+			  for(var x=0;x<300;x+=1)
+			  {			      
+			      setText(1,new Date());
+				  setTextPosition(1,x,0);
+				  await new Promise(r => setTimeout(r, 20)); 
+				  if(x>100) 
+				  {
+				    setTextFont(1,(x/10)+"px sans-serif");
+				    setTextColor(1,'#ff0000');
+				  }
+				  if(x%10>5)
+				  {
+				    hideText(1);
+				  }
+				  else
+				  {
+				     showText(1);
+				  }
+			  }
+		  }
+	  }
+  </script>
 </body>
 </html>

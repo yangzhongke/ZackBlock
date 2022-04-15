@@ -1,4 +1,4 @@
-(function() {
+(async function() {
   var saveToString=function(){
 	  var flow = Blockly.serialization.workspaces.save(
         Blockly.getMainWorkspace());
@@ -22,7 +22,6 @@
 	console.log(code);
     try
 	{
-		//eval(code);  
 		eval("(async () => {" + code + "})()")
 	}
 	catch(err)
@@ -74,4 +73,9 @@
 	document.getElementById("code").innerText=code;
 	save();
   });
+  setInterval(function(){
+	  var canvas = document.getElementById("canvas");
+	  rpDisplay(canvas);
+  },20);
+  
 })();
