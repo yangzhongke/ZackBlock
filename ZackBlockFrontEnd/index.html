@@ -280,6 +280,11 @@
 		<block kind="block" type="create_datetime_from"></block>
 		<block kind="block" type="create_date_from"></block>
     </category>
+	<category name="YZKGame" categorystyle="colour_category">
+		<block kind="block" type="createText"></block>
+		<block kind="block" type="setTextPosition"></block>
+		<block kind="block" type="setText"></block>
+    </category>	
   </xml>	
   <script src="node_modules/blockly/blockly.min.js"></script> 
   <script src="scripts/csharp.js"></script>  
@@ -293,65 +298,14 @@
   <script src="scripts/csharp/variables_dynamic.js"></script>
   <script src="scripts/extrablocks/tools.js"></script>
   <script src="scripts/extrablocks/date.js"></script>
+  <script src="scripts/extrablocks/yzkgameblocks.js"></script>
   <script src="scripts/main.js"></script> 
   <script src="scripts/FileSaver.js"></script> 
   <script src="sprites/yzkgame.js"></script> 
   <script src="node_modules/axios/dist/axios.min.js"></script> 
   <script>
 	  window.onload=async function(){
-		  await initSpriteAsync();
-		  //createSprite(1,"boy");
-		  //playSpriteAnimation(1,"blink");
-		  /*
-		  for(var i=-1;i<=1;i+=0.1)
-		  {
-			  await delay(200); 
-			  setSpriteScaleX(1,i);
-		  }
-		  for(var i=-1;i<=1;i+=0.1)
-		  {
-			  await delay(200);
-			  setSpriteScaleY(1,i);
-		  }*/
-		  createImage(1,'sprites/boy/blink/0.png');
-		  await delay(1000);
-		  setImageScaleX(1,-1);
-		  await delay(1000);
-		  setImageScaleX(1,2);
-		  await delay(1000);
-		  setImageScaleY(1,-1);
-		  /*
-		  createText(1,'hello');
-		  createImage(1,'sprites/boy/blink/0.png');
-		  while(true)
-		  {
-		      for(var x=0;x<300;x+=1)
-			  {
-			     setImagePosition(1,x,0);
-				 await new Promise(r => setTimeout(r, 20)); 
-				 setImageURL(1,"sprites/boy/blink/"+(x%4)+".png");
-			  }
-			  for(var x=0;x<300;x+=1)
-			  {			      
-			      setText(1,new Date());
-				  setTextPosition(1,x,0);
-				  await new Promise(r => setTimeout(r, 20)); 
-				  if(x>100) 
-				  {
-				    setTextFont(1,(x/10)+"px sans-serif");
-				    setTextColor(1,'#ff0000');
-				  }
-				  if(x%10>5)
-				  {
-				    hideText(1);
-				  }
-				  else
-				  {
-				     showText(1);
-				  }
-			  }
-		  }
-		*/
+		await initGameAsync();
 	  }
   </script>
 </body>

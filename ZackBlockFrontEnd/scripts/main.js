@@ -22,10 +22,11 @@
   }
   var execute=function(){
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+	let fullCode="try{clearGame();"+code+"}catch(err){alert(err)}";
 	console.log(code);
     try
 	{
-		eval("(async () => {" + code + "})()")
+		eval("(async () => {" + fullCode + "})()")
 	}
 	catch(err)
 	{
@@ -72,7 +73,6 @@
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
 	let code = Blockly.CSharp.workspaceToCode(workspace);
-	//let code = Blockly.JavaScript.workspaceToCode(workspace);
 	document.getElementById("code").innerText=code;
 	save();
   });

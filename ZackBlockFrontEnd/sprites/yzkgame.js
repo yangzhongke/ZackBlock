@@ -10,6 +10,32 @@ function delay(ms)
 	return new Promise(r => setTimeout(r, ms));
 }
 
+async function initGameAsync()
+{	
+	setInterval(function(){
+		for(var i=0;i<spriteItems.length;i++)
+		{
+			var item = spriteItems[i];
+			let currentFrameIndex = item.currentFrameIndex;
+			currentFrameIndex++;
+			if (currentFrameIndex >= item.frameImages.length)
+			{
+				currentFrameIndex = 0;//如果到了最后一张，则重新回到第一张
+			}
+			item.currentFrameIndex = currentFrameIndex;//更换为下一张			
+		}
+	},200);	
+	var res = await axios('sprites/manifest.json');	
+	spriteManifest = res.data;
+}
+
+function clearGame()
+{
+	textItems=[];//clear previous items
+	imageItems=[];
+	spriteItems=[];	
+}
+
 function TextItem(num,txt)
 {
 	this.num=num;
@@ -36,7 +62,7 @@ function findText(num)
 function createText(num,txt)
 {
 	if(findText(num)!=null)
-		throw num+" already exists";
+		throw "Error! Text:"+num+" already exists";
 	let txtItem = new TextItem(num,txt);
 	textItems.push(txtItem);
 }
@@ -48,6 +74,10 @@ function setTextPosition(num, x, y)
 		txtItem.x=x;
 		txtItem.y=y;
 	}
+	else
+	{
+		throw "Error! Text="+num+" doesn't exist";
+	}
 }
 function setText(num, text)
 {
@@ -55,6 +85,10 @@ function setText(num, text)
 	if(txtItem)
 	{
 		txtItem.text = text;
+	}	
+	else
+	{
+		throw "Error! Text="+num+" doesn't exist";
 	}	
 }
 
@@ -65,6 +99,10 @@ function setTextColor(num, color)
 	{
 		txtItem.color = color;
 	}	
+	else
+	{
+		throw "Error! Text="+num+" doesn't exist";
+	}	
 }
 
 function setTextFont(num, font)
@@ -73,7 +111,11 @@ function setTextFont(num, font)
 	if(txtItem)
 	{
 		txtItem.font = font;
-	}		
+	}	
+	else
+	{
+		throw "Error! Text="+num+" doesn't exist";
+	}	
 }
 
 function hideText(num)
@@ -82,6 +124,10 @@ function hideText(num)
 	if(txtItem)
 	{
 		txtItem.visible = false;
+	}
+	else
+	{
+		throw "Error! Text="+num+" doesn't exist";
 	}	
 }
 
@@ -91,6 +137,10 @@ function showText(num)
 	if(txtItem)
 	{
 		txtItem.visible = true;
+	}
+	else
+	{
+		throw "Error! Text="+num+" doesn't exist";
 	}	
 }
 
@@ -133,7 +183,7 @@ function findImage(num)
 function createImage(num,imageURL)
 {
 	if(findImage(num)!=null)
-		throw num+" already exists";
+		throw "Error! Image:"+num+" already exists";
 	let item = new ImageItem(num,imageURL);
 	imageItems.push(item);
 }
@@ -145,6 +195,10 @@ function setImagePosition(num, x, y)
 		item.x=x;
 		item.y=y;
 	}
+	else
+	{
+		throw "Error! Image="+num+" doesn't exist";
+	}	
 }
 
 function setImageURL(num, imgURL)
@@ -155,6 +209,10 @@ function setImageURL(num, imgURL)
 		let img = _createImg(imgURL);
 		item.img=img;
 	}	
+	else
+	{
+		throw "Error! Image="+num+" doesn't exist";
+	}	
 }
 
 function showImage(num)
@@ -163,7 +221,11 @@ function showImage(num)
 	if(item)
 	{
 		item.visible=true;
-	}		
+	}	
+	else
+	{
+		throw "Error! Image="+num+" doesn't exist";
+	}	
 }
 
 function hideImage(num)
@@ -172,7 +234,11 @@ function hideImage(num)
 	if(item)
 	{
 		item.visible=false;
-	}		
+	}	
+	else
+	{
+		throw "Image="+num+" doesn't exist";
+	}	
 }
 
 function setImageScaleX(num, scaleX)
@@ -182,6 +248,10 @@ function setImageScaleX(num, scaleX)
 	{
 		item.scaleX=scaleX;
 	}	
+	else
+	{
+		throw "Image="+num+" doesn't exist";
+	}	
 }
 
 function setImageScaleY(num, scaleY)
@@ -190,26 +260,11 @@ function setImageScaleY(num, scaleY)
 	if(item)
 	{
 		item.scaleY=scaleY;
+	}
+	else
+	{
+		throw "Image="+num+" doesn't exist";
 	}	
-}
-
-async function initSpriteAsync()
-{
-	setInterval(function(){
-		for(var i=0;i<spriteItems.length;i++)
-		{
-			var item = spriteItems[i];
-			let currentFrameIndex = item.currentFrameIndex;
-			currentFrameIndex++;
-			if (currentFrameIndex >= item.frameImages.length)
-			{
-				currentFrameIndex = 0;//如果到了最后一张，则重新回到第一张
-			}
-			item.currentFrameIndex = currentFrameIndex;//更换为下一张			
-		}
-	},200);	
-	var res = await axios('sprites/manifest.json');	
-	spriteManifest = res.data;
 }
 
 function SpriteItem(num,spriteName)
@@ -243,7 +298,7 @@ function findSprite(num)
 function createSprite(num,spriteName)
 {
 	if(findSprite(num)!=null)
-		throw num+" already exists";
+		throw "Error! Sprite:"+num+" already exists";
 	let item = new SpriteItem(num,spriteName);
 	spriteItems.push(item);
 }
@@ -256,6 +311,10 @@ function setSpritePosition(num, x, y)
 		item.x=x;
 		item.y=y;
 	}
+	else
+	{
+		throw "Sprite="+num+" doesn't exist";
+	}	
 }
 
 function setSpriteScaleX(num, scaleX)
@@ -264,6 +323,10 @@ function setSpriteScaleX(num, scaleX)
 	if(item)
 	{
 		item.scaleX=scaleX;
+	}	
+	else
+	{
+		throw "Sprite="+num+" doesn't exist";
 	}	
 }
 
@@ -274,6 +337,10 @@ function setSpriteScaleY(num, scaleY)
 	{
 		item.scaleY=scaleY;
 	}	
+	else
+	{
+		throw "Sprite="+num+" doesn't exist";
+	}	
 }
 
 function showSprite(num)
@@ -282,6 +349,10 @@ function showSprite(num)
 	if(item)
 	{
 		item.visible=true;
+	}
+	else
+	{
+		throw "Sprite="+num+" doesn't exist";
 	}	
 }
 
@@ -292,12 +363,19 @@ function hideSprite(num)
 	{
 		item.visible=false;
 	}	
+	else
+	{
+		throw "Sprite="+num+" doesn't exist";
+	}	
 }
 
 function playSpriteAnimation(num, animateName)
 {
 	let item = findSprite(num);
-	if(!item)return;
+	if(!item)
+	{
+		throw "Sprite="+num+" doesn't exist";
+	}	
 	if(item.currentAnimationName==animateName)return;
 	item.frameFilePaths=new Array();
 	item.currentAnimationName = animateName;
