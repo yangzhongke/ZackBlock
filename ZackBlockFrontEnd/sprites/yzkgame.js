@@ -113,6 +113,8 @@ function ImageItem(num, imgURL)
 	this.img=_createImg(imgURL);
 	this.x=0;
 	this.y=0;
+	this.scaleX=1;
+	this.scaleY=1;	
 	this.visible=true;	
 }
 
@@ -173,6 +175,24 @@ function hideImage(num)
 	}		
 }
 
+function setImageScaleX(num, scaleX)
+{
+	let item = findImage(num);
+	if(item)
+	{
+		item.scaleX=scaleX;
+	}	
+}
+
+function setImageScaleY(num, scaleY)
+{
+	let item = findImage(num);
+	if(item)
+	{
+		item.scaleY=scaleY;
+	}	
+}
+
 async function initSpriteAsync()
 {
 	setInterval(function(){
@@ -204,9 +224,8 @@ function SpriteItem(num,spriteName)
 	this.frameImages=new Array();//帧画面的数组
 	this.currentFrameIndex=-1;
 	this.visible=true;
-	this.scaleX=-1;
+	this.scaleX=1;
 	this.scaleY=1;
-	//this.rotation=
 }
 
 function findSprite(num)
@@ -310,7 +329,7 @@ function rpDisplay(canvas)
 	{
 		let item = textItems[i];
 		if(!item.visible) continue;
-		offscreenCtx.save();
+		offscreenCtx.save();		
 		offscreenCtx.font = item.font;
 		offscreenCtx.fillStyle= item.color;
 		offscreenCtx.fillText(item.text, item.x, item.y);
@@ -319,8 +338,14 @@ function rpDisplay(canvas)
 	for(var i=0;i<imageItems.length;i++)
 	{
 		let item = imageItems[i];
-		if(!item.visible||!item.img.loaded) continue;
+		var img = item.img;
+		if(!item.visible||!img.loaded) continue;
+		offscreenCtx.save();
+		offscreenCtx.translate(img.width*(1-item.scaleX)/2, 
+			img.height*(1-item.scaleY)/2);
+		offscreenCtx.scale(item.scaleX,item.scaleY);
 		offscreenCtx.drawImage(item.img,item.x,item.y);
+		offscreenCtx.restore();
 	}
 	for(var i=0;i<spriteItems.length;i++)
 	{
@@ -330,14 +355,18 @@ function rpDisplay(canvas)
 		let currentFrameIndex = spriteItem.currentFrameIndex;
 		let currentFrameImg = spriteItem.frameImages[currentFrameIndex];
 		if (!currentFrameImg.loaded) continue;
-		spriteItem.height = currentFrameImg.height;
-		spriteItem.width = currentFrameImg.width;
+		let imgHeight =currentFrameImg.height;
+		let imgWidth = currentFrameImg.width;
+		let scaleX = spriteItem.scaleX;
+		let scaleY = spriteItem.scaleY;
+		spriteItem.height = imgHeight;
+		spriteItem.width = imgWidth;
 		let posX = spriteItem.x;
 		let posY = spriteItem.y;
 		offscreenCtx.save();
-		offscreenCtx.translate(currentFrameImg.width*(1-spriteItem.scaleX)/2, 
-			currentFrameImg.height*(1-spriteItem.scaleY)/2);
-		offscreenCtx.scale(spriteItem.scaleX,spriteItem.scaleY);
+		offscreenCtx.translate(imgWidth*(1-scaleX)/2, 
+			imgHeight*(1-scaleY)/2);
+		offscreenCtx.scale(scaleX,scaleY);
 		offscreenCtx.drawImage(currentFrameImg,posX,posY);
 		offscreenCtx.restore();
 	}
