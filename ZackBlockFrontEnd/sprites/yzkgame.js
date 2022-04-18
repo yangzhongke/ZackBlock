@@ -395,14 +395,7 @@ function rpDisplay(canvas)
 		let item = imageItems[i];
 		var img = item.img;
 		if(!item.visible||!img.loaded) continue;
-		offscreenCtx.save();
-		let scaleX=item.xFlipped?-1:1;
-		let scaleY=item.yFlipped?-1:1;
-		offscreenCtx.translate(img.width*(1-scaleX)/2, 
-			img.height*(1-scaleY)/2);
-		offscreenCtx.scale(scaleX,scaleY);
 		offscreenCtx.drawImage(item.img,item.x,item.y);
-		offscreenCtx.restore();
 	}
 	for(var i=0;i<spriteItems.length;i++)
 	{
@@ -414,12 +407,12 @@ function rpDisplay(canvas)
 		if (!currentFrameImg.loaded) continue;
 		let imgHeight =currentFrameImg.height;
 		let imgWidth = currentFrameImg.width;
-		let scaleX = spriteItem.scaleX;
-		let scaleY = spriteItem.scaleY;
 		spriteItem.height = imgHeight;
 		spriteItem.width = imgWidth;
 		let posX = spriteItem.x;
 		let posY = spriteItem.y;
+		let scaleX=spriteItem.xFlipped?-1:1;
+		let scaleY=spriteItem.yFlipped?-1:1;		
 		offscreenCtx.save();
 		offscreenCtx.translate(imgWidth*(1-scaleX)/2, 
 			imgHeight*(1-scaleY)/2);

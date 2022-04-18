@@ -534,7 +534,11 @@ Blockly.Extensions.register('playSpriteAnimation_menu_extension',
 		  var createSpriteBlocks = allBlocks
 		    .filter(b=>b.type=='createSprite'
 			&&b.getFieldValue('NUMBER')==number);
-		  if(createSpriteBlocks.length>0)
+		  if(createSpriteBlocks.length==0)
+		  {
+			  return [["empty","empty"]];
+		  }
+		  else if(createSpriteBlocks.length==1)
 		  {
 			  let spriteName = createSpriteBlocks[0].getFieldValue("NAME");
 			  //load animations
@@ -542,7 +546,26 @@ Blockly.Extensions.register('playSpriteAnimation_menu_extension',
 			    .animations.map(a=>[a.name,a.name]);
 			  return animationNames;
 		  }
-		  return [["empty","empty"]];
+		  else
+		  {
+			  //if(...){createSprite(1,"dog")}else{createSprite(1,"cat")}
+			  let spriteNames = createSpriteBlocks.map(b=>b.getFieldValue("NAME"));
+			  //load animations
+			  let sprites=spriteManifest
+			    .filter(s=>spriteNames.includes(s.name));
+			  let animationNames =[];
+			  for(var i=0;i<sprites.length;i++)
+			  {
+				  let sprite = sprites[i];
+				  let animations = sprite.animations.map(a=>a.name);
+				  for(var j=0;j<animations.length;j++)
+				  {
+					  var animationName = animations[j];
+					  animationNames.push([animationName,animationName]);
+				  }
+			  }
+			  return animationNames;
+		  }
         }
 		),"NAME");
 });	
@@ -668,4 +691,78 @@ Blockly.CSharp['showSprite'] = function(block) {
 	return code;
 };
 
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "setSpriteXFlipped",
+    "message0": "setSpriteXFlipped %1 %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["true", "true"],
+          ["false", "false"]
+        ]
+      }	  
+    ],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
 
+Blockly.JavaScript['setSpriteXFlipped'] = function(block) {
+  let number = block.getFieldValue('NUMBER');
+  var value = block.getFieldValue('VALUE');
+  var code="setSpriteXFlipped("+number+","+value+");\r\n";
+  return code;
+};
+Blockly.CSharp['setSpriteXFlipped'] = function(block) {
+  let number = block.getFieldValue('NUMBER');
+  var value = block.getFieldValue('VALUE');
+  var code="setSpriteXFlipped("+number+","+value+");\r\n";
+  return code;
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "setSpriteYFlipped",
+    "message0": "setSpriteYFlipped %1 %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["true", "true"],
+          ["false", "false"]
+        ]
+      }	  
+    ],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['setSpriteYFlipped'] = function(block) {
+  let number = block.getFieldValue('NUMBER');
+  var value = block.getFieldValue('VALUE');
+  var code="setSpriteYFlipped("+number+","+value+");\r\n";
+  return code;
+};
+Blockly.CSharp['setSpriteYFlipped'] = function(block) {
+  let number = block.getFieldValue('NUMBER');
+  var value = block.getFieldValue('VALUE');
+  var code="setSpriteYFlipped("+number+","+value+");\r\n";
+  return code;
+};
