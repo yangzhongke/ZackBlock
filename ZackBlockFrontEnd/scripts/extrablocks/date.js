@@ -187,53 +187,69 @@ Blockly.CSharp['get_datetime_part'] = function(block) {
 Blockly.JavaScript['create_datetime_from'] = function(block) {	
   var year = Blockly.JavaScript.valueToCode(block, 'YEAR',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!year){year=2019;}
   var month = Blockly.JavaScript.valueToCode(block, 'MONTH',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!month){month=1;}
   var day = Blockly.JavaScript.valueToCode(block, 'DAY',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!day){day=1;}
   var hour = Blockly.JavaScript.valueToCode(block, 'HOUR',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!hour){hour=0;}
   var minute = Blockly.JavaScript.valueToCode(block, 'MINUTE',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!minute){minute=0;}
   var second = Blockly.JavaScript.valueToCode(block, 'SECOND',
       Blockly.JavaScript.ORDER_COMMA);  
-  
+  if(!second){second=0;}
   return ['new Date('+year+',('+month+'-1),'+day+','+hour+','+minute+','+second+')', Blockly.JavaScript.ORDER_NEW];
 };
 Blockly.CSharp['create_datetime_from'] = function(block) {
   var year = Blockly.CSharp.valueToCode(block, 'YEAR',
       Blockly.CSharp.ORDER_COMMA);
+  if(!year){year=2019;}
   var month = Blockly.CSharp.valueToCode(block, 'MONTH',
       Blockly.CSharp.ORDER_COMMA);
+  if(!month){month=1;}
   var day = Blockly.CSharp.valueToCode(block, 'DAY',
       Blockly.CSharp.ORDER_COMMA);
+  if(!day){day=1;}
   var hour = Blockly.CSharp.valueToCode(block, 'HOUR',
       Blockly.CSharp.ORDER_COMMA);
+  if(!hour){hour=0;}
   var minute = Blockly.CSharp.valueToCode(block, 'MINUTE',
       Blockly.CSharp.ORDER_COMMA);
+  if(!minute){minute=0;}
   var second = Blockly.CSharp.valueToCode(block, 'SECOND',
       Blockly.CSharp.ORDER_COMMA);  
-  
+  if(!second){second=0;}
   return ['new DateTime('+year+','+month+','+day+','+hour+','+minute+','+second+')', Blockly.CSharp.ORDER_NEW];
 };
 
 Blockly.JavaScript['create_date_from'] = function(block) {	
   var year = Blockly.JavaScript.valueToCode(block, 'YEAR',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!year){year=2019;}
   var month = Blockly.JavaScript.valueToCode(block, 'MONTH',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!month){month=1;}
   var day = Blockly.JavaScript.valueToCode(block, 'DAY',
       Blockly.JavaScript.ORDER_COMMA);
+  if(!day){day=1;}
   
   return ['new Date('+year+',('+month+'-1),'+day+')', Blockly.JavaScript.ORDER_NEW];
 };
 Blockly.CSharp['create_date_from'] = function(block) {
   var year = Blockly.CSharp.valueToCode(block, 'YEAR',
       Blockly.CSharp.ORDER_COMMA);
+  if(!year){year=2019;}
   var month = Blockly.CSharp.valueToCode(block, 'MONTH',
       Blockly.CSharp.ORDER_COMMA);
+  if(!month){month=1;}
   var day = Blockly.CSharp.valueToCode(block, 'DAY',
       Blockly.CSharp.ORDER_COMMA); 
+  if(!day){day=1;}
   
   return ['new DateTime('+year+','+month+','+day+')', Blockly.CSharp.ORDER_NEW];
 };

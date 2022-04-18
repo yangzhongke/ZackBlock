@@ -34,7 +34,7 @@ Blockly.CSharp['createText'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
 	var text = Blockly.CSharp.valueToCode(block, 'TEXT',
       Blockly.CSharp.ORDER_MODULUS);
-	if(!text){text="''";}
+	if(!text){text='""';}
 	var code="createText("+number+","+text+");\r\n";
 	return code;
 };
@@ -115,7 +115,6 @@ Blockly.JavaScript['setText'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
 	var text = Blockly.JavaScript.valueToCode(block, 'TEXT',
       Blockly.JavaScript.ORDER_MODULUS);
-		if(!x){x=0;}
 	if(!text){text="''";}  
 	var code="setText("+number+","+text+");\r\n";
 	return code;
@@ -124,7 +123,7 @@ Blockly.CSharp['setText'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
 	var text = Blockly.CSharp.valueToCode(block, 'TEXT',
       Blockly.CSharp.ORDER_MODULUS);
-	if(!text){text="''";}  
+	if(!text){text='""';}  
 	var code="setText("+number+","+text+");\r\n";
 	return code;
 };

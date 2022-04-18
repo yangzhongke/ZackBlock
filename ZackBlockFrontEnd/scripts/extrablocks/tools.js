@@ -139,3 +139,31 @@ Blockly.CSharp['delay'] = function(block) {
 	var code='await Task.Delay('+value+');\r\n';
 	return code;
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "writelog",
+    "message0": "writelog %1",
+    'args0': [{
+      'type': 'input_value',
+      'name': 'VALUE',
+    }],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['writelog'] = function(block) {
+	var value = Blockly.JavaScript.valueToCode(block, 'VALUE',
+      Blockly.JavaScript.ORDER_MODULUS);
+	var code="console.log("+value+");\r\n";
+	return code;
+};
+Blockly.CSharp['writelog'] = function(block) {
+	var value = Blockly.CSharp.valueToCode(block, 'VALUE',
+      Blockly.CSharp.ORDER_MODULUS);
+	var code='Console.WriteLine('+value+');\r\n';
+	return code;
+};

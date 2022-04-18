@@ -380,16 +380,7 @@ function rpDisplay(canvas)
 	let offscreenCtx = offscreenCanvas.getContext('2d');
 	offscreenCtx.textBaseline = 'top';//https://segmentfault.com/q/1010000008657193
 	offscreenCtx.clearRect(0, 0, width, height);
-	for(var i=0;i<textItems.length;i++)
-	{
-		let item = textItems[i];
-		if(!item.visible) continue;
-		offscreenCtx.save();		
-		offscreenCtx.font = item.font;
-		offscreenCtx.fillStyle= item.color;
-		offscreenCtx.fillText(item.text, item.x, item.y);
-		offscreenCtx.restore();
-	}
+
 	for(var i=0;i<imageItems.length;i++)
 	{
 		let item = imageItems[i];
@@ -420,6 +411,16 @@ function rpDisplay(canvas)
 		offscreenCtx.drawImage(currentFrameImg,posX,posY);
 		offscreenCtx.restore();
 	}
+	for(var i=0;i<textItems.length;i++)
+	{
+		let item = textItems[i];
+		if(!item.visible) continue;
+		offscreenCtx.save();		
+		offscreenCtx.font = item.font;
+		offscreenCtx.fillStyle= item.color;
+		offscreenCtx.fillText(item.text, item.x, item.y);
+		offscreenCtx.restore();
+	}	
 	let ctx = canvas.getContext('2d');
 	ctx.clearRect(0, 0, width, height);
 	ctx.drawImage(offscreenCanvas, 0, 0);
