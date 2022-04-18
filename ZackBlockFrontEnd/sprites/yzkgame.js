@@ -5,6 +5,11 @@ let spriteManifest=null;
 
 let offscreenCanvas = document.createElement('canvas');
 
+function delay(ms)
+{
+	return new Promise(r => setTimeout(r, ms));
+}
+
 function TextItem(num,txt)
 {
 	this.num=num;
@@ -199,8 +204,9 @@ function SpriteItem(num,spriteName)
 	this.frameImages=new Array();//帧画面的数组
 	this.currentFrameIndex=-1;
 	this.visible=true;
-	this.isFlipX=false;//是否x方向翻转
-	this.isFlipY=false;//是否y方向翻转
+	this.scaleX=-1;
+	this.scaleY=1;
+	//this.rotation=
 }
 
 function findSprite(num)
@@ -233,21 +239,21 @@ function setSpritePosition(num, x, y)
 	}
 }
 
-function setSpriteFlipX(num, isFlipX)
+function setSpriteScaleX(num, scaleX)
 {
 	let item = findSprite(num);
 	if(item)
 	{
-		item.isFlipX=isFlipX;
+		item.scaleX=scaleX;
 	}	
 }
 
-function setSpriteFlipY(num, isFlipY)
+function setSpriteScaleY(num, scaleY)
 {
 	let item = findSprite(num);
 	if(item)
 	{
-		item.isFlipY=isFlipY;
+		item.scaleY=scaleY;
 	}	
 }
 
@@ -304,9 +310,11 @@ function rpDisplay(canvas)
 	{
 		let item = textItems[i];
 		if(!item.visible) continue;
+		offscreenCtx.save();
 		offscreenCtx.font = item.font;
 		offscreenCtx.fillStyle= item.color;
 		offscreenCtx.fillText(item.text, item.x, item.y);
+		offscreenCtx.restore();
 	}
 	for(var i=0;i<imageItems.length;i++)
 	{
@@ -326,7 +334,12 @@ function rpDisplay(canvas)
 		spriteItem.width = currentFrameImg.width;
 		let posX = spriteItem.x;
 		let posY = spriteItem.y;
+		offscreenCtx.save();
+		offscreenCtx.translate(currentFrameImg.width*(1-spriteItem.scaleX)/2, 
+			currentFrameImg.height*(1-spriteItem.scaleY)/2);
+		offscreenCtx.scale(spriteItem.scaleX,spriteItem.scaleY);
 		offscreenCtx.drawImage(currentFrameImg,posX,posY);
+		offscreenCtx.restore();
 	}
 	let ctx = canvas.getContext('2d');
 	ctx.clearRect(0, 0, width, height);

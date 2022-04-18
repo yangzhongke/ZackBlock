@@ -301,7 +301,26 @@
 	  window.onload=async function(){
 		  await initSpriteAsync();
 		  createSprite(1,"boy");
+		  playSpriteAnimation(1,"blink");
+		  for(var i=-1;i<=1;i+=0.1)
+		  {
+			  await delay(200); 
+			  setSpriteScaleX(1,i);
+		  }
+		  for(var i=-1;i<=1;i+=0.1)
+		  {
+			  await delay(200);
+			  setSpriteScaleY(1,i);
+		  }
+		  /*
+		  await new Promise(r => setTimeout(r, 2000)); 
 		  playSpriteAnimation(1,"walk");
+		  await new Promise(r => setTimeout(r, 2000)); 
+		  playSpriteAnimation(1,"fly");
+		  await new Promise(r => setTimeout(r, 2000)); 
+		  playSpriteAnimation(1,"throw");
+		  await new Promise(r => setTimeout(r, 2000)); 
+		  playSpriteAnimation(1,"fallover");*/
 		  /*
 		  createText(1,'hello');
 		  createImage(1,'sprites/boy/blink/0.png');
