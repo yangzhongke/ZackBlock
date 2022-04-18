@@ -299,30 +299,38 @@
 	<category name="Game Sprite" categorystyle="colour_category">
 		<block kind="block" type="createSprite"></block>
 		<block kind="block" type="setSpritePosition"></block>
+		<block kind="block" type="playSpriteAnimation"></block>
 		<block kind="block" type="showSprite"></block>		
 		<block kind="block" type="hideSprite"></block>
     </category>		
   </xml>	
-  <script src="node_modules/blockly/blockly.min.js"></script> 
-  <script src="scripts/csharp.js"></script>  
-  <script src="scripts/csharp/colour.js"></script>  
-  <script src="scripts/csharp/logic.js"></script>  
-  <script src="scripts/csharp/loops.js"></script>  
-  <script src="scripts/csharp/math.js"></script>  
-  <script src="scripts/csharp/procedures.js"></script>  
-  <script src="scripts/csharp/text.js"></script>  
-  <script src="scripts/csharp/variables.js"></script>  
-  <script src="scripts/csharp/variables_dynamic.js"></script>
-  <script src="scripts/extrablocks/tools.js"></script>
-  <script src="scripts/extrablocks/date.js"></script>
-  <script src="scripts/extrablocks/yzkgameblocks.js"></script>
-  <script src="scripts/main.js"></script> 
-  <script src="scripts/FileSaver.js"></script> 
+  <script src="node_modules/axios/dist/axios.min.js"></script>   
   <script src="sprites/yzkgame.js"></script> 
-  <script src="node_modules/axios/dist/axios.min.js"></script> 
   <script>
+	  function addScript(src)
+	  {
+		  var s = document.createElement('script');
+		  s.setAttribute('src', src+'?'+new Date());
+		  document.body.appendChild( s );	
+		  return new Promise(r => s.onload=r);		  
+	  }
 	  window.onload=async function(){
-		await initGameAsync();
+		await initGameAsync();//wait for loadSpriteManifestAsync
+		await addScript("node_modules/blockly/blockly.min.js");
+		await addScript("scripts/csharp.js");
+		await addScript("scripts/csharp/colour.js");
+		await addScript("scripts/csharp/logic.js");
+		await addScript("scripts/csharp/loops.js");
+		await addScript("scripts/csharp/math.js");
+		await addScript("scripts/csharp/procedures.js");
+		await addScript("scripts/csharp/text.js");
+		await addScript("scripts/csharp/variables.js");
+		await addScript("scripts/csharp/variables_dynamic.js");
+		await addScript("scripts/extrablocks/tools.js");
+		await addScript("scripts/extrablocks/date.js");
+		await addScript("scripts/extrablocks/yzkgameblocks.js");
+		await addScript("scripts/main.js");
+		await addScript("scripts/FileSaver.js");
 	  }
   </script>
 </body>

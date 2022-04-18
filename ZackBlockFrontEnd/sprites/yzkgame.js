@@ -10,6 +10,12 @@ function delay(ms)
 	return new Promise(r => setTimeout(r, ms));
 }
 
+async function loadSpriteManifestAsync()
+{
+	var res = await axios('sprites/manifest.json');	
+	spriteManifest = res.data;	
+}
+
 async function initGameAsync()
 {	
 	setInterval(function(){
@@ -25,8 +31,7 @@ async function initGameAsync()
 			item.currentFrameIndex = currentFrameIndex;//更换为下一张			
 		}
 	},200);	
-	var res = await axios('sprites/manifest.json');	
-	spriteManifest = res.data;
+	await loadSpriteManifestAsync();
 }
 
 function clearGame()

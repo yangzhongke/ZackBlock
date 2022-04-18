@@ -460,11 +460,11 @@ Blockly.defineBlocksWithJsonArray([
         "name": "NUMBER"
       },
       {
-        "type": "input_value",
-        "name": "Name",
-		"check": "String"
+        "type": "input_dummy",
+        "name": "NAME",
       }	  
     ],
+	"extensions": ["createSprite_menu_extension"],
 	"inputsInline": true,
 	'previousStatement': null,
     'nextStatement': null,
@@ -472,20 +472,93 @@ Blockly.defineBlocksWithJsonArray([
   }
 ]);
 
+Blockly.Extensions.register('createSprite_menu_extension',
+  function() {
+    this.getInput('NAME')
+      .appendField(new Blockly.FieldDropdown(
+        function() {
+		  //spriteManifest is defined and loaded in yzkgame.js
+		  var spriteNames = spriteManifest.map(s=>[s.name,s.name]);	
+		  return spriteNames;
+        }
+		),"NAME");
+});	
+
 Blockly.JavaScript['createSprite'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var name = Blockly.JavaScript.valueToCode(block, 'Name',
-      Blockly.JavaScript.ORDER_MODULUS);
+	var name = this.getFieldValue("NAME");
 	if(!name){name="''";}  
-	var code="createSprite("+number+","+name+");\r\n";
+	var code="createSprite("+number+",'"+name+"');\r\n";
 	return code;
 };
 Blockly.CSharp['createSprite'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var name = Blockly.CSharp.valueToCode(block, 'Name',
-      Blockly.CSharp.ORDER_MODULUS);
+	var name = this.getFieldValue("NAME");
 	if(!name){name="null";}  
-	var code="createSprite("+number+","+name+");\r\n";
+	var code='createSprite('+number+',"'+name+'");\r\n';
+	return code;
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "playSpriteAnimation",
+    "message0": "playSpriteAnimation num%1 Name%2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      },
+      {
+        "type": "input_dummy",
+        "name": "NAME",
+      }	  
+    ],
+	"extensions": ["playSpriteAnimation_menu_extension"],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.Extensions.register('playSpriteAnimation_menu_extension',
+  function() {
+	let thisBlock =this;
+    this.getInput('NAME')
+      .appendField(new Blockly.FieldDropdown(
+        function() {
+		  let number = thisBlock.getFieldValue("NUMBER");
+		  var allBlocks =Blockly.getMainWorkspace()
+			.getAllBlocks(false);
+	      //find the related createSprite
+		  var createSpriteBlocks = allBlocks
+		    .filter(b=>b.type=='createSprite'
+			&&b.getFieldValue('NUMBER')==number);
+		  if(createSpriteBlocks.length>0)
+		  {
+			  let spriteName = createSpriteBlocks[0].getFieldValue("NAME");
+			  //load animations
+			  let animationNames=spriteManifest.filter(s=>s.name==spriteName)[0]
+			    .animations.map(a=>[a.name,a.name]);
+			  return animationNames;
+		  }
+		  return [["empty","empty"]];
+        }
+		),"NAME");
+});	
+
+Blockly.JavaScript['playSpriteAnimation'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var name = this.getFieldValue("NAME");
+	if(!name){name="''";}  
+	var code="playSpriteAnimation("+number+",'"+name+"');\r\n";
+	return code;
+};
+Blockly.CSharp['playSpriteAnimation'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var name = this.getFieldValue("NAME");
+	if(!name){name="null";}  
+	var code='playSpriteAnimation('+number+',"'+name+'");\r\n';
 	return code;
 };
 
