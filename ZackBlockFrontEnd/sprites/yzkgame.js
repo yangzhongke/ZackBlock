@@ -163,8 +163,6 @@ function ImageItem(num, imgURL)
 	this.img=_createImg(imgURL);
 	this.x=0;
 	this.y=0;
-	this.scaleX=1;
-	this.scaleY=1;	
 	this.visible=true;	
 }
 
@@ -241,32 +239,6 @@ function hideImage(num)
 	}	
 }
 
-function setImageScaleX(num, scaleX)
-{
-	let item = findImage(num);
-	if(item)
-	{
-		item.scaleX=scaleX;
-	}	
-	else
-	{
-		throw "Image="+num+" doesn't exist";
-	}	
-}
-
-function setImageScaleY(num, scaleY)
-{
-	let item = findImage(num);
-	if(item)
-	{
-		item.scaleY=scaleY;
-	}
-	else
-	{
-		throw "Image="+num+" doesn't exist";
-	}	
-}
-
 function SpriteItem(num,spriteName)
 {
 	this.num=num;
@@ -279,8 +251,8 @@ function SpriteItem(num,spriteName)
 	this.frameImages=new Array();//帧画面的数组
 	this.currentFrameIndex=-1;
 	this.visible=true;
-	this.scaleX=1;
-	this.scaleY=1;
+	this.xFlipped=false;
+	this.yFlipped=false;
 }
 
 function findSprite(num)
@@ -317,12 +289,12 @@ function setSpritePosition(num, x, y)
 	}	
 }
 
-function setSpriteScaleX(num, scaleX)
+function setSpriteXFlipped(num, value)
 {
 	let item = findSprite(num);
 	if(item)
 	{
-		item.scaleX=scaleX;
+		item.xFlipped=value;
 	}	
 	else
 	{
@@ -330,12 +302,12 @@ function setSpriteScaleX(num, scaleX)
 	}	
 }
 
-function setSpriteScaleY(num, scaleY)
+function setSpriteYFlipped(num, value)
 {
 	let item = findSprite(num);
 	if(item)
 	{
-		item.scaleY=scaleY;
+		item.yFlipped=value;
 	}	
 	else
 	{
@@ -419,9 +391,11 @@ function rpDisplay(canvas)
 		var img = item.img;
 		if(!item.visible||!img.loaded) continue;
 		offscreenCtx.save();
-		offscreenCtx.translate(img.width*(1-item.scaleX)/2, 
-			img.height*(1-item.scaleY)/2);
-		offscreenCtx.scale(item.scaleX,item.scaleY);
+		let scaleX=item.xFlipped?-1:1;
+		let scaleY=item.yFlipped?-1:1;
+		offscreenCtx.translate(img.width*(1-scaleX)/2, 
+			img.height*(1-scaleY)/2);
+		offscreenCtx.scale(scaleX,scaleY);
 		offscreenCtx.drawImage(item.img,item.x,item.y);
 		offscreenCtx.restore();
 	}
