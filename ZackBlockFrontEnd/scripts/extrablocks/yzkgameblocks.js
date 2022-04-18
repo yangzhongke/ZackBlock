@@ -448,3 +448,151 @@ Blockly.CSharp['showImage'] = function(block) {
 	var code="showImage("+number+");\r\n";
 	return code;
 };
+
+//Sprite
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "createSprite",
+    "message0": "createSprite num%1 Name%2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      },
+      {
+        "type": "input_value",
+        "name": "Name",
+		"check": "String"
+      }	  
+    ],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['createSprite'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var name = Blockly.JavaScript.valueToCode(block, 'Name',
+      Blockly.JavaScript.ORDER_MODULUS);
+	if(!name){name="''";}  
+	var code="createSprite("+number+","+name+");\r\n";
+	return code;
+};
+Blockly.CSharp['createSprite'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var name = Blockly.CSharp.valueToCode(block, 'Name',
+      Blockly.CSharp.ORDER_MODULUS);
+	if(!name){name="null";}  
+	var code="createSprite("+number+","+name+");\r\n";
+	return code;
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "setSpritePosition",
+    "message0": "setSpritePosition num%1(%2,%3)",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+		"check": "Number"
+      }	,
+      {
+        "type": "input_value",
+        "name": "Y",
+		"check": "Number"
+      }	  
+    ],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['setSpritePosition'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var x = Blockly.JavaScript.valueToCode(block, 'X',
+      Blockly.JavaScript.ORDER_MODULUS);
+	var y = Blockly.JavaScript.valueToCode(block, 'Y',
+      Blockly.JavaScript.ORDER_MODULUS);
+	if(!x){x=0;}  
+	if(!y){y=0;}  
+	var code="setSpritePosition("+number+","+x+","+y+");\r\n";
+	return code;
+};
+Blockly.CSharp['setSpritePosition'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var x = Blockly.CSharp.valueToCode(block, 'X',
+      Blockly.CSharp.ORDER_MODULUS);
+	var y = Blockly.CSharp.valueToCode(block, 'Y',
+      Blockly.CSharp.ORDER_MODULUS);
+	if(!x){x=0;}  
+	if(!y){y=0;}  	  
+	var code="setSpritePosition("+number+","+x+","+y+");\r\n";
+	return code;
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "hideSprite",
+    "message0": "hideSprite num%1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      }
+    ],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['hideSprite'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var code="hideSprite("+number+");\r\n";
+	return code;
+};
+Blockly.CSharp['hideSprite'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var code="hideSprite("+number+");\r\n";
+	return code;
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "showSprite",
+    "message0": "showSprite num%1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUMBER"
+      }
+    ],
+	"inputsInline": true,
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['showSprite'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var code="showSprite("+number+");\r\n";
+	return code;
+};
+Blockly.CSharp['showSprite'] = function(block) {
+	var number = this.getFieldValue('NUMBER');
+	var code="showSprite("+number+");\r\n";
+	return code;
+};
+
+
