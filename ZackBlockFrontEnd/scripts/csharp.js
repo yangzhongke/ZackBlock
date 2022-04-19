@@ -91,6 +91,69 @@ Blockly.CSharp.ORDER_YIELD = 17;           // yield
 Blockly.CSharp.ORDER_COMMA = 18;           // ,
 Blockly.CSharp.ORDER_NONE = 99;            // (...)
 
+const arrayEquals=function (a, b) 
+{
+    return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index]);
+}
+
+const getVarName=function(varSetBlock)
+{
+  const varId = varSetBlock.getField("VAR").getValue();
+  return Blockly.CSharp.nameDB_.getName(varId,
+	Blockly.VARIABLE_CATEGORY_NAME);
+}
+const inferVarType = function (varName)
+{
+  var allBlocks =Blockly.getMainWorkspace()
+		.getAllBlocks(false);
+  
+  var setVarBlocks = allBlocks
+		.filter(b=>b.type=='variables_set'
+		&&getVarName(b)==varName);
+  if(setVarBlocks.length<=0)
+  {
+	  return "dynamic";
+  }
+  //find the first variables_set 
+  let setVarBlock = setVarBlocks[0];
+  let setValueBlock = setVarBlock.getInputTargetBlock("VALUE");
+  if(!setValueBlock)return 'dynamic';
+  let typeName = setValueBlock.type;
+  //get the output type
+  const check = setValueBlock.outputConnection.getCheck();
+  if(typeName=="text"||arrayEquals(check,['String']))
+  {
+	  return 'string';
+  }
+  else if(typeName=="math_number")
+  {
+	  const value = setValueBlock.getFieldValue("NUM");
+	  return Number.isInteger(value)?'int':'double';
+  }
+  else if(typeName=="logic_boolean"||arrayEquals(check,['Boolean']))
+  {
+	  return 'bool';
+  }
+  else if(arrayEquals(check,['DateTime']))
+  {
+	  return 'DateTime';
+  }
+  else if(arrayEquals(check,['Number']))
+  {
+	  return 'double';
+  }
+  else if(arrayEquals(check,['Colour']))
+  {
+	  return 'System.Drawing.Color';
+  }
+  else
+  {
+	  return "dynamic";
+  }
+}
 /**
  * List of outer-inner pairings that do NOT require parentheses.
  * @type {!Array.<!Array.<number>>}
@@ -164,9 +227,17 @@ Blockly.CSharp.init = function(workspace) {
   }
 
   // Declare all of the variables.
-  if (defvars.length) {
-    Blockly.CSharp.definitions_['variables'] =
-        'dynamic ' + defvars.join(', ') + ';';
+  if (defvars.length) 
+  {
+    let varDefs=[];
+	for(var i=0;i<defvars.length;i++)
+	{
+		let varName = defvars[i];
+		let typeName = inferVarType(varName);
+		varDefs.push(typeName+" "+varName);
+	}
+	let varDefCodes = varDefs.join(';\r\n')+';';
+	Blockly.CSharp.definitions_['variables']=varDefCodes;
   }
   this.isInitialized = true;
 };
