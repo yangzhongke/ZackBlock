@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blockly for the Web Codelab</title>
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+  <script src="./layui/layui.js"></script>
+  <link rel="stylesheet" href="./layui/css/layui.css">
 </head>
 
 <body>
@@ -20,7 +22,6 @@
 		<input type="file" id="fileLoadFrom" name="upload" style="display:none"/>
 		<pre id="code">
 		</pre>	
-		<canvas id="canvas" style="width:100%;"></canvas>
    </div>	
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-categories" style="display: none">
@@ -308,15 +309,9 @@
     </category>		
   </xml>	
   <script src="node_modules/axios/dist/axios.min.js"></script>   
+  <script src="scripts/common.js"></script> 
   <script src="sprites/yzkgame.js"></script> 
   <script>
-	  function addScript(src)
-	  {
-		  var s = document.createElement('script');
-		  s.setAttribute('src', src+'?'+new Date());
-		  document.body.appendChild( s );	
-		  return new Promise(r => s.onload=r);		  
-	  }
 	  window.onload=async function(){
 		await initGameAsync();//wait for loadSpriteManifestAsync
 		await addScript("node_modules/blockly/blockly.min.js");

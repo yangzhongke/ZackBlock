@@ -22,17 +22,15 @@
   }
   var execute=function(){
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
-	let fullCode="try{clearGame();"+code+"}catch(err){alert(err)}";
+	let fullCode="try{clearGame();"+code+"}catch(err){console.error(err);alert(err)}";
 	console.log(code);
-    try
-	{
-		eval("(async () => {" + fullCode + "})()")
-	}
-	catch(err)
-	{
-		console.error(err);
-		alert("Error: "+err);
-	}
+	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
+		fixed: false,maxmin: true,area: ['700px', '450px'],
+		success: function(dom, index){
+			var framePlayer = window['layui-layer-iframe' + index];
+			framePlayer.postMessage("(async () => {" + fullCode + "})()");
+		}	  
+	});	
   }
   document.getElementById("btnExecute").onclick=execute;
   document.getElementById("btnNew").onclick=function(){
@@ -75,10 +73,5 @@
 	let code = Blockly.CSharp.workspaceToCode(workspace);
 	document.getElementById("code").innerText=code;
 	save();
-  });
-  setInterval(function(){
-	  var canvas = document.getElementById("canvas");
-	  rpDisplay(canvas);
-  },20);
-  
+  });  
 })();

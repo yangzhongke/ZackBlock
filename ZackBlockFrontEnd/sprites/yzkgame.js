@@ -394,6 +394,7 @@ function rpDisplay(canvas)
 		if(!spriteItem.visible) continue;
 
 		let currentFrameIndex = spriteItem.currentFrameIndex;
+		if(currentFrameIndex>=spriteItem.frameImages.length)continue;
 		let currentFrameImg = spriteItem.frameImages[currentFrameIndex];
 		if (!currentFrameImg.loaded) continue;
 		let imgHeight =currentFrameImg.height;
