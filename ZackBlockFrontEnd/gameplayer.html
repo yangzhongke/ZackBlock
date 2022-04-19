@@ -4,13 +4,32 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+	body {    
+		margin: 0 !important;
+		padding: 0 !important;
+		overflow-x: hidden;
+		overflow-y: hidden;		
+	}  
+	canvas{
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+  </style>
 </head>
 <body>
-  <canvas id="canvas" style="width:100%;"></canvas>
+  <canvas id="canvas"></canvas>
   <script src="node_modules/axios/dist/axios.min.js"></script>   
-  <script src="scripts/common.js"></script> 
   <script src="sprites/yzkgame.js"></script> 
   <script>
+    var resizeCanvas=function(){
+		canvas = document.getElementById("canvas");		
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+	window.addEventListener("resize", resizeCanvas); 
+	window.addEventListener("load", resizeCanvas); 
+	
 	window.addEventListener('message', onRecvMessage,false);  
 	async function onRecvMessage(e)
 	{

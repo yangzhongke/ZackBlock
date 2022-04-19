@@ -35,7 +35,7 @@ Blockly.CSharp['createText'] = function(block) {
 	var text = Blockly.CSharp.valueToCode(block, 'TEXT',
       Blockly.CSharp.ORDER_MODULUS);
 	if(!text){text='""';}
-	var code="createText("+number+","+text+");\r\n";
+	var code="CreateText("+number+","+text+");\r\n";
 	return code;
 };
 
@@ -85,7 +85,7 @@ Blockly.CSharp['setTextPosition'] = function(block) {
       Blockly.CSharp.ORDER_MODULUS);
 	if(!x){x=0;}
 	if(!y){y=0;}	  
-	var code="setTextPosition("+number+","+x+","+y+");\r\n";
+	var code="SetTextPosition("+number+","+x+","+y+");\r\n";
 	return code;
 };
 
@@ -124,7 +124,7 @@ Blockly.CSharp['setText'] = function(block) {
 	var text = Blockly.CSharp.valueToCode(block, 'TEXT',
       Blockly.CSharp.ORDER_MODULUS);
 	if(!text){text='""';}  
-	var code="setText("+number+","+text+");\r\n";
+	var code="SetText("+number+","+text+");\r\n";
 	return code;
 };
 
@@ -163,7 +163,7 @@ Blockly.CSharp['setTextColor'] = function(block) {
 	var color = Blockly.CSharp.valueToCode(block, 'COLOR',
       Blockly.CSharp.ORDER_MODULUS);
 	if(!color){color="System.Drawing.Color.Black";}  
-	var code="setTextColor("+number+","+color+");\r\n";
+	var code="SetTextColor("+number+","+color+");\r\n";
 	return code;
 };
 
@@ -202,7 +202,7 @@ Blockly.CSharp['setTextFont'] = function(block) {
 	var font = Blockly.CSharp.valueToCode(block, 'FONT',
       Blockly.CSharp.ORDER_MODULUS);
 	if(!font){font="null";}  
-	var code="setTextFont("+number+","+font+");\r\n";
+	var code="SetTextFont("+number+","+font+");\r\n";
 	return code;
 };
 
@@ -230,7 +230,7 @@ Blockly.JavaScript['hideText'] = function(block) {
 };
 Blockly.CSharp['hideText'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var code="hideText("+number+");\r\n";
+	var code="HideText("+number+");\r\n";
 	return code;
 };
 
@@ -258,7 +258,7 @@ Blockly.JavaScript['showText'] = function(block) {
 };
 Blockly.CSharp['showText'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var code="showText("+number+");\r\n";
+	var code="ShowText("+number+");\r\n";
 	return code;
 };
 
@@ -298,7 +298,7 @@ Blockly.CSharp['createImage'] = function(block) {
 	var url = Blockly.CSharp.valueToCode(block, 'URL',
       Blockly.CSharp.ORDER_MODULUS);
 	if(!url){font="null";}  
-	var code="createImage("+number+","+url+");\r\n";
+	var code="CreateImage("+number+","+url+");\r\n";
 	return code;
 };
 
@@ -348,7 +348,7 @@ Blockly.CSharp['setImagePosition'] = function(block) {
       Blockly.CSharp.ORDER_MODULUS);
 	if(!x){x=0;}  
 	if(!y){y=0;}  	  
-	var code="setImagePosition("+number+","+x+","+y+");\r\n";
+	var code="SetImagePosition("+number+","+x+","+y+");\r\n";
 	return code;
 };
 
@@ -388,7 +388,7 @@ Blockly.CSharp['setImageURL'] = function(block) {
 	var url = Blockly.CSharp.valueToCode(block, 'URL',
       Blockly.CSharp.ORDER_MODULUS);
 	if(!url){url="null";}
-	var code="setImageURL("+number+","+url+");\r\n";
+	var code="SetImageURL("+number+","+url+");\r\n";
 	return code;
 };
 
@@ -416,7 +416,7 @@ Blockly.JavaScript['hideImage'] = function(block) {
 };
 Blockly.CSharp['hideImage'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var code="hideImage("+number+");\r\n";
+	var code="HideImage("+number+");\r\n";
 	return code;
 };
 
@@ -444,7 +444,7 @@ Blockly.JavaScript['showImage'] = function(block) {
 };
 Blockly.CSharp['showImage'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var code="showImage("+number+");\r\n";
+	var code="ShowImage("+number+");\r\n";
 	return code;
 };
 
@@ -476,8 +476,8 @@ Blockly.Extensions.register('createSprite_menu_extension',
     this.getInput('NAME')
       .appendField(new Blockly.FieldDropdown(
         function() {
-		  //spriteManifest is defined and loaded in yzkgame.js
-		  var spriteNames = spriteManifest.map(s=>[s.name,s.name]);	
+		  //getSpriteManifest() is defined and loaded in yzkgame.js
+		  var spriteNames = getSpriteManifest().map(s=>[s.name,s.name]);	
 		  return spriteNames;
         }
 		),"NAME");
@@ -494,7 +494,7 @@ Blockly.CSharp['createSprite'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
 	var name = this.getFieldValue("NAME");
 	if(!name){name="null";}  
-	var code='createSprite('+number+',"'+name+'");\r\n';
+	var code='CreateSprite('+number+',"'+name+'");\r\n';
 	return code;
 };
 
@@ -541,7 +541,7 @@ Blockly.Extensions.register('playSpriteAnimation_menu_extension',
 		  {
 			  let spriteName = createSpriteBlocks[0].getFieldValue("NAME");
 			  //load animations
-			  let animationNames=spriteManifest.filter(s=>s.name==spriteName)[0]
+			  let animationNames=getSpriteManifest().filter(s=>s.name==spriteName)[0]
 			    .animations.map(a=>[a.name,a.name]);
 			  return animationNames;
 		  }
@@ -550,8 +550,7 @@ Blockly.Extensions.register('playSpriteAnimation_menu_extension',
 			  //if(...){createSprite(1,"dog")}else{createSprite(1,"cat")}
 			  let spriteNames = createSpriteBlocks.map(b=>b.getFieldValue("NAME"));
 			  //load animations
-			  let sprites=spriteManifest
-			    .filter(s=>spriteNames.includes(s.name));
+			  let sprites=getSpriteManifest().filter(s=>spriteNames.includes(s.name));
 			  let animationNames =[];
 			  for(var i=0;i<sprites.length;i++)
 			  {
@@ -580,7 +579,7 @@ Blockly.CSharp['playSpriteAnimation'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
 	var name = this.getFieldValue("NAME");
 	if(!name){name="null";}  
-	var code='playSpriteAnimation('+number+',"'+name+'");\r\n';
+	var code='PlaySpriteAnimation('+number+',"'+name+'");\r\n';
 	return code;
 };
 
@@ -630,7 +629,7 @@ Blockly.CSharp['setSpritePosition'] = function(block) {
       Blockly.CSharp.ORDER_MODULUS);
 	if(!x){x=0;}  
 	if(!y){y=0;}  	  
-	var code="setSpritePosition("+number+","+x+","+y+");\r\n";
+	var code="SetSpritePosition("+number+","+x+","+y+");\r\n";
 	return code;
 };
 
@@ -658,7 +657,7 @@ Blockly.JavaScript['hideSprite'] = function(block) {
 };
 Blockly.CSharp['hideSprite'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var code="hideSprite("+number+");\r\n";
+	var code="HideSprite("+number+");\r\n";
 	return code;
 };
 
@@ -686,7 +685,7 @@ Blockly.JavaScript['showSprite'] = function(block) {
 };
 Blockly.CSharp['showSprite'] = function(block) {
 	var number = this.getFieldValue('NUMBER');
-	var code="showSprite("+number+");\r\n";
+	var code="ShowSprite("+number+");\r\n";
 	return code;
 };
 
@@ -724,7 +723,7 @@ Blockly.JavaScript['setSpriteXFlipped'] = function(block) {
 Blockly.CSharp['setSpriteXFlipped'] = function(block) {
   let number = block.getFieldValue('NUMBER');
   var value = block.getFieldValue('VALUE');
-  var code="setSpriteXFlipped("+number+","+value+");\r\n";
+  var code="SetSpriteXFlipped("+number+","+value+");\r\n";
   return code;
 };
 
@@ -762,6 +761,6 @@ Blockly.JavaScript['setSpriteYFlipped'] = function(block) {
 Blockly.CSharp['setSpriteYFlipped'] = function(block) {
   let number = block.getFieldValue('NUMBER');
   var value = block.getFieldValue('VALUE');
-  var code="setSpriteYFlipped("+number+","+value+");\r\n";
+  var code="SetSpriteYFlipped("+number+","+value+");\r\n";
   return code;
 };

@@ -10,6 +10,11 @@ function delay(ms)
 	return new Promise(r => setTimeout(r, ms));
 }
 
+function getSpriteManifest()
+{
+	return spriteManifest;
+}
+
 async function loadSpriteManifestAsync()
 {
 	var res = await axios('sprites/manifest.json');	

@@ -167,3 +167,39 @@ Blockly.CSharp['writelog'] = function(block) {
 	var code='Console.WriteLine('+value+');\r\n';
 	return code;
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "getWindowWidth",
+    "message0": "getWindowWidth",
+	"output":"Number",
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['getWindowWidth'] = function(block) {
+  var code="window.innerWidth";
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['getWindowWidth'] = function(block) {
+	var code='GetWindowWidth()';
+	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "getWindowHeight",
+    "message0": "getWindowHeight",
+	"output":"Number",
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['getWindowHeight'] = function(block) {
+  var code="window.innerHeight";
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['getWindowHeight'] = function(block) {
+	var code='GetWindowHeight()';
+	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};

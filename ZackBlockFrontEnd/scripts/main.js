@@ -24,8 +24,9 @@
 	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 	let fullCode="try{clearGame();"+code+"}catch(err){console.error(err);alert(err)}";
 	console.log(code);
+	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
 	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
-		fixed: false,maxmin: true,area: ['700px', '450px'],
+		title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
 		success: function(dom, index){
 			var framePlayer = window['layui-layer-iframe' + index];
 			framePlayer.postMessage("(async () => {" + fullCode + "})()");
@@ -34,15 +35,9 @@
   }
   document.getElementById("btnExecute").onclick=execute;
   document.getElementById("btnNew").onclick=function(){
-	  if(!confirm("确认要清除现在的项目，创建新的？"))return;
+	  if(!confirm("Will you remove the current code and add a new one?"))return;
 	  const workspace = Blockly.getMainWorkspace();
 	  Blockly.serialization.workspaces.load({}, workspace);		  
-  };
-  document.getElementById("code").ondblclick=function(){
-	var range = document.createRange();
-	range.selectNode(this);
-	window.getSelection().removeAllRanges();
-	window.getSelection().addRange(range);	  
   };
   document.getElementById("btnSave").onclick=function(){
 	  var code = saveToString();

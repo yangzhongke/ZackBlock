@@ -11,14 +11,14 @@
 </head>
 
 <body>
-    <div class="blockly-editor" id="blocklyEditor" style="float:left;height: 480px; width: 50vw;">
+    <div class="blockly-editor" id="blocklyEditor" style="float:left;height: 100vh; width: 50vw;">
       <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
     </div>
-	<div style="float:left;margin-left:10px;width: 46vw;overflow-x: scroll;">
-		<input id="btnExecute" type="button" value="执行"/>
-		<input id="btnNew" type="button" value="新建" />
-		<input type="button" id="btnOpen" value="打开"/>
-		<input id="btnSave" type="button" value="保存" /> 
+	<div style="float:left;margin-left:10px;height: 100vh;width: 46vw;overflow-x: scroll;">
+		<input id="btnExecute" type="button" value="Run"/>
+		<input id="btnNew" type="button" value="New" />
+		<input type="button" id="btnOpen" value="Open"/>
+		<input id="btnSave" type="button" value="Save As" /> 
 		<input type="file" id="fileLoadFrom" name="upload" style="display:none"/>
 		<pre id="code">
 		</pre>	
@@ -274,6 +274,8 @@
 		<block kind="block" type="confirm"></block>
 		<block kind="block" type="delay"></block>
 		<block kind="block" type="writelog"></block>
+		<block kind="block" type="getWindowWidth"></block>
+		<block kind="block" type="getWindowHeight"></block>
     </category>	
 	<category name="DateTime" categorystyle="colour_category">
 		<block kind="block" type="now"></block>
