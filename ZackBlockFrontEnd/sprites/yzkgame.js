@@ -375,6 +375,14 @@ function playSpriteAnimation(num, animateName)
 	}
 }
 
+function initCanvas(canvas)
+{
+	canvas.onmousemove=function(e)
+	{
+		console.log(e.clientX+","+e.clientY);
+	}
+}
+
 function rpDisplay(canvas)
 {
 	let width = canvas.width;
