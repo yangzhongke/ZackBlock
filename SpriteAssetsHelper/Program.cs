@@ -28,7 +28,7 @@ foreach(var spriteDir in spriteDirs)
         animation.Name = animationName;
         var files = Directory.EnumerateFiles(animationDir, "*.png")
             .Select(f=>Path.GetFileName(f))
-            .OrderBy(f=>f);
+            .OrderBy(f=>Convert.ToInt32(Path.GetFileNameWithoutExtension(f)));
         animation.FileNames = files.ToArray();
     }
     sprite.Animations = animations.ToArray();

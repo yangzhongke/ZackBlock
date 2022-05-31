@@ -315,7 +315,9 @@
   <script src="sprites/yzkgame.js"></script> 
   <script>
 	  window.onload=async function(){
-		await initGameAsync();//wait for loadSpriteManifestAsync
+	    var loading = layer.load(0, {shade: false,time: 20000});
+		
+		await initGameAsync();
 		await addScript("node_modules/blockly/blockly.min.js");
 		await addScript("scripts/csharp.js");
 		await addScript("scripts/csharp/colour.js");
@@ -331,6 +333,8 @@
 		await addScript("scripts/extrablocks/yzkgameblocks.js");
 		await addScript("scripts/main.js");
 		await addScript("scripts/FileSaver.js");
+		
+		layer.close(loading);
 	  }
   </script>
 </body>

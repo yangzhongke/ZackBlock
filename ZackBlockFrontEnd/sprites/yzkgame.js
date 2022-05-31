@@ -15,13 +15,26 @@ function getSpriteManifest()
 	return spriteManifest;
 }
 
-async function loadSpriteManifestAsync()
+async function initGameAsync()
 {
 	var res = await axios('sprites/manifest.json');	
 	spriteManifest = res.data;	
+	//预加载图片
+	spriteManifest.forEach(function(sprite){
+		var spriteName = sprite.name;
+		var animations = sprite.animations;
+		animations.forEach(function(ani){
+			var animationName = ani.name;
+			var fileNames = ani.fileNames;
+			fileNames.forEach(function(fn){
+				var imgSrc="sprites/"+spriteName+"/"+animationName+"/"+fn;
+				new Image().src = imgSrc;
+			});
+		});
+	});
 }
 
-async function initGameAsync()
+async function loadGameAsync(canvas)
 {	
 	setInterval(function(){
 		for(var i=0;i<spriteItems.length;i++)
@@ -36,7 +49,13 @@ async function initGameAsync()
 			item.currentFrameIndex = currentFrameIndex;//更换为下一张			
 		}
 	},200);	
-	await loadSpriteManifestAsync();
+	let renderFrame=function()
+	{		
+		//对于canvas绘制来讲，requestAnimationFrame比setInterval性能更好
+		window.requestAnimationFrame(renderFrame);
+		rpDisplay(canvas);
+	}
+	renderFrame();
 }
 
 function clearGame()
@@ -372,14 +391,6 @@ function playSpriteAnimation(num, animateName)
 			+animateName+"/"+imgName;
 		let img = _createImg(imgURL);
 		item.frameImages.push(img);
-	}
-}
-
-function initCanvas(canvas)
-{
-	canvas.onmousemove=function(e)
-	{
-		console.log(e.clientX+","+e.clientY);
 	}
 }
 
