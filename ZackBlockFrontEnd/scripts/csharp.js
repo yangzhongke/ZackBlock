@@ -115,7 +115,17 @@ const inferVarType = function (varName)
 		&&getVarName(b)==varName);
   if(setVarBlocks.length<=0)
   {
-	  return "dynamic";
+	  var countWithBlocks = allBlocks
+		.filter(b=>b.type=='controls_for'
+		&&getVarName(b)==varName);
+	  if(countWithBlocks.length<=0)
+	  {
+		  return "dynamic";
+	  }
+	  else
+	  {
+		  return 'int';
+	  }
   }
   //find the first variables_set 
   let setVarBlock = setVarBlocks[0];
