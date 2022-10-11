@@ -41,6 +41,17 @@ Blockly.CSharp.text.forceString_ = function(value) {
   if (Blockly.CSharp.text.forceString_.strRegExp.test(value)) {
     return [value, Blockly.CSharp.ORDER_ATOMIC];
   }
+  //if the variable is of type 'string', there is no need to Convert.ToString
+  var defVarType = findDefVarType(value);
+  if(defVarType&&defVarType=='string')
+  {
+	  return [value, Blockly.CSharp.ORDER_ATOMIC];
+  }
+  //if the value is a literal string, there is no need to Convert.ToString
+  if(new RegExp('^".*"$').test(value))
+  {
+	  return [value, Blockly.CSharp.ORDER_ATOMIC];
+  }
   return ['Convert.ToString(' + value + ')', Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
