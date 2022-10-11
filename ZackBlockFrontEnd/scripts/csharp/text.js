@@ -268,9 +268,9 @@ Blockly.CSharp['text_changeCase'] = function(block) {
     var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT', Blockly.CSharp.ORDER_MEMBER) || '""';
     code = argument0 + operator;
   } else {
-    if (!Blockly.CSharp.definitions_['Text_toTitleCase']) {
+    if (!Blockly.CSharp.definitions_['Text_ToTitleCase']) {
       // Title case is not a native CSharp function.  Define one.
-      var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_toTitleCase', Blockly.Generator.NAME_TYPE);
+      var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_ToTitleCase', Blockly.Generator.NAME_TYPE);
       Blockly.CSharp.text_changeCase.toTitleCase = functionName;
       var func = [];
       func.push('string ' + functionName + '(string str){');
@@ -282,7 +282,7 @@ Blockly.CSharp['text_changeCase'] = function(block) {
       func.push('  }');
       func.push('  return buf.ToString();');
       func.push('};');
-      Blockly.CSharp.definitions_['Text_toTitleCase'] = func.join('\n');
+      Blockly.CSharp.definitions_['Text_ToTitleCase'] = func.join('\n');
     }
     var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT',
         Blockly.CSharp.ORDER_NONE) || '""';
@@ -328,9 +328,9 @@ Blockly.CSharp['text_prompt'] = function(block) {
 	{
 		if(toNumber)
 		{
-			if (!Blockly.CSharp.definitions_['Text_promptInputNumber'])
+			if (!Blockly.CSharp.definitions_['Text_PromptInputNumber'])
 			{
-				var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_promptInputNumber', Blockly.Generator.NAME_TYPE);
+				var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_PromptInputNumber', Blockly.Generator.NAME_TYPE);
 				Blockly.CSharp.text_prompt.promptInputNumber = functionName;
 				var func = [];		
 				func.push('int ' + functionName + '(string msg){');
@@ -338,15 +338,15 @@ Blockly.CSharp['text_prompt'] = function(block) {
 				func.push('  var res = Console.ReadLine();');
 				func.push('  return int.Parse(res);');
 				func.push('};');
-				Blockly.CSharp.definitions_['Text_promptInputNumber'] = func.join('\n');
+				Blockly.CSharp.definitions_['Text_PromptInputNumber'] = func.join('\n');
 			}
 			code = Blockly.CSharp.text_prompt.promptInputNumber + '(' + msg + ')';		
 		}
 		else
 		{
-			if (!Blockly.CSharp.definitions_['Text_promptInputString'])
+			if (!Blockly.CSharp.definitions_['Text_PromptInputString'])
 			{
-				var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_promptInputString', Blockly.Generator.NAME_TYPE);
+				var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_PromptInputString', Blockly.Generator.NAME_TYPE);
 				Blockly.CSharp.text_prompt.promptInputString = functionName;
 				var func = [];
 				func.push('string ' + functionName + '(string msg){');
@@ -354,7 +354,7 @@ Blockly.CSharp['text_prompt'] = function(block) {
 				func.push('  var res = Console.ReadLine();');
 				func.push('  return res;');
 				func.push('};');	
-				Blockly.CSharp.definitions_['Text_promptInputString'] = func.join('\n');
+				Blockly.CSharp.definitions_['Text_PromptInputString'] = func.join('\n');
 			}
 			code = Blockly.CSharp.text_prompt.promptInputString + '(' + msg + ')';		
 		}		

@@ -47,6 +47,11 @@
   document.getElementById("btnOpen").onclick=function(){
 	  document.getElementById("fileLoadFrom").click();
   };  
+  document.getElementById("btnCopyCode").onclick=function(){
+	let code = Blockly.CSharp.workspaceToCode(Blockly.getMainWorkspace());
+	navigator.clipboard.writeText(code);
+	layer.msg('Code copied', {icon: 4});
+  };
   document.getElementById("fileLoadFrom").onchange=function(){
 	if(!this.files.length) return;
 	var inputFile = this;

@@ -6,6 +6,7 @@ Blockly.defineBlocksWithJsonArray([
       {
 		'type': 'field_variable',
 		'name': 'VAR',
+		'variable': 'i',
       },
       {
         "type": "field_dropdown",
@@ -21,14 +22,15 @@ Blockly.defineBlocksWithJsonArray([
         ]
       }	  
     ],
-	"output":"TypeDef",
-    "style": "text_blocks",
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "variable_blocks",
   }
 ]);
 
 Blockly.JavaScript['DefVarType'] = function(block) {
-  return ["", Blockly.JavaScript.ORDER_NONE];
+  return ""
 };
 Blockly.CSharp['DefVarType'] = function(block) {
-  return ["", Blockly.CSharp.ORDER_NONE];
+  return "";
 };
