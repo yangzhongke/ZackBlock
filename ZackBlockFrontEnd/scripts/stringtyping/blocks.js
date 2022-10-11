@@ -6,7 +6,6 @@ Blockly.defineBlocksWithJsonArray([
       {
 		'type': 'field_variable',
 		'name': 'VAR',
-		'variable': '%{BKY_VARIABLES_DEFAULT_NAME}',
       },
       {
         "type": "field_dropdown",

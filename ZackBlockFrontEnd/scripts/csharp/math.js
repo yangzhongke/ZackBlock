@@ -249,8 +249,8 @@ Blockly.CSharp['math_random_int'] = function(block) {
       Blockly.CSharp.ORDER_COMMA) || '0.0';
   var argument1 = Blockly.CSharp.valueToCode(this, 'TO',
       Blockly.CSharp.ORDER_COMMA) || '0.0';
-  var code='(int)('+argument0+' + (double)Random.Shared.Next(Math.Abs('
-	+argument0+' - '+argument1+')))';
+  var code=''+argument0+' + Random.Shared.Next(Math.Abs('
+	+argument0+' - '+argument1+'))';
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
 
