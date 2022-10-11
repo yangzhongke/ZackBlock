@@ -68,5 +68,29 @@
 	let code = Blockly.CSharp.workspaceToCode(workspace);
 	document.getElementById("code").innerText=code;
 	save();
-  });  
+  });
+
+	const createFlyout = function(workspace) {
+		let xmlList = [];
+		const button = document.createElement('button');
+		button.setAttribute('text', 'Create Typed Variable');
+		button.setAttribute('callbackKey', 'callbackName');
+		xmlList.push(button);
+
+		// This gets all the variables that the user creates and adds them to the
+		// flyout.
+		const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
+		xmlList = xmlList.concat(blockList);
+		return xmlList;
+	};  	
+	workspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout);
+	var types = ['int','string','bool','double','DateTime'];
+	var typesMap=[];
+	for(var i=0;i<types.length;i++)
+	{
+		var t = types[i];
+		typesMap.push([t,t]);
+	}
+	const typedVarModal = new TypedVariableModal(workspace, 'callbackName', typesMap);
+	typedVarModal.init();
 })();
