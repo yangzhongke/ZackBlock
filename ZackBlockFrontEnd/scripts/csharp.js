@@ -105,8 +105,34 @@ const getVarName=function(varSetBlock)
   return Blockly.CSharp.nameDB_.getName(varId,
 	Blockly.VARIABLE_CATEGORY_NAME);
 }
+
+const findDefVarType=function(varName)
+{
+	const allBlocks =Blockly.getMainWorkspace()
+		.getAllBlocks(false);
+	const defVarTypeBlocks = allBlocks
+		.filter(b=>b.type=='DefVarType'&&getVarName(b)==varName);
+	if(defVarTypeBlocks.length>0)
+	{
+		const block = defVarTypeBlocks[0];
+		const typeName = block.getField("TYPE").getValue();
+		return typeName;
+	}
+	else
+	{
+		return null;
+	}
+}
+
 const inferVarType = function (varName)
 {
+  //try to find DefVarType
+  var defVarType = findDefVarType(varName);
+  if(defVarType)
+  {
+	  return defVarType;
+  }
+  //if there is no DefVarType defined, then infer type from variables_set
   var allBlocks =Blockly.getMainWorkspace()
 		.getAllBlocks(false);
   
