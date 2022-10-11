@@ -268,10 +268,10 @@
       </block>
     </category>
     <sep></sep>
-    <!--<category name="Variables" categorystyle="variable_category" custom="VARIABLE">
-	</category>-->
-	<category name="Typed Var" categorystyle="logic_category" custom="CREATE_TYPED_VARIABLE"></category>
+    <category name="Variables" categorystyle="variable_category" custom="VARIABLE">
+	</category>
 	<category name="Tools" categorystyle="colour_category">
+	    <block kind="block" type="DefVarType"></block>
 		<block kind="block" type="convert"></block>
 		<block kind="block" type="confirm"></block>
 		<block kind="block" type="delay"></block>
@@ -333,7 +333,7 @@
 		await addScript("scripts/extrablocks/tools.js");
 		await addScript("scripts/extrablocks/date.js");
 		await addScript("scripts/extrablocks/yzkgameblocks.js");
-		await addScript("https://unpkg.com/@blockly/plugin-typed-variable-modal");
+		await addScript("scripts/stringtyping/blocks.js");
 		await addScript("scripts/main.js");
 		await addScript("scripts/FileSaver.js");		
 		layer.close(loading);
