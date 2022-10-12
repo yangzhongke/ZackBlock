@@ -50,6 +50,7 @@ Blockly.CSharp.addReservedWords(
      reservedWords+','+contextualKeywords+','+
     // Everything in the current environment (835 items in Chrome, 104 in Node).
     Object.getOwnPropertyNames(Blockly.utils.global).join(','));
+Blockly.CSharp.RESERVED_WORDS_=Blockly.CSharp.RESERVED_WORDS_.replace('name,','');//remove reserved words: name
 
 /**
  * Order of operation ENUMs.
@@ -124,6 +125,42 @@ const findDefVarType=function(varName)
 	}
 }
 
+function inferValueTypeFromBlock(block)
+{
+	let typeName = block.type;
+	//get the output type
+	const check = block.outputConnection.getCheck();
+	if(typeName=="text"||arrayEquals(check,['String']))
+	{
+	  return 'string';
+	}
+	else if(typeName=="math_number")
+	{
+	  const value = block.getFieldValue("NUM");
+	  return Number.isInteger(value)?'int':'double';
+	}
+	else if(typeName=="logic_boolean"||arrayEquals(check,['Boolean']))
+	{
+	  return 'bool';
+	}
+	else if(arrayEquals(check,['DateTime']))
+	{
+	  return 'DateTime';
+	}
+	else if(arrayEquals(check,['Number']))
+	{
+	  return 'double';
+	}
+	else if(arrayEquals(check,['Colour']))
+	{
+	  return 'System.Drawing.Color';
+	}
+	else
+	{
+		return null;
+	}
+}
+
 const inferVarType = function (varName)
 {
   //try to find DefVarType
@@ -157,38 +194,8 @@ const inferVarType = function (varName)
   let setVarBlock = setVarBlocks[0];
   let setValueBlock = setVarBlock.getInputTargetBlock("VALUE");
   if(!setValueBlock)return 'dynamic';
-  let typeName = setValueBlock.type;
-  //get the output type
-  const check = setValueBlock.outputConnection.getCheck();
-  if(typeName=="text"||arrayEquals(check,['String']))
-  {
-	  return 'string';
-  }
-  else if(typeName=="math_number")
-  {
-	  const value = setValueBlock.getFieldValue("NUM");
-	  return Number.isInteger(value)?'int':'double';
-  }
-  else if(typeName=="logic_boolean"||arrayEquals(check,['Boolean']))
-  {
-	  return 'bool';
-  }
-  else if(arrayEquals(check,['DateTime']))
-  {
-	  return 'DateTime';
-  }
-  else if(arrayEquals(check,['Number']))
-  {
-	  return 'double';
-  }
-  else if(arrayEquals(check,['Colour']))
-  {
-	  return 'System.Drawing.Color';
-  }
-  else
-  {
-	  return "dynamic";
-  }
+  const netType = inferValueTypeFromBlock(setValueBlock);
+  return netType?netType:'dynamic';
 }
 /**
  * List of outer-inner pairings that do NOT require parentheses.

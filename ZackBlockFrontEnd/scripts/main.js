@@ -70,9 +70,51 @@
   load();
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
+	checkBlocks(workspace);	  
 	let code = Blockly.CSharp.workspaceToCode(workspace);
 	document.getElementById("code").innerText=code;
 	save();
   });
   
 })();
+
+function findDefVarTypeBlock(workspace, varId)
+{
+	const allBlocks =workspace.getAllBlocks(false);
+	const defVarTypeBlocks = allBlocks
+		.filter(b=>b.type=='DefVarType'&&b.getField("VAR").getValue()==varId);
+	if(defVarTypeBlocks.length>0)
+	{
+		return defVarTypeBlocks[0];
+	}
+	else
+	{
+		return null;
+	}
+}
+
+function checkBlocks(workspace)
+{
+	const allBlocks =workspace.getAllBlocks(false);
+	
+	//begin: check variables_set
+	const varSetBlocks = allBlocks.filter(b=>b.type=='variables_set');
+	for(let i=0;i<varSetBlocks.length;i++)
+	{
+		const varSetBlock = varSetBlocks[i];
+		const varId = varSetBlock.getField("VAR").getValue();
+		const defVarTypeBlock=findDefVarTypeBlock(workspace,varId);
+		if(!defVarTypeBlock) continue;
+		const varDefinedType = defVarTypeBlock.getField("TYPE").getValue();//type of variable on left side
+		const valueBlock = varSetBlock.inputList[0].connection.targetBlock();
+		if(!valueBlock) continue;
+		const valueType = inferValueTypeFromBlock(valueBlock);
+		if(!varDefinedType||!valueType) continue;
+		if(varDefinedType!=valueType)
+		{
+			varSetBlock.inputList[0].connection.disconnect();
+			valueBlock.bumpNeighbours();
+		}
+	}
+	//end
+}
