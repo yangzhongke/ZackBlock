@@ -112,6 +112,7 @@ function checkBlocks(workspace)
 		if(!varDefinedType||!valueType) continue;
 		if(varDefinedType!=valueType)
 		{
+			//alert(varDefinedType+","+valueType);
 			varSetBlock.inputList[0].connection.disconnect();
 			valueBlock.bumpNeighbours();
 		}

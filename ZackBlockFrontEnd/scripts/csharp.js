@@ -7,6 +7,12 @@
 /**
  * @fileoverview Helper functions for generating JavaScript for blocks.
  * @author fraser@google.com (Neil Fraser)
+ * @author yangzhongke8@gmail.com (Zack Yang)
+ */
+ 
+ /**
+ * add strong-typing
+ * @author yangzhongke8@gmail.com (Zack Yang)
  */
 'use strict';
 
@@ -100,9 +106,9 @@ const arrayEquals=function (a, b)
         a.every((val, index) => val === b[index]);
 }
 
-const getVarName=function(varSetBlock)
+const getVarName=function(varBlock)
 {
-  const varId = varSetBlock.getField("VAR").getValue();
+  const varId = varBlock.getField("VAR").getValue();
   return Blockly.CSharp.nameDB_.getName(varId,
 	Blockly.VARIABLE_CATEGORY_NAME);
 }
@@ -125,6 +131,46 @@ const findDefVarType=function(varName)
 	}
 }
 
+function inferValueTypeFromMathArithBlock(block)
+{
+	var blockLeft = block.getInputTargetBlock("A");
+	var blockRight = block.getInputTargetBlock("B");
+	if(!blockLeft||!blockRight)
+	{
+		return null;
+	}
+	var typeLeft = inferValueTypeFromBlock(blockLeft);
+	var typeRight = inferValueTypeFromBlock(blockRight);
+	if(!typeLeft&&!typeRight)//if both are null
+	{
+		return null;
+	}
+	//only number values are valid for MathArithBlock
+	/*
+	else if(typeLeft=='string'||typeRight=='string')
+	{
+		return 'string';
+	}*/
+	else if(typeLeft=='double'||typeRight=='double')
+	{
+		return 'double';
+	}
+	else if(typeLeft=='int'&&typeRight=='int')
+	{
+		return 'int';
+	}
+	/*
+	else if(typeLeft=='bool'&&typeRight=='bool')
+	{
+		return 'bool';
+	}*/
+	else
+	{
+		console.warn("unknown types:"+typeLeft+","+typeRight);
+		return null;
+	}
+}
+
 function inferValueTypeFromBlock(block)
 {
 	let typeName = block.type;
@@ -142,6 +188,15 @@ function inferValueTypeFromBlock(block)
 	else if(typeName=="logic_boolean"||arrayEquals(check,['Boolean']))
 	{
 	  return 'bool';
+	}
+	else if(typeName=="variables_get")
+	{
+		const varName = getVarName(block);
+		return findDefVarType(varName);
+	}
+	else if(typeName=="math_arithmetic")//i+1,age+name,name+(age+1)
+	{
+		return inferValueTypeFromMathArithBlock(block);
 	}
 	else if(arrayEquals(check,['DateTime']))
 	{
