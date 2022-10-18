@@ -203,3 +203,41 @@ Blockly.CSharp['getWindowHeight'] = function(block) {
 	var code='GetWindowHeight()';
 	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "promptString",
+    "message0": "promptString(\"%1\")",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MESSAGE",
+		'check': 'String'
+      }  
+    ],
+	"output":"String",
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['promptString'] = function(block) {
+	var msg = Blockly.JavaScript.quote_(this.getFieldValue('MESSAGE'));
+	code = 'prompt(' + msg + ')';
+	return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['promptString'] = function(block) {
+	var msg = Blockly.CSharp.quote_(this.getFieldValue('MESSAGE'));
+	var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_PromptInputString', Blockly.Generator.NAME_TYPE);
+	if (!Blockly.CSharp.definitions_['Text_PromptInputString'])
+	{
+		var func = [];
+		func.push('string ' + functionName + '(string msg){');
+		func.push('  Console.WriteLine(msg);');
+		func.push('  var res = Console.ReadLine();');
+		func.push('  return res;');
+		func.push('};');	
+		Blockly.CSharp.definitions_['Text_PromptInputString'] = func.join('\n');
+	}
+	code = functionName+'(' + msg + ')';
+	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};

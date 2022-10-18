@@ -198,6 +198,11 @@ function inferValueTypeFromBlock(block)
 	{
 		return inferValueTypeFromMathArithBlock(block);
 	}
+	else if(typeName=='convert')
+	{
+		let type = block.getFieldValue('TYPE');
+		return type;
+	}
 	else if(arrayEquals(check,['DateTime']))
 	{
 	  return 'DateTime';
