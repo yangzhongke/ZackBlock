@@ -227,8 +227,8 @@ Blockly.JavaScript['promptString'] = function(block) {
 };
 Blockly.CSharp['promptString'] = function(block) {
 	var msg = Blockly.CSharp.quote_(this.getFieldValue('MESSAGE'));
-	var functionName = Blockly.CSharp.variableDB_.getDistinctName('Text_PromptInputString', Blockly.Generator.NAME_TYPE);
-	if (!Blockly.CSharp.definitions_['Text_PromptInputString'])
+	var functionName = Blockly.CSharp.variableDB_.getDistinctName('PromptString', Blockly.Generator.NAME_TYPE);
+	if (!Blockly.CSharp.definitions_['PromptString'])
 	{
 		var func = [];
 		func.push('string ' + functionName + '(string msg){');
@@ -236,7 +236,84 @@ Blockly.CSharp['promptString'] = function(block) {
 		func.push('  var res = Console.ReadLine();');
 		func.push('  return res;');
 		func.push('};');	
-		Blockly.CSharp.definitions_['Text_PromptInputString'] = func.join('\n');
+		Blockly.CSharp.definitions_['PromptString'] = func.join('\n');
+	}
+	code = functionName+'(' + msg + ')';
+	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};
+
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "promptInteger",
+    "message0": "promptInteger(\"%1\")",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MESSAGE",
+		'check': 'String'
+      }  
+    ],
+	"output":"Number",
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['promptInteger'] = function(block) {
+	var msg = Blockly.JavaScript.quote_(this.getFieldValue('MESSAGE'));
+	code = 'parseInt(prompt(' + msg + '))';
+	return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['promptInteger'] = function(block) {
+	var msg = Blockly.CSharp.quote_(this.getFieldValue('MESSAGE'));
+	var functionName = Blockly.CSharp.variableDB_.getDistinctName('PromptInteger', Blockly.Generator.NAME_TYPE);
+	if (!Blockly.CSharp.definitions_['PromptInteger'])
+	{
+		var func = [];
+		func.push('int ' + functionName + '(string msg){');
+		func.push('  Console.WriteLine(msg);');
+		func.push('  var res = Console.ReadLine();');
+		func.push('  return Convert.ToInt32(res);');
+		func.push('};');	
+		Blockly.CSharp.definitions_['PromptInteger'] = func.join('\n');
+	}
+	code = functionName+'(' + msg + ')';
+	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "promptDouble",
+    "message0": "promptDouble(\"%1\")",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MESSAGE",
+		'check': 'String'
+      }  
+    ],
+	"output":"Number",
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['promptDouble'] = function(block) {
+	var msg = Blockly.JavaScript.quote_(this.getFieldValue('MESSAGE'));
+	code = 'parseFloat(prompt(' + msg + '))';
+	return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['promptDouble'] = function(block) {
+	var msg = Blockly.CSharp.quote_(this.getFieldValue('MESSAGE'));
+	var functionName = Blockly.CSharp.variableDB_.getDistinctName('PromptDouble', Blockly.Generator.NAME_TYPE);
+	if (!Blockly.CSharp.definitions_['promptDouble'])
+	{
+		var func = [];
+		func.push('double ' + functionName + '(string msg){');
+		func.push('  Console.WriteLine(msg);');
+		func.push('  var res = Console.ReadLine();');
+		func.push('  return Convert.ToDouble(res);');
+		func.push('};');	
+		Blockly.CSharp.definitions_['promptDouble'] = func.join('\n');
 	}
 	code = functionName+'(' + msg + ')';
 	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];

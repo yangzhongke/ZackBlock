@@ -203,6 +203,10 @@ function inferValueTypeFromBlock(block)
 		let type = block.getFieldValue('TYPE');
 		return type;
 	}
+	else if(typeName=='promptInteger')
+	{
+		return 'int';
+	}
 	else if(arrayEquals(check,['DateTime']))
 	{
 	  return 'DateTime';
