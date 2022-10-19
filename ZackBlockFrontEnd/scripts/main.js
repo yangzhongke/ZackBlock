@@ -123,14 +123,20 @@ function checkBlocks(workspace)
 		const defVarTypeBlock=findDefVarTypeBlock(workspace,varId);
 		if(!defVarTypeBlock) continue;
 		const varDefinedType = defVarTypeBlock.getField("TYPE").getValue();//type of variable on left side
-		const valueBlock = varSetBlock.inputList[0].connection.targetBlock();
+		const inputConnection = varSetBlock.inputList[0].connection;
+		const valueBlock = inputConnection.targetBlock();
 		if(!valueBlock) continue;
 		const valueType = inferValueTypeFromBlock(valueBlock);
 		if(!varDefinedType||!valueType) continue;
 		if(!isAssignableFrom(varDefinedType,valueType))
 		{
-			varSetBlock.inputList[0].connection.disconnect();
+			inputConnection.disconnect();
 			valueBlock.bumpNeighbours();
+			//fix the bug, when a shadow block is disconnected.
+			if(valueBlock.isShadow())
+			{
+				valueBlock.dispose();
+			}
 		}
 	}
 	//end
