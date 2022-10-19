@@ -93,6 +93,23 @@ function findDefVarTypeBlock(workspace, varId)
 	}
 }
 
+//can varType be assigned from  valueType
+function isAssignableFrom(varType, valueType)
+{
+	if(varType==valueType)
+	{
+		return true;
+	}
+	else if(varType=='double'&&valueType=='int')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 function checkBlocks(workspace)
 {
 	const allBlocks =workspace.getAllBlocks(false);
@@ -110,9 +127,8 @@ function checkBlocks(workspace)
 		if(!valueBlock) continue;
 		const valueType = inferValueTypeFromBlock(valueBlock);
 		if(!varDefinedType||!valueType) continue;
-		if(varDefinedType!=valueType)
+		if(!isAssignableFrom(varDefinedType,valueType))
 		{
-			//alert(varDefinedType+","+valueType);
 			varSetBlock.inputList[0].connection.disconnect();
 			valueBlock.bumpNeighbours();
 		}

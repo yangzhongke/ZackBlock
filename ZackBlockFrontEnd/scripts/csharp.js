@@ -146,11 +146,6 @@ function inferValueTypeFromMathArithBlock(block)
 		return null;
 	}
 	//only number values are valid for MathArithBlock
-	/*
-	else if(typeLeft=='string'||typeRight=='string')
-	{
-		return 'string';
-	}*/
 	else if(typeLeft=='double'||typeRight=='double')
 	{
 		return 'double';
@@ -159,14 +154,8 @@ function inferValueTypeFromMathArithBlock(block)
 	{
 		return 'int';
 	}
-	/*
-	else if(typeLeft=='bool'&&typeRight=='bool')
-	{
-		return 'bool';
-	}*/
 	else
 	{
-		console.warn("unknown types:"+typeLeft+","+typeRight);
 		return null;
 	}
 }
