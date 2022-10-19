@@ -98,7 +98,7 @@ function checkBlocks(workspace)
 	const allBlocks =workspace.getAllBlocks(false);
 	
 	//begin: check variables_set
-	const varSetBlocks = allBlocks.filter(b=>b.type=='variables_set');
+	const varSetBlocks = allBlocks.filter(b=>b.type=='variables_set'||b.type=='math_change');
 	for(let i=0;i<varSetBlocks.length;i++)
 	{
 		const varSetBlock = varSetBlocks[i];
