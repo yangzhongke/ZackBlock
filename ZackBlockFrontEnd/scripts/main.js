@@ -70,6 +70,7 @@
   load();
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
+	Blockly.CSharp.init(workspace);//https://github.com/google/blockly/issues/4060
 	checkBlocks(workspace);	  
 	let code = Blockly.CSharp.workspaceToCode(workspace);
 	document.getElementById("code").innerText=code;
