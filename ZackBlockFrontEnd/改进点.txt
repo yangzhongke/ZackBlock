@@ -1,0 +1,7 @@
+0、把game去掉，这样加载速度就很快了，也不用addScript。把最新版部署到网站上，加上https证书。
+1、加入char类型和数组（int、string）类型的支持
+2、不要生成PromptInteger这样的方法。都用普通的代码快、不生成方法，让学生自己组装。
+3、count with当to中的数字是变量的时候，生成的代码太复杂，有了if判断等等。
+4、不弄Nuget包了，不提供PromptString等功能，改成常规的ReadLine（）等功能，让学生自己去用没有封装过的方法去写代码。
+5、把js、图片等文件放到cdn加速。
+6、网站启用https，这样copy code才能用

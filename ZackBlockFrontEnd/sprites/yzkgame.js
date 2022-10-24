@@ -19,19 +19,22 @@ async function initGameAsync()
 {
 	var res = await axios('sprites/manifest.json');	
 	spriteManifest = res.data;	
-	//预加载图片
-	spriteManifest.forEach(function(sprite){
-		var spriteName = sprite.name;
-		var animations = sprite.animations;
-		animations.forEach(function(ani){
-			var animationName = ani.name;
-			var fileNames = ani.fileNames;
-			fileNames.forEach(function(fn){
-				var imgSrc="sprites/"+spriteName+"/"+animationName+"/"+fn;
-				new Image().src = imgSrc;
+	setTimeout(function(){
+		//预加载图片
+		spriteManifest.forEach(function(sprite){
+			var spriteName = sprite.name;
+			var animations = sprite.animations;
+			animations.forEach(function(ani){
+				var animationName = ani.name;
+				var fileNames = ani.fileNames;
+				fileNames.forEach(function(fn){
+					var imgSrc="sprites/"+spriteName+"/"+animationName+"/"+fn;
+					new Image().src = imgSrc;
+				});
 			});
-		});
-	});
+		});		
+	},15000);
+
 }
 
 async function loadGameAsync(canvas,fps)
