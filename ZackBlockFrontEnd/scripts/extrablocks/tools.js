@@ -318,3 +318,21 @@ Blockly.CSharp['promptDouble'] = function(block) {
 	code = functionName+'(' + msg + ')';
 	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "readLine",
+    "message0": "readLine",
+	"output":"String",
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['readLine'] = function(block) {
+	const code = 'prompt()';
+	return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['readLine'] = function(block) {
+	const code = 'Console.ReadLine()';
+	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};

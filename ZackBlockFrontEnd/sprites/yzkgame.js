@@ -33,7 +33,7 @@ async function initGameAsync()
 				});
 			});
 		});		
-	},15000);
+	},10000);
 
 }
 
