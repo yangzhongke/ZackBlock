@@ -330,17 +330,7 @@ Blockly.CSharp.init = function(workspace) {
 	{
 		let varName = defvars[i];
 		let typeName = inferVarType(varName);
-		
-		let defaultValue = getTypeDefaultValue(typeName);
-		let statement;
-		if(defaultValue)
-		{
-			statement = typeName+" "+varName+"="+defaultValue;
-		}
-		else
-		{
-			statement = typeName+" "+varName;
-		}
+		let statement = typeName+" "+varName;
 		varDefs.push(statement);
 	}
 	let varDefCodes = varDefs.join(';\r\n')+';';
@@ -348,27 +338,6 @@ Blockly.CSharp.init = function(workspace) {
   }
   this.isInitialized = true;
 };
-
-function getTypeDefaultValue(typeName)
-{
-	switch(typeName)
-	{
-		case "number":
-		case "Number":
-		case "int":
-		case "float":
-		case "double":
-		case "long":
-		case "short":
-			return "0";
-		case "string":
-			return '""';	
-		case "bool":
-			return "false";
-		default:
-			return null;
-	}
-}
 
 /**
  * Prepend the generated code with the variable definitions.

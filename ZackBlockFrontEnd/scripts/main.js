@@ -155,7 +155,7 @@ function checkBlocks(workspace)
 function checkBeforeRun(workspace)
 {
 	const errors = [];
-	const allBlocks =workspace.getAllBlocks(false);
+	const allBlocks =workspace.getAllBlocks(true);
 	
 	//begin: check duplicated variables declarations.
 	const varDefTypeData=[];//key: varId, value:occurrence count
@@ -183,5 +183,35 @@ function checkBeforeRun(workspace)
 		}	
 	}
 	//end	
+	
+	//begin: check uninitialized variables before using
+	const varGetBlocks = allBlocks.filter(b=>b.type=='variables_get');
+	for(let i=0;i<varGetBlocks.length;i++)
+	{
+		const varGetBlock = varGetBlocks[i];
+		const varId = varGetBlock.getField("VAR").getValue();
+		if(!findVarSetBlockBefore(allBlocks,varId,varGetBlock))
+		{
+			const varName = varGetBlock.getField("VAR").variable_.name;
+			errors.push(varName+" is used before initialization");
+		}
+	}
+	//end
 	return errors;
+}
+
+//find the first 'variables_get' block for variable 'varId', before the block 'locationBlock'
+function findVarSetBlockBefore(allBlocks, varId,locationBlock)
+{
+	for(let i=0;i<allBlocks.length;i++)
+	{
+		let block = allBlocks[i];
+		if(block==locationBlock)break;
+		if(block.type=="variables_set"&&
+			block.getField("VAR").getValue()==varId)
+		{
+			return block;
+		}
+	}
+	return null;
 }
