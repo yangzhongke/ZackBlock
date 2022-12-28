@@ -16,6 +16,9 @@ Blockly.defineBlocksWithJsonArray([
           ["string", "string"],
           ["bool", "bool"],
           ["double", "double"],
+		  ["long", "long"],
+		  ["float", "float"],
+		  ["byte", "byte"],
 		  ["DateTime", "DateTime"]
         ]
       }	  

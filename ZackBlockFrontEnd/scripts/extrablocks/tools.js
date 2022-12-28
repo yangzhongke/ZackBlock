@@ -16,6 +16,8 @@ Blockly.defineBlocksWithJsonArray([
           ["bool", "bool"],
           ["double", "double"],
           ["long", "long"],
+		  ["float", "float"],
+		  ["byte", "byte"],
 		  ["DateTime", "DateTime"]
         ]
       }	  
@@ -32,16 +34,17 @@ Blockly.JavaScript['convert'] = function(block) {
   var code;
   switch(type)
   {
+	case "long":
 	case "int":
+	case "byte":
 		code='parseInt('+argument0+')';break;
 	case "string":
 		code="''+"+argument0;break;  
 	case "bool":
-		code='Boolean('+argument0+')';break;     		
+		code='Boolean('+argument0+')';break;     
+	case "float":
 	case "double":
-		code='parseFloat('+argument0+')';break;		
-	case "long":
-		code='parseInt('+argument0+')';break;			
+		code='parseFloat('+argument0+')';break;					
 	case "DateTime":
 		code='Date.parse('+argument0+')';break;	
 	default:
@@ -56,12 +59,16 @@ Blockly.CSharp['convert'] = function(block) {
   var code;
   switch(type)
   {
+	case "byte":
+		code='Convert.ToByte('+argument0+')';break;
 	case "int":
 		code='Convert.ToInt32('+argument0+')';break;
 	case "string":
 		code='Convert.ToString('+argument0+')';break; 
 	case "bool":
-		code='Convert.ToBoolean('+argument0+')';break;     		
+		code='Convert.ToBoolean('+argument0+')';break;     
+	case "float":
+		code='float.Parse('+argument0+')';break;   
 	case "double":
 		code='Convert.ToDouble('+argument0+')';break;		
 	case "long":

@@ -110,9 +110,25 @@ function isAssignableFrom(varType, valueType)
 	{
 		return true;
 	}
-	else if(varType=='double'&&valueType=='int')
+	else if(valueType=='int')
 	{
-		return true;
+		return varType=='double'||varType=='float'||varType=='long';
+	}
+	else if(valueType=='double')
+	{
+		return false;
+	}
+	else if(valueType=='long')
+	{
+		return false;
+	}
+	else if(valueType=='float')
+	{
+		return varType=='double';
+	}
+	else if(valueType=='byte')
+	{
+		return varType=='int'||varType=='double'||varType=='long'||varType=='float';
 	}
 	else
 	{

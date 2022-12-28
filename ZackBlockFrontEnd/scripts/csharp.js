@@ -172,6 +172,17 @@ function inferValueTypeFromBlock(block)
 	else if(typeName=="math_number")
 	{
 	  const value = block.getFieldValue("NUM");
+	  if(Number.isInteger(value))
+	  {
+		  const numValue = parseInt(value);
+		  if(numValue>=0&&numValue<=255) return "byte";
+		  if(numValue>=	-2147483648&&numValue<=2147483647) return "int";
+		  return "long";
+	  }
+	  else
+	  {
+		  return "double";
+	  }
 	  return Number.isInteger(value)?'int':'double';
 	}
 	else if(typeName=="logic_boolean"||arrayEquals(check,['Boolean']))
