@@ -343,3 +343,55 @@ Blockly.CSharp['readLine'] = function(block) {
 	const code = 'Console.ReadLine()';
 	return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "SingleLineComment",
+    "message0": "//%1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MESSAGE",
+		'check': 'String',
+      }  
+    ],
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "variable_blocks",
+  }
+]);
+
+Blockly.JavaScript['SingleLineComment'] = function(block) {
+	var msg = this.getFieldValue('MESSAGE');
+	return'//'+msg+'\r\n';
+};
+Blockly.CSharp['SingleLineComment'] = function(block) {
+	var msg = this.getFieldValue('MESSAGE');
+	return '//'+msg+'\r\n';
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "MultiLineComment",
+    "message0": "/*%1*/",
+    "args0": [
+      {
+        "type": "field_multilinetext",
+        "name": "MESSAGE",
+		'check': 'String',
+      }  
+    ],
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "variable_blocks",
+  }
+]);
+
+Blockly.JavaScript['MultiLineComment'] = function(block) {
+	var msg = this.getFieldValue('MESSAGE');
+	return'/*'+msg+'*/\r\n';
+};
+Blockly.CSharp['MultiLineComment'] = function(block) {
+	var msg = this.getFieldValue('MESSAGE');
+	return '/*'+msg+'*/\r\n';
+};
