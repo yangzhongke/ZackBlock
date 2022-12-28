@@ -159,14 +159,7 @@
           </shadow>
         </value>
       </block>
-	  <!--
-      <block type="text_prompt">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>-->
+	  <block kind="block" type="readLine"></block>
       <label text="String function:" web-class="ioLabel"></label>	  
       <block type="text"></block>
       <block type="text_multiline"></block>
@@ -231,6 +224,48 @@
         </value>
       </block>  
     </category>
+    <category name="Variables" categorystyle="variable_category" custom="VARIABLE">
+	</category>
+	<category name="Tools" categorystyle="colour_category">
+	    <block kind="block" type="DefVarType"></block>
+		<block kind="block" type="convert"></block>
+		<block kind="block" type="CastAs"></block>
+		<block kind="block" type="SingleLineComment"></block>
+		<block kind="block" type="MultiLineComment"></block>
+    </category>	
+    <sep></sep>	
+	<category name="DateTime" categorystyle="colour_category">
+		<block kind="block" type="now"></block>
+		<block kind="block" type="today"></block>
+		<block kind="block" type="get_datetime_part"></block>
+		<block kind="block" type="create_datetime_from"></block>
+		<block kind="block" type="create_date_from"></block>
+    </category>
+	<category name="Game Text" categorystyle="colour_category">
+		<block kind="block" type="createText"></block>
+		<block kind="block" type="setTextPosition"></block>
+		<block kind="block" type="setText"></block>
+		<block kind="block" type="setTextColor"></block>
+		<block kind="block" type="setTextFont"></block>
+		<block kind="block" type="showText"></block>		
+		<block kind="block" type="hideText"></block>
+    </category>	
+	<category name="Game Image" categorystyle="colour_category">
+		<block kind="block" type="createImage"></block>
+		<block kind="block" type="setImagePosition"></block>
+		<block kind="block" type="setImageURL"></block>
+		<block kind="block" type="showImage"></block>		
+		<block kind="block" type="hideImage"></block>
+    </category>	
+	<category name="Game Sprite" categorystyle="colour_category">
+		<block kind="block" type="createSprite"></block>
+		<block kind="block" type="setSpritePosition"></block>
+		<block kind="block" type="playSpriteAnimation"></block>
+		<block kind="block" type="setSpriteXFlipped"></block>
+		<block kind="block" type="setSpriteYFlipped"></block>
+		<block kind="block" type="showSprite"></block>		
+		<block kind="block" type="hideSprite"></block>
+    </category>	
     <category name="Colour" categorystyle="colour_category">
       <block type="colour_picker"></block>
       <block type="colour_random"></block>
@@ -268,17 +303,8 @@
           </shadow>
         </value>
       </block>
-    </category>
-    <sep></sep>
-    <category name="Variables" categorystyle="variable_category" custom="VARIABLE">
-	</category>
-	<category name="Tools" categorystyle="colour_category">
-	    <block kind="block" type="DefVarType"></block>
-		<block kind="block" type="convert"></block>
-		<block kind="block" type="CastAs"></block>
-		<block kind="block" type="readLine"></block>
-		<block kind="block" type="SingleLineComment"></block>
-		<block kind="block" type="MultiLineComment"></block>
+    </category>	
+	<category name="Extra" categorystyle="colour_category">
 		<block kind="block" type="promptString"></block>
 		<block kind="block" type="promptInteger"></block>
 		<block kind="block" type="promptDouble"></block>		
@@ -286,42 +312,9 @@
 		<block kind="block" type="delay"></block>
 		<block kind="block" type="writelog"></block>
 		<block kind="block" type="getWindowWidth"></block>
-		<block kind="block" type="getWindowHeight"></block>
-    </category>	
-	<category name="DateTime" categorystyle="colour_category">
-		<block kind="block" type="now"></block>
-		<block kind="block" type="today"></block>
-		<block kind="block" type="get_datetime_part"></block>
-		<block kind="block" type="create_datetime_from"></block>
-		<block kind="block" type="create_date_from"></block>
-    </category>
-	<category name="Game Text" categorystyle="colour_category">
-		<block kind="block" type="createText"></block>
-		<block kind="block" type="setTextPosition"></block>
-		<block kind="block" type="setText"></block>
-		<block kind="block" type="setTextColor"></block>
-		<block kind="block" type="setTextFont"></block>
-		<block kind="block" type="showText"></block>		
-		<block kind="block" type="hideText"></block>
-    </category>	
-	<category name="Game Image" categorystyle="colour_category">
-		<block kind="block" type="createImage"></block>
-		<block kind="block" type="setImagePosition"></block>
-		<block kind="block" type="setImageURL"></block>
-		<block kind="block" type="showImage"></block>		
-		<block kind="block" type="hideImage"></block>
-    </category>	
-	<category name="Game Sprite" categorystyle="colour_category">
-		<block kind="block" type="createSprite"></block>
-		<block kind="block" type="setSpritePosition"></block>
-		<block kind="block" type="playSpriteAnimation"></block>
-		<block kind="block" type="setSpriteXFlipped"></block>
-		<block kind="block" type="setSpriteYFlipped"></block>
-		<block kind="block" type="showSprite"></block>		
-		<block kind="block" type="hideSprite"></block>
-    </category>		
+		<block kind="block" type="getWindowHeight"></block>	
+	</category>
   </xml>	
-  <!--<script src="node_modules/axios/dist/axios.min.js"></script>-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" ></script>  
   <script src="scripts/common.js"></script> 
   <script src="sprites/yzkgame.js"></script> 
