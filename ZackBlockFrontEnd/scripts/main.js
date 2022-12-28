@@ -21,7 +21,16 @@
 	  }	  
   }
   var execute=function(){
-	let code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+	let workspace = Blockly.getMainWorkspace();
+	Blockly.CSharp.init(workspace);
+	let errors =checkBeforeRun(workspace);
+	if(errors.length>0)
+	{
+		alert("Error!\r\n"+errors.join('\r\n'));
+		//layer.msg(errors.join(), {icon: 2});
+		return;
+	}	
+	let code = Blockly.JavaScript.workspaceToCode(workspace);
 	let fullCode="try{clearGame();"+code+"}catch(err){console.error(err);alert(err)}";
 	console.log(code);
 	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
@@ -71,7 +80,7 @@
   var workspace = Blockly.getMainWorkspace();
   workspace.addChangeListener(function(){
 	Blockly.CSharp.init(workspace);//https://github.com/google/blockly/issues/4060
-	checkBlocks(workspace);	  
+	checkBlocks(workspace);
 	let code = Blockly.CSharp.workspaceToCode(workspace);
 	document.getElementById("code").innerText=code;
 	save();
@@ -141,4 +150,38 @@ function checkBlocks(workspace)
 		}
 	}
 	//end
+}
+
+function checkBeforeRun(workspace)
+{
+	const errors = [];
+	const allBlocks =workspace.getAllBlocks(false);
+	
+	//begin: check duplicated variables declarations.
+	const varDefTypeData=[];//key: varId, value:occurrence count
+	const varDefTypeBlocks = allBlocks.filter(b=>b.type=='DefVarType');
+	for(let i=0;i<varDefTypeBlocks.length;i++)
+	{
+		const varDefTypeBlock = varDefTypeBlocks[i];
+		const varName = varDefTypeBlock.getField("VAR").variable_.name;
+		if(varDefTypeData[varName])
+		{
+			varDefTypeData[varName]=(varDefTypeData[varName]+1);
+		}
+		else
+		{
+			varDefTypeData[varName]= 1;
+		}
+	}
+	for(let varName in varDefTypeData)
+	{
+		let count = varDefTypeData[varName];
+		if(count>1)
+		{
+			errors.push(varName+": Multiple("+count
+				+") 'Define variable type' block. Count:");
+		}	
+	}
+	//end	
+	return errors;
 }
