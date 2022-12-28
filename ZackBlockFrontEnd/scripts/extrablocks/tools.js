@@ -83,6 +83,46 @@ Blockly.CSharp['convert'] = function(block) {
 
 Blockly.defineBlocksWithJsonArray([
   {
+    "type": "CastAs",
+    "message0": "Cast %1 as %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["int", "int"],
+          ["double", "double"],
+          ["long", "long"],
+		  ["float", "float"],
+		  ["byte", "byte"]
+        ]
+      }	  
+    ],
+	"output":null,
+    "style": "text_blocks",
+  }
+]);
+
+Blockly.JavaScript['CastAs'] = function(block) {
+  let argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
+      Blockly.JavaScript.ORDER_MODULUS);
+  let code=argument0;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+Blockly.CSharp['CastAs'] = function(block) {
+  let type = block.getFieldValue('TYPE');
+  var argument0 = Blockly.CSharp.valueToCode(block, 'VALUE',
+      Blockly.CSharp.ORDER_MODULUS);
+  let code='('+type+')'+argument0;
+  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
     "type": "confirm",
     "message0": "confirm(\"%1\")",
     "args0": [
