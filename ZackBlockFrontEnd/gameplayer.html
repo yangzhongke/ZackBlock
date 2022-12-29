@@ -43,6 +43,11 @@
 		var code = e.data;
 		runCode(code);		
 	}
+	function closeMe()
+	{
+		const index = parent.layer.getFrameIndex(window.name);
+		parent.layer.close(index);
+	}
 	function runCode(code)
 	{
 		try
@@ -53,7 +58,11 @@
 		{
 			console.error(err);
 			alert("Error: "+err);
-		}	
+		}
+		finally
+		{
+			closeMe();//close player when application exited
+		}
 	}
   </script>
 </body>
