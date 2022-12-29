@@ -79,7 +79,11 @@
           </shadow>
         </value>
       </block>
-      <block type="math_single">
+      <block type="IncOp">
+	  </block>
+      <block type="DecOp">
+	  </block>	  
+	  <block type="math_single">
         <value name="NUM">
           <shadow type="math_number">
             <field name="NUM">9</field>
@@ -338,6 +342,7 @@
 		await addScript("scripts/extrablocks/date.js",false);
 		await addScript("scripts/extrablocks/yzkgameblocks.js",false);
 		await addScript("scripts/strongtyping/blocks.js",false);
+		await addScript("scripts/extrablocks/extra_math.js",false);
 		await addScript("scripts/main.js",false);
 		await addScript("scripts/FileSaver.js",true);		
 		layer.close(loading);

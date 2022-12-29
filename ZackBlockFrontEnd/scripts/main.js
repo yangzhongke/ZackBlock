@@ -181,6 +181,7 @@ function checkBeforeRun(workspace)
 	for(let i=0;i<varDefTypeBlocks.length;i++)
 	{
 		const varDefTypeBlock = varDefTypeBlocks[i];
+		//original variable name is more reasonable than nameDB_.getName() for message
 		const varName = varDefTypeBlock.getField("VAR").variable_.name;
 		if(varDefTypeData[varName])
 		{
@@ -197,7 +198,7 @@ function checkBeforeRun(workspace)
 		if(count>1)
 		{
 			errors.push(varName+": Multiple("+count
-				+") 'Define variable type' block. Count:");
+				+") 'Define variable type' block. Count:"+count);
 		}	
 	}
 	//end	
