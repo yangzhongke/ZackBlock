@@ -31,7 +31,9 @@
 		return;
 	}	
 	let code = Blockly.JavaScript.workspaceToCode(workspace);
-	let fullCode="try{clearGame();"+code+"}catch(err){console.error(err);alert(err)}";
+	code+="\r\ncloseMe();";//close player when application exited
+
+	let fullCode="try{clearGame();"+code+"}catch(err){console.error(err);alert(err);}";
 	console.log(code);
 	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
 	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),

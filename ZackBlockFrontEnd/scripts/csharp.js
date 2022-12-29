@@ -169,6 +169,10 @@ function inferValueTypeFromBlock(block)
 	{
 	  return 'string';
 	}
+	else if(typeName=="math_random_int")
+	{
+		return 'int';
+	}
 	else if(typeName=="math_number")
 	{
 	  const value = block.getFieldValue("NUM");
