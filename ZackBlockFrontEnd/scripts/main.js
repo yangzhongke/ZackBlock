@@ -197,8 +197,16 @@ function checkBeforeRun(workspace)
 		let count = varDefTypeData[varName];
 		if(count>1)
 		{
-			errors.push(varName+": Multiple("+count
-				+") 'Define variable type' block. Count:"+count);
+			if(isChineseUser())
+			{
+				errors.push("多次("+count
+				+") 定义了变量"+varName);
+			}
+			else
+			{
+				errors.push("Multiple("+count
+				+") 'Define variable type' block for variable:"+varName);
+			}			
 		}	
 	}
 	//end	
@@ -212,7 +220,14 @@ function checkBeforeRun(workspace)
 		if(!findVarSetBlockBefore(allBlocks,varId,varGetBlock))
 		{
 			const varName = varGetBlock.getField("VAR").variable_.name;
-			errors.push(varName+" is used before initialization");
+			if(isChineseUser())
+			{
+				errors.push(varName+" 变量在使用前没有被初始化");
+			}
+			else
+			{
+				errors.push(varName+" is used before initialization");
+			}			
 		}
 	}
 	//end

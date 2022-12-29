@@ -14,3 +14,9 @@ function addScript(src,useCache)
 	document.body.appendChild( s );	
 	return new Promise(r => s.onload=r);		  
 }
+
+function isChineseUser()
+{
+	const lang = navigator.languages[0];
+	return lang=="zh-CN"||lang=="zh";
+}
