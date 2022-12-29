@@ -166,8 +166,8 @@
 	  <block kind="block" type="readLine"></block>
       <block type="text"></block>
       <block type="text_multiline"></block>
-      <label text="String function:" web-class="ioLabel"></label>	  	  
       <block type="text_join"></block>
+	  <!--
       <block type="text_append">
         <value name="TEXT">
           <shadow type="text"></shadow>
@@ -226,7 +226,8 @@
             <field name="TEXT">abc</field>
           </shadow>
         </value>
-      </block>  
+      </block>
+	  -->
     </category>
     <category name="Variables" categorystyle="variable_category" custom="VARIABLE">
 	</category>
@@ -335,7 +336,7 @@
 		await addScript("scripts/csharp/loops.js",true);
 		await addScript("scripts/csharp/math.js",true);
 		await addScript("scripts/csharp/procedures.js",true);
-		await addScript("scripts/csharp/text.js",true);
+		await addScript("scripts/csharp/text.js",false);
 		await addScript("scripts/csharp/variables.js",true);
 		await addScript("scripts/csharp/variables_dynamic.js",true);
 		await addScript("scripts/extrablocks/tools.js",false);

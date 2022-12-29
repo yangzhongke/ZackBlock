@@ -29,62 +29,29 @@ Blockly.CSharp['text_multiline'] = function(block) {
   return [code, order];
 };
 
-/**
- * Enclose the provided value in 'String(...)' function.
- * Leave string literals alone.
- * @param {string} value Code evaluating to a value.
- * @return {[string, number]} Array containing code evaluating to a string and
- *    the order of the returned code.
- * @private
- */
-Blockly.CSharp.text.forceString_ = function(value) {
-  if (Blockly.CSharp.text.forceString_.strRegExp.test(value)) {
-    return [value, Blockly.CSharp.ORDER_ATOMIC];
-  }
-  //if the variable is of type 'string', there is no need to Convert.ToString
-  var defVarType = findDefVarType(value);
-  if(defVarType&&defVarType=='string')
-  {
-	  return [value, Blockly.CSharp.ORDER_ATOMIC];
-  }
-  //if the value is a literal string, there is no need to Convert.ToString
-  if(new RegExp('^".*"$').test(value))
-  {
-	  return [value, Blockly.CSharp.ORDER_ATOMIC];
-  }
-  return ['Convert.ToString(' + value + ')', Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
-
-/**
- * Regular expression to detect a single-quoted string literal.
- */
-Blockly.CSharp.text.forceString_.strRegExp = /^\s*'([^']|\\')*'\s*$/;
-
 Blockly.CSharp['text_join'] = function(block) {
   // Create a string made up of any number of elements of any type.
   switch (block.itemCount_) {
     case 0:
-      return ['\'\'', Blockly.CSharp.ORDER_ATOMIC];
+      return ['""', Blockly.CSharp.ORDER_ATOMIC];
     case 1:
-      var element = Blockly.CSharp.valueToCode(block, 'ADD0',
-          Blockly.CSharp.ORDER_NONE) || '\'\'';
-      var codeAndOrder = Blockly.CSharp.text.forceString_(element);
-      return codeAndOrder;
+      var code = Blockly.CSharp.valueToCode(block, 'ADD0',
+          Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
+	  return [code, Blockly.CSharp.ORDER_ATOMIC];
     case 2:
       var element0 = Blockly.CSharp.valueToCode(block, 'ADD0',
-          Blockly.CSharp.ORDER_NONE) || '\'\'';
+          Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
       var element1 = Blockly.CSharp.valueToCode(block, 'ADD1',
-          Blockly.CSharp.ORDER_NONE) || '\'\'';
-      var code = Blockly.CSharp.text.forceString_(element0)[0] +
-          ' + ' + Blockly.CSharp.text.forceString_(element1)[0];
+          Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
+      var code = element0 + ' + ' + element1;
       return [code, Blockly.CSharp.ORDER_ADDITION];
     default:
       var elements = new Array(block.itemCount_);
       for (var i = 0; i < block.itemCount_; i++) {
         elements[i] = Blockly.CSharp.valueToCode(block, 'ADD' + i,
-            Blockly.CSharp.ORDER_NONE) || '\'\'';
+            Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
       }
-      var code = '[' + elements.join(',') + '].join(\'\')';
+      var code = elements.join('+');
       return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
   }
 };
@@ -94,29 +61,29 @@ Blockly.CSharp['text_append'] = function(block) {
   var varName = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   var value = Blockly.CSharp.valueToCode(block, 'TEXT',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
-  var code = varName + ' += ' +
-      Blockly.CSharp.text.forceString_(value)[0] + ';\n';
+      Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
+	  
+  var code = varName + ' += ' +value[0] + ';\n';
   return code;
 };
 
 Blockly.CSharp['text_length'] = function(block) {
   // String or array length.
   var text = Blockly.CSharp.valueToCode(block, 'VALUE',
-      Blockly.CSharp.ORDER_MEMBER) || '\'\'';
+      Blockly.CSharp.ORDER_MEMBER) || ['""', Blockly.CSharp.ORDER_ATOMIC];
   return [text + '.Length', Blockly.CSharp.ORDER_MEMBER];
 };
 
 Blockly.CSharp['text_isEmpty'] = function(block) {
-  var argument0 = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_MEMBER) || '""';
+  var argument0 = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_MEMBER) || ['""', Blockly.CSharp.ORDER_ATOMIC];
   return [argument0 + '.Length == 0', Blockly.CSharp.ORDER_EQUALITY];
 };
 
 Blockly.CSharp['text_indexOf'] = function(block) {
   var operator = this.getFieldValue('END') == 'FIRST' ?
       'IndexOf' : 'LastIndexOf';
-  var argument0 = Blockly.CSharp.valueToCode(this, 'FIND', Blockly.CSharp.ORDER_NONE) || '""';
-  var argument1 = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_MEMBER) || '""';
+  var argument0 = Blockly.CSharp.valueToCode(this, 'FIND', Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
+  var argument1 = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_MEMBER) || ['""', Blockly.CSharp.ORDER_ATOMIC];
   var code = argument1 + '.' + operator + '(' + argument0 + ')';
   return [code, Blockly.CSharp.ORDER_MEMBER];
 };
@@ -126,7 +93,7 @@ Blockly.CSharp['text_charAt'] = function(block) {
   var at = Blockly.CSharp.valueToCode(this, 'AT',
       Blockly.CSharp.ORDER_UNARY_NEGATION) || '1';
   var text = Blockly.CSharp.valueToCode(this, 'VALUE',
-      Blockly.CSharp.ORDER_MEMBER) || '""';
+      Blockly.CSharp.ORDER_MEMBER);
 
   // Blockly uses one-based indicies.
 
@@ -191,7 +158,7 @@ Blockly.CSharp['text_getSubstring'] = function(block) {
   var textOrder = requiresLengthCall ? Blockly.CSharp.ORDER_MEMBER :
       Blockly.CSharp.ORDER_NONE;
   var text = Blockly.CSharp.valueToCode(block, 'STRING',
-      textOrder) || '\'\'';
+      textOrder) || '""';
   if (where1 == 'FIRST' && where2 == 'LAST') {
     var code = text;
     return [code, Blockly.CSharp.ORDER_NONE];
@@ -285,7 +252,7 @@ Blockly.CSharp['text_changeCase'] = function(block) {
       Blockly.CSharp.definitions_['Text_ToTitleCase'] = func.join('\n');
     }
     var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT',
-        Blockly.CSharp.ORDER_NONE) || '""';
+        Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
     code = Blockly.CSharp.text_changeCase.toTitleCase + '(' + argument0 + ')';
   }
   return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
@@ -315,7 +282,7 @@ Blockly.CSharp.text_trim.OPERATORS = {
 Blockly.CSharp['text_print'] = function(block) {
   // Print statement.
   var msg = Blockly.CSharp.valueToCode(block, 'TEXT',
-      Blockly.CSharp.ORDER_NONE) || '\'\'';
+      Blockly.CSharp.ORDER_NONE) || ['""', Blockly.CSharp.ORDER_ATOMIC];
   return 'Console.WriteLine(' + msg + ');\n';
 };
 

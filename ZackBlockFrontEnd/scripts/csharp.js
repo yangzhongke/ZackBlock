@@ -131,6 +131,16 @@ const findDefVarType=function(varName)
 	}
 }
 
+//whether the connected input with name='name' is of type 'string'
+function isStringInput(block,name)
+{
+	const inputConnection = block.getInput(name).connection;
+	if(!inputConnection)return false;
+	const valueBlock = inputConnection.targetBlock();
+	const valueType = inferValueTypeFromBlock(valueBlock);
+	return valueType=='string'||valueType=='String';
+}
+
 function inferValueTypeFromMathArithBlock(block)
 {
 	var blockLeft = block.getInputTargetBlock("A");
