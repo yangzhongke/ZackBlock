@@ -228,6 +228,12 @@ function findVarSetBlockBefore(allBlocks, varId,locationBlock)
 		{
 			return block;
 		}
+		//count with
+		if(block.type=="controls_for"&&
+			block.getField("VAR").getValue()==varId)
+		{
+			return block;
+		}
 	}
 	return null;
 }
