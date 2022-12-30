@@ -31,7 +31,7 @@ public static class MainClass
         references.Add("/_framework/mscorlib.dll");
         references.Add("/_framework/System.Private.CoreLib.dll");
         //references.Add("/_framework/System.Console.dll");
-        references.Add("/_framework/WebCSC.dll");
+        references.Add("/_framework/WebCSC.dll");//Use WebCSC.dll to replace System.Console.dll, so that Console.WriteLine() and Console.ReadLine() have browser-end behaviors.
         return references;
     }
 
