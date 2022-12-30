@@ -19,7 +19,7 @@
 </head>
 <body>
 	<div>
-		<div style="position:absolute;top:0;left:0;z-index:99999;" id="loadingDiv">Loading</div>
+		<div id="loadingDiv"><img src="images/loading.gif" /></div>
 		<div>
 			<canvas id="canvas" style="position:absolute;z-index:-1;">
 		</div>
@@ -40,11 +40,11 @@
 	async function onRecvMessage(e)
 	{	
 		await initGameAsync();
-		await loadGameAsync(canvas);
-		document.getElementById("loadingDiv").style.display="none";
+		await loadGameAsync(canvas);		
 		var code = e.data;
 		await runCSharpCode(code);
 		//await runJSCode(code);
+		document.getElementById("loadingDiv").style.display="none";		
 	}
 	function closeMe()
 	{
@@ -57,7 +57,7 @@
 		try
 		{			
 			clearGame();
-			await webcsc.ensureStarted();
+			await webcsc.ensureStarted();			
 			await webcsc.run(code);
 			closeMe();
 		}
