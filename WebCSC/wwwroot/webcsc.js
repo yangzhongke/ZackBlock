@@ -1,5 +1,11 @@
 ﻿(function () {
     window.webcsc = {
+        started: false,
+        ensureStarted: async function () {
+            if (this.started) return;
+            this.start();
+            this.started = true;
+        },
         start: async function () {
             await Blazor.start();
         },

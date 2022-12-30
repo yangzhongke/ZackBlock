@@ -31,16 +31,13 @@
 		return;
 	}	
 	let code = Blockly.JavaScript.workspaceToCode(workspace);
-	code+="\r\ncloseMe();";//close player when application exited
-
-	let fullCode="try{clearGame();"+code+"}catch(err){console.error(err);alert(err);}";
 	console.log(code);
 	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
 	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
 		title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
 		success: function(dom, index){
 			var framePlayer = window['layui-layer-iframe' + index];
-			framePlayer.postMessage("(async () => {" + fullCode + "})()");
+			framePlayer.postMessage(code);
 		}	  
 	});	
   }
