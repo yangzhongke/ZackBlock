@@ -11,18 +11,19 @@ Console.WriteLine($"s={s}");
 	<input type="button" value="run" id="btnRun" />
 	</body>	
 	<script src="_framework/blazor.webassembly.js" autostart="false"></script>	
+	<script src="webcsc.js"></script>
 	<script>		
 		window.onload = async function () {
-			await Blazor.start();
+			await webcsc.start();
 		};		
 		document.getElementById("btnRun").onclick=async function(){
 			var txtCode = document.getElementById("txtCode");
-			try {
-				await DotNet.invokeMethodAsync(
-					'WebCSC', 'Run', txtCode.value
-				);
+			try
+			{
+				await webcsc.run(txtCode.value);
 			}
-			catch (e) {
+			catch (e)
+			{
 				alert(e);
 			}
 		};
