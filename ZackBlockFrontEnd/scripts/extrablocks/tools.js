@@ -154,7 +154,7 @@ Blockly.CSharp['confirm'] = function(block) {
 	  func.push('  Console.WriteLine("确认请输入y，输入其他为否认。");');	  
 	  func.push('  string ret = Console.ReadLine();');
 	  func.push('  return ret.ToLower()=="y";');
-	  func.push('};');
+	  func.push('}');
 	  Blockly.CSharp.definitions_['ShowConfirm'] = func.join('\n');
 	}  
 	var code='ShowConfirm("'+message+'")';
@@ -282,7 +282,7 @@ Blockly.CSharp['promptString'] = function(block) {
 		func.push('  Console.WriteLine(msg);');
 		func.push('  var res = Console.ReadLine();');
 		func.push('  return res;');
-		func.push('};');	
+		func.push('}');	
 		Blockly.CSharp.definitions_['PromptString'] = func.join('\n');
 	}
 	code = functionName+'(' + msg + ')';
@@ -321,7 +321,7 @@ Blockly.CSharp['promptInteger'] = function(block) {
 		func.push('  Console.WriteLine(msg);');
 		func.push('  var res = Console.ReadLine();');
 		func.push('  return Convert.ToInt32(res);');
-		func.push('};');	
+		func.push('}');	
 		Blockly.CSharp.definitions_['PromptInteger'] = func.join('\n');
 	}
 	code = functionName+'(' + msg + ')';
@@ -359,7 +359,7 @@ Blockly.CSharp['promptDouble'] = function(block) {
 		func.push('  Console.WriteLine(msg);');
 		func.push('  var res = Console.ReadLine();');
 		func.push('  return Convert.ToDouble(res);');
-		func.push('};');	
+		func.push('}');	
 		Blockly.CSharp.definitions_['promptDouble'] = func.join('\n');
 	}
 	code = functionName+'(' + msg + ')';

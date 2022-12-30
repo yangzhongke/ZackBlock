@@ -58,7 +58,7 @@ Blockly.CSharp['colour_blend'] = function(block) {
     func.push('  var b = (int)Math.Round(c1.B * (1 - ratio) + c2.B * ratio);');
     func.push('  var res = System.Drawing.Color.FromArgb(1, r, g, b);');
     func.push('  return res;');
-    func.push('};');
+    func.push('}');
     Blockly.CSharp.definitions_['Colour_blend'] = func.join('\n');
   }
   var code = Blockly.CSharp.colour_blend.functionName +

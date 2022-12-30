@@ -30,7 +30,9 @@
 		//layer.msg(errors.join(), {icon: 2});
 		return;
 	}	
-	let code = Blockly.JavaScript.workspaceToCode(workspace);
+	//let code = Blockly.JavaScript.workspaceToCode(workspace);
+	//console.log(code);
+	let code = Blockly.CSharp.workspaceToCode(workspace);
 	console.log(code);
 	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
 	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),

@@ -119,7 +119,7 @@ Blockly.CSharp['text_charAt'] = function(block) {
         func.push('char '+functionName + '(string text){');
         func.push('  var x = (new Random()).Next(text.length);');
         func.push('  return text[x];');
-        func.push('};');
+        func.push('}');
         Blockly.CSharp.definitions_['Text_random_letter'] = func.join('\n');
       }
       code = Blockly.CSharp.text_charAt.text_random_letter +
@@ -248,7 +248,7 @@ Blockly.CSharp['text_changeCase'] = function(block) {
       func.push('    toUpper = Char.IsWhiteSpace(ch);');
       func.push('  }');
       func.push('  return buf.ToString();');
-      func.push('};');
+      func.push('}');
       Blockly.CSharp.definitions_['Text_ToTitleCase'] = func.join('\n');
     }
     var argument0 = Blockly.CSharp.valueToCode(this, 'TEXT',
@@ -304,7 +304,7 @@ Blockly.CSharp['text_prompt'] = function(block) {
 				func.push('  Console.WriteLine(msg);');
 				func.push('  var res = Console.ReadLine();');
 				func.push('  return int.Parse(res);');
-				func.push('};');
+				func.push('}');
 				Blockly.CSharp.definitions_['Text_PromptInputNumber'] = func.join('\n');
 			}
 			code = Blockly.CSharp.text_prompt.promptInputNumber + '(' + msg + ')';		
@@ -320,7 +320,7 @@ Blockly.CSharp['text_prompt'] = function(block) {
 				func.push('  Console.WriteLine(msg);');
 				func.push('  var res = Console.ReadLine();');
 				func.push('  return res;');
-				func.push('};');	
+				func.push('}');	
 				Blockly.CSharp.definitions_['Text_PromptInputString'] = func.join('\n');
 			}
 			code = Blockly.CSharp.text_prompt.promptInputString + '(' + msg + ')';		
