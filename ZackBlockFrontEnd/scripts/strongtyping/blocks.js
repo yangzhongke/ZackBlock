@@ -30,7 +30,6 @@ Blockly.defineBlocksWithJsonArray([
 ]);
 
 Blockly.JavaScript['DefVarType'] = function(block) {
-  const varName = varDefTypeBlock.getField("VAR").variable_.name;
   return ""
 };
 Blockly.CSharp['DefVarType'] = function(block) {
