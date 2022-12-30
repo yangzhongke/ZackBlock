@@ -30,11 +30,11 @@ public static class Console
     {
         get
         {
-            return MainClass.JSInProcRuntime.Invoke<string>("eval","window.title");
+            return MainClass.JSInProcRuntime.Invoke<string>("eval", "document.title");
         }
         set
         {
-            MainClass.JSInProcRuntime.Invoke<string>("eval", $"window.title='{value}'");
+            MainClass.JSInProcRuntime.Invoke<string>("eval", $"document.title='{value}'");
         }
     }
 
