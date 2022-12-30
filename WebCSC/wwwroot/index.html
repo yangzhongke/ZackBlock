@@ -1,0 +1,30 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+	<textarea cols="50" rows="20" id="txtCode">
+Console.WriteLine(3);
+string s = Console.ReadLine();
+Console.WriteLine($"s={s}");
+	</textarea>
+	<input type="button" value="run" id="btnRun" />
+	</body>	
+	<script src="_framework/blazor.webassembly.js" autostart="false"></script>	
+	<script>		
+		window.onload = async function () {
+			await Blazor.start();
+		};		
+		document.getElementById("btnRun").onclick=async function(){
+			var txtCode = document.getElementById("txtCode");
+			try {
+				await DotNet.invokeMethodAsync(
+					'WebCSC', 'Run', txtCode.value
+				);
+			}
+			catch (e) {
+				alert(e);
+			}
+		};
+	</script>
+</html>
