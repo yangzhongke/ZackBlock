@@ -21,7 +21,7 @@
 	<div>
 		<div id="loadingDiv"><img src="images/loading.gif" /></div>
 		<div>
-			<canvas id="canvas" style="position:absolute;z-index:-1;">
+			<canvas id="canvas" style="position:absolute;z-index:-1;" />
 		</div>
 	</div>  
   <script src="node_modules/axios/dist/axios.min.js"></script>   
@@ -39,12 +39,31 @@
 	window.addEventListener('message', onRecvMessage,false);  
 	async function onRecvMessage(e)
 	{	
+		const mode = e.data.mode;
+		const code = e.data.code;
 		await initGameAsync();
-		await loadGameAsync(canvas);		
-		var code = e.data;
-		await runCSharpCode(code);
-		//await runJSCode(code);
-		document.getElementById("loadingDiv").style.display="none";		
+		await loadGameAsync(canvas);
+		clearGame();
+				
+		if(mode=="C#")
+		{			
+			await runCSharpCode(code)
+		}
+		else
+		{
+			hideLoading();
+			//to make hideLoading() works immediately, runXXCode() should be run after an delay(0), which means setTimeout(0);
+			await delay(0);
+			await runJSCode(code);
+		}				
+	}
+	function delay(ms)
+	{
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	function hideLoading()
+	{
+		document.getElementById("loadingDiv").style.display="none";	
 	}
 	function closeMe()
 	{
@@ -56,8 +75,9 @@
 	{
 		try
 		{			
-			clearGame();
-			await webcsc.ensureStarted();			
+			await webcsc.ensureStarted();
+			hideLoading();
+			await delay(0);
 			await webcsc.run(code);
 			closeMe();
 		}
@@ -71,8 +91,7 @@
 	function runJSCode(code)
 	{
 		try
-		{
-			clearGame();
+		{			
 			//there may be 'await' in code,
 			//so async is needed.
 			eval("(async () => {" + code + "\r\ncloseMe();})()");			

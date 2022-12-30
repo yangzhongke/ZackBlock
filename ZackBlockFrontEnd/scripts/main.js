@@ -20,7 +20,7 @@
 		  loadFromString(str);	  
 	  }	  
   }
-  var execute=function(){
+  var execute=function(mode){
 	let workspace = Blockly.getMainWorkspace();
 	Blockly.CSharp.init(workspace);
 	let errors =checkBeforeRun(workspace);
@@ -29,21 +29,32 @@
 		alert("Error!\r\n"+errors.join('\r\n'));
 		//layer.msg(errors.join(), {icon: 2});
 		return;
-	}	
-	//let code = Blockly.JavaScript.workspaceToCode(workspace);
-	//console.log(code);
-	let code = Blockly.CSharp.workspaceToCode(workspace);
-	console.log(code);
+	}
+	let code;
+	if(mode=="C#")
+	{
+		code = Blockly.CSharp.workspaceToCode(workspace);		
+	}
+	else
+	{
+		code = Blockly.JavaScript.workspaceToCode(workspace);
+	}
+	console.log("mode="+mode+"\n"+code);
 	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
 	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
 		title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
 		success: function(dom, index){
 			var framePlayer = window['layui-layer-iframe' + index];
-			framePlayer.postMessage(code);
+			framePlayer.postMessage({mode:mode,code:code});
 		}	  
 	});	
   }
-  document.getElementById("btnExecute").onclick=execute;
+  document.getElementById("btnRun").onclick=function(){
+	  execute("C#");
+  };
+  document.getElementById("btnRunFast").onclick=function(){
+	  execute("js");
+  };
   document.getElementById("btnNew").onclick=function(){
 	  if(!confirm("Will you remove the current code and add a new one?"))return;
 	  const workspace = Blockly.getMainWorkspace();
