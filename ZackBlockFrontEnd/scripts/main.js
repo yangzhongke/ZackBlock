@@ -87,6 +87,7 @@
   Blockly.inject('blocklyDiv', {
     toolbox: document.getElementById('toolbox-categories'),
     scrollbars: true,
+	media:'blocklymedia/',
   });
   load();
   var workspace = Blockly.getMainWorkspace();
