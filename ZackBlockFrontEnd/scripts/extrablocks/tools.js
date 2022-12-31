@@ -108,17 +108,59 @@ Blockly.defineBlocksWithJsonArray([
 ]);
 
 Blockly.JavaScript['CastAs'] = function(block) {
-  let argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
+  let value = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_MODULUS);
-  let code=argument0;
+  let code=value;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 Blockly.CSharp['CastAs'] = function(block) {
   let type = block.getFieldValue('TYPE');
-  var argument0 = Blockly.CSharp.valueToCode(block, 'VALUE',
+  let valueCode = Blockly.CSharp.valueToCode(block, 'VALUE',
       Blockly.CSharp.ORDER_MODULUS);
-  let code='('+type+')'+argument0;
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
+  let value = parseFloat(valueCode);
+  let code;
+  if(typeof(value)==='number'&&!Number.isNaN(value))//is integer or decimal
+  {
+	  if(Number.isInteger(value))//is integer
+	  {
+		  switch(type)
+		  {
+			  case 'int':
+				code=value;break;
+			  case 'double':
+				code=value+'D';break;
+			  case 'long':
+				code=value+'L';break;
+			  case 'float':
+				code=value+'F';break;
+			  case 'byte':
+				code=value;break;
+			  default:
+				throw "unknown type:"+type;
+		  }
+	  }
+	  else//is decimal
+	  {
+		  switch(type)
+		  {
+			  case 'byte':	
+			  case 'int':			
+			  case 'long':
+				code='(('+type+')'+value+')';break;
+			  case 'double':
+				code=value+'D';	break;			
+			  case 'float':
+				code=value+'F';break;
+			  default:
+				throw "unknown type:"+type;
+		  }		  
+	  }
+  }
+  else
+  {
+	  code='(('+type+')'+value+')';
+  }  
+  return [code, Blockly.CSharp.ORDER_ATOMIC];
 };
 
 Blockly.defineBlocksWithJsonArray([
