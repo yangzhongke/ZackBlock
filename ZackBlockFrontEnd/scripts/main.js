@@ -264,7 +264,7 @@ function checkBeforeRun(workspace)
 	return errors;
 }
 
-//find the first 'variables_get' block for variable 'varId', before the block 'locationBlock'
+//find the first 'variables_get','controls_for' block or 'DefVarType' block which has INIT_VALUE for variable 'varId', before the block 'locationBlock'
 function findVarSetBlockBefore(allBlocks, varId,locationBlock)
 {
 	for(let i=0;i<allBlocks.length;i++)
@@ -279,6 +279,13 @@ function findVarSetBlockBefore(allBlocks, varId,locationBlock)
 		//count with
 		if(block.type=="controls_for"&&
 			block.getField("VAR").getValue()==varId)
+		{
+			return block;
+		}
+		//DefVarType
+		if(block.type=="DefVarType"
+			&&block.getField("VAR").getValue()==varId
+			&&block.getInput("INIT_VALUE").connection.targetBlock())
 		{
 			return block;
 		}
