@@ -150,36 +150,54 @@ function isAssignableFrom(varType, valueType)
 	}
 }
 
+function checkTypeValueCompatibility(workspace, block, valueName)
+{
+	const varId = block.getField("VAR").getValue();
+	const defVarTypeBlock=findDefVarTypeBlock(workspace,varId);
+	if(!defVarTypeBlock) return;
+	const varDefinedType = defVarTypeBlock.getField("TYPE").getValue();//type of variable on left side
+	const inputConnection = block.getInput(valueName).connection;
+	const valueBlock = inputConnection.targetBlock();
+	if(!valueBlock) return;
+	const valueType = inferValueTypeFromBlock(valueBlock);
+	if(!varDefinedType||!valueType) return;
+	if(!isAssignableFrom(varDefinedType,valueType))
+	{
+		inputConnection.disconnect();
+		valueBlock.bumpNeighbours();
+		//fix the bug, when a shadow block is disconnected.
+		if(valueBlock.isShadow())
+		{
+			valueBlock.dispose();
+		}
+	}	
+}
+
 function checkBlocks(workspace)
 {
 	const allBlocks =workspace.getAllBlocks(false);
 	
 	//begin: check variables_set
-	const varSetBlocks = allBlocks.filter(b=>b.type=='variables_set'||b.type=='math_change');
+	const varSetBlocks = allBlocks.filter(b=>b.type=='variables_set');
 	for(let i=0;i<varSetBlocks.length;i++)
 	{
-		const varSetBlock = varSetBlocks[i];
-		const varId = varSetBlock.getField("VAR").getValue();
-		const defVarTypeBlock=findDefVarTypeBlock(workspace,varId);
-		if(!defVarTypeBlock) continue;
-		const varDefinedType = defVarTypeBlock.getField("TYPE").getValue();//type of variable on left side
-		const inputConnection = varSetBlock.inputList[0].connection;
-		const valueBlock = inputConnection.targetBlock();
-		if(!valueBlock) continue;
-		const valueType = inferValueTypeFromBlock(valueBlock);
-		if(!varDefinedType||!valueType) continue;
-		if(!isAssignableFrom(varDefinedType,valueType))
-		{
-			inputConnection.disconnect();
-			valueBlock.bumpNeighbours();
-			//fix the bug, when a shadow block is disconnected.
-			if(valueBlock.isShadow())
-			{
-				valueBlock.dispose();
-			}
-		}
+		checkTypeValueCompatibility(workspace,varSetBlocks[i],'VALUE');
 	}
 	//end
+	//begin: check variables_set
+	const varMathChangeBlocks = allBlocks.filter(b=>b.type=='math_change');
+	for(let i=0;i<varMathChangeBlocks.length;i++)
+	{
+		checkTypeValueCompatibility(workspace,varMathChangeBlocks[i],'DELTA');
+	}
+	//end
+	//begin: check DefVarType
+	const defVarTypeBlocks = allBlocks.filter(b=>b.type=='DefVarType');
+	for(let i=0;i<defVarTypeBlocks.length;i++)
+	{
+		checkTypeValueCompatibility(workspace,defVarTypeBlocks[i],'INIT_VALUE');
+	}
+	//end	
 }
 
 function checkBeforeRun(workspace)
