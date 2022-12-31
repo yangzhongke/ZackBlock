@@ -113,7 +113,7 @@ const getVarName=function(varBlock)
 	Blockly.VARIABLE_CATEGORY_NAME);
 }
 
-const findDefVarType=function(varName)
+const findDefVarBlockByVarName=function(varName)
 {
 	const allBlocks =Blockly.getMainWorkspace()
 		.getAllBlocks(false);
@@ -121,14 +121,20 @@ const findDefVarType=function(varName)
 		.filter(b=>b.type=='DefVarType'&&getVarName(b)==varName);
 	if(defVarTypeBlocks.length>0)
 	{
-		const block = defVarTypeBlocks[0];
-		const typeName = block.getField("TYPE").getValue();
-		return typeName;
+		return defVarTypeBlocks[0];
 	}
 	else
 	{
 		return null;
 	}
+}
+
+const findDefVarType=function(varName)
+{
+	const block = findDefVarBlockByVarName(varName);
+	if(!block)return null;
+	const typeName = block.getField("TYPE").getValue();
+	return typeName;
 }
 
 //whether the connected input with name='name' is of type 'string'
@@ -358,9 +364,20 @@ Blockly.CSharp.init = function(workspace) {
     let varDefs=[];
 	for(var i=0;i<defvars.length;i++)
 	{
-		let varName = defvars[i];
-		let typeName = inferVarType(varName);
+		const varName = defvars[i];		
+		const typeName = inferVarType(varName);
 		let statement = typeName+" "+varName;
+		const varDefBlock = findDefVarBlockByVarName(varName);
+		if(varDefBlock)//if found DefVarBlock for the variable
+		{
+			const initValueConn = varDefBlock.getInput("INIT_VALUE").connection.targetConnection;
+			if(initValueConn)//if there is initial value
+			{
+				var initValue = Blockly.CSharp.valueToCode(varDefBlock, 'INIT_VALUE',
+      Blockly.CSharp.ORDER_MODULUS);
+				statement+=" = "+initValue;
+			}
+		}
 		varDefs.push(statement);
 	}
 	let varDefCodes = varDefs.join(';\r\n')+';';
