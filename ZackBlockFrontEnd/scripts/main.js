@@ -95,7 +95,8 @@
 	Blockly.CSharp.init(workspace);//https://github.com/google/blockly/issues/4060
 	checkBlocks(workspace);
 	let code = Blockly.CSharp.workspaceToCode(workspace);
-	document.getElementById("code").innerText=code;
+	document.getElementById("code").textContent=code;
+	hljs.highlightAll();
 	save();
   });
   
