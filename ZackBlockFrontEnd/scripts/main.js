@@ -198,6 +198,31 @@ function checkBlocks(workspace)
 		checkTypeValueCompatibility(workspace,defVarTypeBlocks[i],'INIT_VALUE');
 	}
 	//end	
+	
+	//begin: check 'CastAs'
+	const defCastAsBlocks = allBlocks.filter(b=>b.type=='CastAs');
+	for(let i=0;i<defCastAsBlocks.length;i++)
+	{
+		const block = defCastAsBlocks[0];
+		let type = block.getFieldValue('TYPE');//type of variable on left side
+		const inputConnection = block.getInput("VALUE").connection;
+		const valueBlock = inputConnection.targetBlock();
+		if(!valueBlock) return;
+		const valueType = inferValueTypeFromBlock(valueBlock);
+		if(!valueType) return;
+		if(valueType!='int'&&valueType!='double'&&valueType!='long'
+			&&valueType!='float'&&valueType!='byte')
+		{
+			inputConnection.disconnect();
+			valueBlock.bumpNeighbours();
+			//fix the bug, when a shadow block is disconnected.
+			if(valueBlock.isShadow())
+			{
+				valueBlock.dispose();
+			}
+		}	
+	}
+	//end	
 }
 
 function checkBeforeRun(workspace)

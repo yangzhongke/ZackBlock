@@ -158,7 +158,7 @@ Blockly.CSharp['CastAs'] = function(block) {
   }
   else
   {
-	  code='(('+type+')'+value+')';
+	  code='(('+type+')'+valueCode+')';
   }  
   return [code, Blockly.CSharp.ORDER_ATOMIC];
 };
