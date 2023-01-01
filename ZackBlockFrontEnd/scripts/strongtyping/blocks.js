@@ -32,8 +32,22 @@ Blockly.defineBlocksWithJsonArray([
 ]);
 
 Blockly.JavaScript['DefVarType'] = function(block) {
-  return ""
+  //for JS, there is no generating statement, so assignment for default value will be generated in place here.
+	const initValueConn = block.getInput("INIT_VALUE").connection.targetConnection;
+	if(initValueConn)//if there is initial value
+	{
+		var varName = Blockly.JavaScript.nameDB_.getName(
+			block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+		var initValue = Blockly.CSharp.valueToCode(block, 
+			'INIT_VALUE', Blockly.CSharp.ORDER_MODULUS);
+		return varName+" = "+initValue+";\r\n";
+	}
+	else
+	{
+		return "";
+	}	
 };
 Blockly.CSharp['DefVarType'] = function(block) {
+  //C# version will generate statement in csharp.js
   return "";
 };
