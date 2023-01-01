@@ -178,67 +178,6 @@
       <block type="text"></block>
       <block type="text_multiline"></block>
       <block type="text_join"></block>
-	  <!--
-      <block type="text_append">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-        <value name="FIND">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-	  -->
     </category>
     <category name="Variables" categorystyle="variable_category" custom="VARIABLE">
 	</category>
@@ -326,6 +265,66 @@
 		<block kind="block" type="promptDouble"></block>		
 		<block kind="block" type="confirm"></block>
 		<block kind="block" type="delay"></block>
+		<label text="String function:" web-class="ioLabel"></label>
+		<block type="text_append">
+		<value name="TEXT">
+		  <shadow type="text"></shadow>
+		</value>
+		</block>
+		<block type="text_length">
+		<value name="VALUE">
+		  <shadow type="text">
+			<field name="TEXT">abc</field>
+		  </shadow>
+		</value>
+		</block>
+		<block type="text_isEmpty">
+		<value name="VALUE">
+		  <shadow type="text">
+			<field name="TEXT"></field>
+		  </shadow>
+		</value>
+		</block>
+		<block type="text_indexOf">
+		<value name="VALUE">
+		  <block type="variables_get">
+			<field name="VAR">text</field>
+		  </block>
+		</value>
+		<value name="FIND">
+		  <shadow type="text">
+			<field name="TEXT">abc</field>
+		  </shadow>
+		</value>
+		</block>
+		<block type="text_charAt">
+		<value name="VALUE">
+		  <block type="variables_get">
+			<field name="VAR">text</field>
+		  </block>
+		</value>
+		</block>
+		<block type="text_getSubstring">
+		<value name="STRING">
+		  <block type="variables_get">
+			<field name="VAR">text</field>
+		  </block>
+		</value>
+		</block>
+		<block type="text_changeCase">
+		<value name="TEXT">
+		  <shadow type="text">
+			<field name="TEXT">abc</field>
+		  </shadow>
+		</value>
+		</block>
+		<block type="text_trim">
+		<value name="TEXT">
+		  <shadow type="text">
+			<field name="TEXT">abc</field>
+		  </shadow>
+		</value>
+		</block>		
 	</category>
   </xml>	
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" ></script>  
