@@ -413,3 +413,20 @@ Blockly.CSharp['MultiLineComment'] = function(block) {
 	var msg = this.getFieldValue('MESSAGE');
 	return '/*'+msg+'*/\r\n';
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "return",
+    "message0": "return",
+	'previousStatement': null,
+    'nextStatement': null,
+    "style": "variable_blocks",
+  }
+]);
+
+Blockly.JavaScript['return'] = function(block) {
+  return 'return;\r\n';
+};
+Blockly.CSharp['return'] = function(block) {
+  return 'return;\r\n';
+};

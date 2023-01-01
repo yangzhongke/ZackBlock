@@ -78,13 +78,16 @@
 			await webcsc.ensureStarted();
 			hideLoading();
 			await delay(0);
-			await webcsc.run(code);
-			closeMe();
+			await webcsc.run(code);			
 		}
 		catch(err)
 		{
 			console.error(err);
 			alert("Error: "+err);
+		}
+		finally
+		{
+			closeMe();
 		}
 	}
 	
@@ -94,7 +97,7 @@
 		{			
 			//there may be 'await' in code,
 			//so async is needed.
-			eval("(async () => {" + code + "\r\ncloseMe();})()");			
+			eval("(async () => {try{" + code + "\r\n}finally{closeMe();}})()");			
 		}
 		catch(err)
 		{
