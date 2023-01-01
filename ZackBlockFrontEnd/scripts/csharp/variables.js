@@ -25,7 +25,7 @@ Blockly.CSharp['variables_get'] = function(block) {
 Blockly.CSharp['variables_set'] = function(block) {
   // Variable setter.
   var argument0 = Blockly.CSharp.valueToCode(block, 'VALUE',
-      Blockly.CSharp.ORDER_ASSIGNMENT) || '0';
+      Blockly.CSharp.ORDER_ASSIGNMENT) || 'default';
   var varName = Blockly.CSharp.nameDB_.getName(
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   return varName + ' = ' + argument0 + ';\n';
