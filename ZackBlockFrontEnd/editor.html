@@ -122,6 +122,7 @@
 		try
 		{
 			const code = editor.getValue();
+			await webcsc.ensureStarted();
 			await IDE.csharp.runCode(code);
 		}
 		finally
