@@ -115,16 +115,30 @@
 		codeChangedTimeoutId = setTimeout(codeChanged,2000);
 	});
 	var btnRun = document.getElementById('btnRun');
-	btnRun.onclick=function()
+	btnRun.onclick=async function()
 	{
 		const code = editor.getValue();
+		try
+		{			
+			await webcsc.ensureStarted();
+			var r = await webcsc.run(code);	
+			if (!r.success)
+			{
+				alert("Compilation Error\r\n" + r.message);
+			}			
+		}
+		catch(err)
+		{
+			alert("Error\r\n"+err);
+		}		
+		/*
 		layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
 			title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
 			success: function(dom, index){
 				var framePlayer = window['layui-layer-iframe' + index];
 				framePlayer.postMessage({mode:"C#",code:code});
 			}	  
-		});			
+		});*/	
 	}
   </script>
 </body>
