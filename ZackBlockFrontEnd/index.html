@@ -333,29 +333,29 @@
   <script src="scripts/common.js"></script> 
   <script src="sprites/yzkgame.js"></script> 
   <script>
-	window.onload=async function(){
-		var loading = layer.load(0, {shade: false,time: 20000});
-		await initGameAsync();
-		await addScript("https://cdnjs.cloudflare.com/ajax/libs/blockly/8.0.0/blockly.min.js",true);
-		await addScript("scripts/blocklyext.js",false);
-		await addScript("scripts/csharp.js",false);
-		await addScript("scripts/csharp/colour.js",false);
-		await addScript("scripts/csharp/logic.js",false);
-		await addScript("scripts/csharp/loops.js",false);
-		await addScript("scripts/csharp/math.js",false);
-		await addScript("scripts/csharp/procedures.js",false);
-		await addScript("scripts/csharp/text.js",false);
-		await addScript("scripts/csharp/variables.js",false);
-		await addScript("scripts/csharp/variables_dynamic.js",false);
-		await addScript("scripts/extrablocks/tools.js",false);
-		await addScript("scripts/extrablocks/date.js",false);
-		await addScript("scripts/extrablocks/yzkgameblocks.js",false);
-		await addScript("scripts/strongtyping/blocks.js",false);
-		await addScript("scripts/extrablocks/extra_math.js",false);
-		await addScript("scripts/main.js",false);
-		await addScript("scripts/FileSaver.js",true);		
-		layer.close(loading);		
-	}
+	var loading = layer.load(0, {shade: false,time: 20000});
+	initGame();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/8.0.0/blockly.min.js"></script>
+  <script src="scripts/blocklyext.js"></script>
+  <script src="scripts/csharp.js"></script>
+  <script src="scripts/csharp/colour.js"></script>
+  <script src="scripts/csharp/logic.js"></script>
+  <script src="scripts/csharp/loops.js"></script>
+  <script src="scripts/csharp/math.js"></script>
+  <script src="scripts/csharp/procedures.js"></script>
+  <script src="scripts/csharp/text.js"></script>
+  <script src="scripts/csharp/variables.js"></script>
+  <script src="scripts/csharp/variables_dynamic.js"></script>
+  <script src="scripts/extrablocks/tools.js"></script>
+  <script src="scripts/extrablocks/date.js"></script>
+  <script src="scripts/extrablocks/yzkgameblocks.js"></script>
+  <script src="scripts/strongtyping/blocks.js"></script>
+  <script src="scripts/extrablocks/extra_math.js"></script>
+  <script src="scripts/main.js"></script>
+  <script src="scripts/FileSaver.js"></script>
+  <script>
+	layer.close(loading);
   </script>
 </body>
 </html>

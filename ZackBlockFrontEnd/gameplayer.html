@@ -41,8 +41,8 @@
 	{	
 		const mode = e.data.mode;
 		const code = e.data.code;
-		await initGameAsync();
-		await loadGameAsync(canvas);
+		initGame();
+		loadGame(canvas);
 		clearGame();
 				
 		if(mode=="C#")

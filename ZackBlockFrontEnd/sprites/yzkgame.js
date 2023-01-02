@@ -15,10 +15,24 @@ function getSpriteManifest()
 	return spriteManifest;
 }
 
-async function initGameAsync()
+const ajaxGetJsonAsync=function(url)
 {
-	var res = await axios('sprites/manifest.json');	
-	spriteManifest = res.data;	
+	const request = new XMLHttpRequest();
+	request.open('GET', url, false);  // `false` makes the request synchronous
+	request.send(null);
+	if (request.status <= 399) 
+	{
+	  return JSON.parse(request.responseText);
+	}
+	else
+	{
+		throw "request "+url+" error code:"+request.status;
+	}
+}
+
+function initGame()
+{
+	spriteManifest = ajaxGetJsonAsync('sprites/manifest.json');
 	setTimeout(function(){
 		//预加载图片
 		spriteManifest.forEach(function(sprite){
@@ -37,7 +51,7 @@ async function initGameAsync()
 
 }
 
-async function loadGameAsync(canvas,fps)
+function loadGame(canvas,fps)
 {	
     if(!fps)
 	{
