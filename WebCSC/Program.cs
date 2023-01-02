@@ -42,7 +42,7 @@ public static class MainClass
     }
 
     [JSInvokable]
-    public static async Task Run(string code)
+    public static async Task<RunResult> Run(string code)
     {
         List<MetadataReference> references = new List<MetadataReference>();
         foreach (var libPath in GetRefLibraries())
@@ -69,12 +69,13 @@ public static class MainClass
             MethodInfo entryMethod = GetEntryMethod(asm);
             var result = (Task)entryMethod.Invoke(null,new object[] { new object[2] });
             await result;
+            return new RunResult(true);
         }
         else
         {
             var msgs = emitResult.Diagnostics.Select(d => d.ToString());
             string msg = string.Join('\n', msgs);
-            throw new Exception(msg);
+            return new RunResult(false,msg,emitResult.Diagnostics);
         }
     }
 }

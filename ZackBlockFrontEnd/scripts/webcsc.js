@@ -10,7 +10,7 @@
             await Blazor.start();
         },
         run: async function (code) {
-            await DotNet.invokeMethodAsync(
+            return await DotNet.invokeMethodAsync(
                 'WebCSC', 'Run', code
             );
         },

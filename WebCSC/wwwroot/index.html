@@ -20,7 +20,11 @@ Console.WriteLine($"s={s}");
 			var txtCode = document.getElementById("txtCode");
 			try
 			{
-				await webcsc.run(txtCode.value);
+				var r = await webcsc.run(txtCode.value);
+				if (!r.success)
+				{
+					alert("Error:" + r.message);
+				}
 			}
 			catch (e)
 			{

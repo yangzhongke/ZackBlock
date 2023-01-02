@@ -78,11 +78,14 @@
 			await webcsc.ensureStarted();
 			hideLoading();
 			await delay(0);
-			await webcsc.run(code);			
+			var r = await webcsc.run(code);	
+			if (!r.success)
+			{
+				alert("Error\r\n" + r.message);
+			}			
 		}
 		catch(err)
 		{
-			console.error(err);
 			alert("Error: "+err);
 		}
 		finally
