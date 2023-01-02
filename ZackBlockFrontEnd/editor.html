@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Online C# IDE-Zack Yang</title>
+	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+	<script src="./layui/layui.js"></script>
+	<link rel="stylesheet" href="./layui/css/layui.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ace.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/mode-csharp.min.js" ></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/snippets/csharp.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/theme-monokai.min.js"></script>
+	<style type="text/css" media="screen">
+		#editor { 
+			position: absolute;
+			top: 5vh;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+	</style>	
+</head>
+<body>
+	<div style="height:5vh">
+		<input id="btnRun" type="button" value="Run"/>	
+	</div>	
+	<div id="editor"></div>	
+  <script>
+	const editor = ace.edit("editor");
+	editor.setTheme("ace/theme/monokai");
+	editor.session.setMode("ace/mode/csharp");
+	const prevCode = localStorage.getItem("editor_savedCode");
+	if(prevCode)
+	{
+		editor.session.setValue(prevCode);
+	}
+	
+	editor.on('change', function(delta) {
+		const code = editor.getValue();
+		localStorage.setItem("editor_savedCode",code);	
+	});
+	var btnRun = document.getElementById('btnRun');
+	btnRun.onclick=function()
+	{
+		const code = editor.getValue();
+		layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
+			title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
+			success: function(dom, index){
+				var framePlayer = window['layui-layer-iframe' + index];
+				framePlayer.postMessage({mode:"C#",code:code});
+			}	  
+		});			
+	}
+  </script>
+</body>
+</html>
