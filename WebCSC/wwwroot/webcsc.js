@@ -14,5 +14,10 @@
                 'WebCSC', 'Run', code
             );
         },
+        check: async function (code) {
+            return await DotNet.invokeMethodAsync(
+                'WebCSC', 'Check', code
+            );
+        },
     };
 })();

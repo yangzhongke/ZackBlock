@@ -41,8 +41,7 @@ public static class MainClass
         return type.GetMethod("<Factory>", BindingFlags.Static | BindingFlags.Public);
     }
 
-    [JSInvokable]
-    public static async Task<RunResult> Run(string code)
+    private static async Task<(CompileResult Result, Assembly? Assembly)> CompileAsync(string code)
     {
         List<MetadataReference> references = new List<MetadataReference>();
         foreach (var libPath in GetRefLibraries())
@@ -52,13 +51,13 @@ public static class MainClass
         }
         //WebAssembly不支持并发编译，所以要设置concurrentBuild:false，
         //否则Emit会报错System.PlatformNotSupportedException: Cannot wait on monitors on this runtime.
-        var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,concurrentBuild:false)
-            .WithUsings("System","System.Text", "System.Collections.Generic", "System.IO", "System.Linq", "System.Threading", "System.Threading.Tasks");
+        var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, concurrentBuild: false)
+            .WithUsings("System", "System.Text", "System.Collections.Generic", "System.IO", "System.Linq", "System.Threading", "System.Threading.Tasks");
         CSharpParseOptions parserOptions = CSharpParseOptions.Default.
             WithLanguageVersion(LanguageVersion.Latest).WithKind(SourceCodeKind.Script);
         var syntaxTree = SyntaxFactory.ParseSyntaxTree(code, parserOptions);
         var scriptCompilation = CSharpCompilation.CreateScriptCompilation(
-        "main.dll", syntaxTree ,
+        "main.dll", syntaxTree,
        options: compilationOptions).AddReferences(references);
         using MemoryStream stream = new MemoryStream();
         var emitResult = scriptCompilation.Emit(stream);
@@ -66,16 +65,37 @@ public static class MainClass
         if (emitResult.Success)
         {
             Assembly asm = Assembly.Load(stream.ToArray());
-            MethodInfo entryMethod = GetEntryMethod(asm);
-            var result = (Task)entryMethod.Invoke(null,new object[] { new object[2] });
-            await result;
-            return new RunResult(true);
+            return (new CompileResult(true),asm);
         }
         else
         {
-            var msgs = emitResult.Diagnostics.Select(d => d.ToString());
+            var msgs = emitResult.Diagnostics.Select(d => d.ToString()); ;
             string msg = string.Join('\n', msgs);
-            return new RunResult(false,msg,emitResult.Diagnostics);
+            return (new CompileResult(false, msg, SimpleDiagnostic.Create(emitResult.Diagnostics)),null);
+        }
+    }
+
+    [JSInvokable]
+    public static async Task<CompileResult> Check(string code)
+    {
+        (var result, var _) = await CompileAsync(code);
+        return result;
+    }
+
+    [JSInvokable]
+    public static async Task<CompileResult> Run(string code)
+    {
+        (var result, var asm) = await CompileAsync(code);
+        if (result.Success)
+        {
+            MethodInfo entryMethod = GetEntryMethod(asm!);
+            var compileResult = (Task)entryMethod.Invoke(null,new object[] { new object[2] });
+            await compileResult;
+            return new CompileResult(true);
+        }
+        else
+        {
+            return result;
         }
     }
 }
