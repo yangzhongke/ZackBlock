@@ -38,9 +38,8 @@ public static class Console
         }
     }
 
-    public static ConsoleKeyInfo ReadKey()
+    public static void ReadKey()
     {
         MainClass.JSInProcRuntime.InvokeVoid("alert", "Press space or enter to continue.");
-        return new ConsoleKeyInfo(' ',ConsoleKey.Spacebar,false,false,false);
     }
 }
