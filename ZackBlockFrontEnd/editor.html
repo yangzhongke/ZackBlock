@@ -14,7 +14,8 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/snippets/csharp.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/theme-monokai.min.js"></script>
 	<script src="_framework/blazor.webassembly.js" autostart="false"></script>
-	<script src="scripts/webcsc.js"></script>  	
+	<script src="scripts/webcsc.js"></script>
+	<script src="scripts/IDE.js"></script>
 	<style type="text/css" media="screen">
 		#editor { 
 			position: absolute;
@@ -37,7 +38,7 @@
 </head>
 <body>
 	<div style="height:30px">
-		<input id="btnRun" type="button" value="Run"/>	
+		<button id="btnRun">Run</button>
 	</div>	
 	<div id="editor"></div>	
 	<table class="layui-table" id="diagnostics">
@@ -114,31 +115,19 @@
 		}
 		codeChangedTimeoutId = setTimeout(codeChanged,2000);
 	});
-	var btnRun = document.getElementById('btnRun');
+	const btnRun = document.getElementById('btnRun');
 	btnRun.onclick=async function()
 	{
-		const code = editor.getValue();
+		btnRun.disabled=true;
 		try
-		{			
-			await webcsc.ensureStarted();
-			var r = await webcsc.run(code);	
-			if (!r.success)
-			{
-				alert("Compilation Error\r\n" + r.message);
-			}			
-		}
-		catch(err)
 		{
-			alert("Error\r\n"+err);
+			const code = editor.getValue();
+			await IDE.csharp.runCode(code);
+		}
+		finally
+		{
+			btnRun.disabled=false;
 		}		
-		/*
-		layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
-			title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
-			success: function(dom, index){
-				var framePlayer = window['layui-layer-iframe' + index];
-				framePlayer.postMessage({mode:"C#",code:code});
-			}	  
-		});*/	
 	}
   </script>
 </body>

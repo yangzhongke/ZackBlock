@@ -20,7 +20,7 @@
 		  loadFromString(str);	  
 	  }	  
   }
-  var execute=function(mode){
+  var execute=async function(mode){
 	let workspace = Blockly.getMainWorkspace();
 	Blockly.CSharp.init(workspace);
 	let errors =checkBeforeRun(workspace);
@@ -40,14 +40,29 @@
 		code = Blockly.JavaScript.workspaceToCode(workspace);
 	}
 	console.log("mode="+mode+"\n"+code);
-	//execute the code in a separate iframe, so that the code can be ran multiple times without confliction.
-	layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
-		title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
-		success: function(dom, index){
-			var framePlayer = window['layui-layer-iframe' + index];
-			framePlayer.postMessage({mode:mode,code:code});
-		}	  
-	});	
+    if(mode=='C#'&&code.indexOf('GameCore')<0)
+	{
+		const btnRun = document.getElementById("btnRun");
+		btnRun.disabled=true;
+		try
+		{
+			await IDE.csharp.runInPlace(code);
+		}
+		finally
+		{
+			btnRun.disabled=false;
+		}		
+	}
+	else
+	{
+		layer.open({type: 2,content: 'gameplayer.html?'+new Date(),
+			title:"Run", fixed: false,maxmin: true,area: ['80vw', '80vh'],
+			success: function(dom, index){
+				var framePlayer = window['layui-layer-iframe' + index];
+				framePlayer.postMessage({mode:mode,code:code});
+			}	  
+		});
+	}
   }
   document.getElementById("btnRun").onclick=function(){
 	  execute("C#");
