@@ -268,7 +268,7 @@ const inferVarType = function (varName)
   if(setVarBlocks.length<=0)
   {
 	  var countWithBlocks = allBlocks
-		.filter(b=>b.type=='controls_for'
+		.filter(b=>(b.type=='controls_for'||b.type=='countdown_for')
 		&&getVarName(b)==varName);
 	  if(countWithBlocks.length<=0)
 	  {

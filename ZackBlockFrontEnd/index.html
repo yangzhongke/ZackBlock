@@ -73,6 +73,23 @@
           </shadow>
         </value>
       </block>
+	  <block type="countdown_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+        <value name="BY">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>	  
+	  </block>	  
       <block type="controls_flow_statements"></block>
     </category>
     <category name="Math" categorystyle="math_category">
@@ -352,6 +369,7 @@
   <script src="scripts/extrablocks/yzkgameblocks.js"></script>
   <script src="scripts/strongtyping/blocks.js"></script>
   <script src="scripts/extrablocks/extra_math.js"></script>
+  <script src="scripts/extrablocks/extra_controls.js"></script>
   <script src="scripts/main.js"></script>
   <script src="scripts/FileSaver.js"></script>
   <script src="_framework/blazor.webassembly.js" autostart="false"></script>
