@@ -13,6 +13,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/mode-csharp.min.js" ></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/snippets/csharp.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/theme-monokai.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ext-language_tools.min.js"></script>
 	<script src="_framework/blazor.webassembly.js" autostart="false"></script>
 	<script src="scripts/webcsc.js"></script>
 	<script src="scripts/IDE.js"></script>
@@ -63,6 +64,34 @@
 	editor.setTheme("ace/theme/monokai");
 	editor.session.setMode("ace/mode/csharp");
 	editor.setHighlightActiveLine(true);
+	const autoCompWords =[ 
+		{value: 'int', score: 10},
+        {value: 'string', score: 10},
+		{value: 'long', score: 10},
+		{value: 'double', score: 10},
+		{value: 'bool', score: 10},
+		{value: 'float', score: 10},
+		{value: 'DateTime', score: 10},
+		{value: 'Console', score: 9},
+        {value: 'ReadLine', score: 9},
+		{value: 'WriteLine', score: 9},
+		{value: 'Convert', score: 9},
+		{value: 'ToString', score: 8},
+		{value: 'ToInt32', score: 8},
+		{value: 'ToDouble', score: 8},
+		{value: 'ReadKey', score: 8},
+		{value: 'ToInt64', score: 8},
+		{value: 'ToDateTime', score: 8},
+	]; 
+	editor.setOptions({
+	  enableBasicAutocompletion: [{
+		getCompletions: (editor, session, pos, prefix, callback) => {
+		  callback(null, autoCompWords);
+		},
+	  }],
+	  // to make popup appear automatically, without explicit _ctrl+space_
+	  enableLiveAutocompletion: true,
+	});	
 	const prevCode = localStorage.getItem("editor_savedCode");
 	if(prevCode)
 	{
@@ -85,26 +114,11 @@
 				this.diagnostics=diagnostics;
 			}
 		}
-	});		
-	async function checkCode(code)
-	{
-		await webcsc.ensureStarted();
-		var r = await webcsc.check(code);
-		if (r.success)
-		{
-			app.showDiagnostics([]);
-		}
-		else
-		{
-			const errors = r.diagnostics.filter(e=>e.severity=='Error');
-			app.showDiagnostics(errors);
-		}
-	}
+	});	
 	const codeChanged=function()
 	{
 		const code = editor.getValue();
 		localStorage.setItem("editor_savedCode",code);	
-		checkCode(code);
 	}
 	let codeChangedTimeoutId;
 	editor.on('change', function() {
@@ -113,7 +127,7 @@
 		{
 			clearTimeout(codeChangedTimeoutId);
 		}
-		codeChangedTimeoutId = setTimeout(codeChanged,2000);
+		codeChangedTimeoutId = setTimeout(codeChanged,5000);
 	});
 	const btnRun = document.getElementById('btnRun');
 	btnRun.onclick=async function()
@@ -123,7 +137,17 @@
 		{
 			const code = editor.getValue();
 			await webcsc.ensureStarted();
-			await IDE.csharp.runCode(code);
+			const r = await IDE.csharp.runCode(code);
+			if(!r) return;
+			if (r.success)
+			{
+				app.showDiagnostics([]);
+			}
+			else
+			{
+				const errors = r.diagnostics.filter(e=>e.severity=='Error');
+				app.showDiagnostics(errors);
+			}		
 		}
 		finally
 		{

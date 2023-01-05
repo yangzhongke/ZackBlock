@@ -18,7 +18,8 @@ window.IDE.csharp={
 			if (!r.success)
 			{
 				alert("Compilation Error\r\n" + r.message);
-			}			
+			}
+			return r;
 		}
 		catch(err)
 		{
@@ -32,7 +33,7 @@ window.IDE.csharp={
 		}
 		else
 		{
-			await this.runInPlace(code);
+			return await this.runInPlace(code);
 		}
 	},
 };
