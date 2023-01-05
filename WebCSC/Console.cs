@@ -6,7 +6,7 @@ public static class Console
 {
     public static void WriteLine(object msg)
     {
-        MainClass.JSInProcRuntime.InvokeVoid("alert", msg);
+        MainClass.JSInProcRuntime.InvokeVoid("alert", Convert.ToString(msg));
     }
 
     public static void WriteLine(string msg)
