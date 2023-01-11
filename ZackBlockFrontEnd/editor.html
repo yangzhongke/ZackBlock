@@ -97,6 +97,10 @@
 	{
 		editor.session.setValue(prevCode);
 	}
+	else
+	{
+		editor.session.setValue('// See https://aka.ms/new-console-template for more information\r\nConsole.WriteLine("Hello, World!");\r\n');
+	}
 	var app = new Vue({
 		el: '#diagnostics',
 		data:
