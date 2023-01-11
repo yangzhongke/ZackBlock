@@ -14,7 +14,7 @@ window.IDE.csharp={
 		try
 		{			
 			await webcsc.ensureStarted();
-			var r = await webcsc.run(code);	
+			var r = await webcsc.run(code, { libraries: ["/_framework/WebCSC.dll"] });	
 			if (!r.success)
 			{
 				alert("Compilation Error\r\n" + r.message);

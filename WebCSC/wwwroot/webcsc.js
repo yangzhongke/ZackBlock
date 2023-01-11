@@ -9,14 +9,14 @@
         start: async function () {
             await Blazor.start();
         },
-        run: async function (code) {
+        run: async function (code, options) {
             return await DotNet.invokeMethodAsync(
-                'WebCSC', 'Run', code
+                'WebCSC', 'Run', code, options
             );
         },
-        check: async function (code) {
+        check: async function (code,options) {
             return await DotNet.invokeMethodAsync(
-                'WebCSC', 'Check', code
+                'WebCSC', 'Check', code, options
             );
         },
     };
