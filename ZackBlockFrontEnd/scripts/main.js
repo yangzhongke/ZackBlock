@@ -243,7 +243,7 @@ function checkBlocks(workspace)
 function checkBeforeRun(workspace)
 {
 	const errors = [];
-	const allBlocks =workspace.getAllBlocks(true);
+	const allBlocks =workspace.getAllBlocks(true).filter(b=>b.isEnabled()&&!b.getInheritedDisabled());
 	
 	//begin: check duplicated variables declarations.
 	const varDefTypeData=[];//key: varId, value:occurrence count

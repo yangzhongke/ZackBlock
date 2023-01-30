@@ -55,7 +55,7 @@
 	  <tbody id="diagnosticsBody">
 		<tr v-for="e in diagnostics" v-on:click="gotoDiagnostic(e)">>
 		  <td>{{e.message}}</td>
-		  <td>{{e.startLineNumber}}</td>
+		  <td>{{e.startLineNumber+1}}</td>
 		</tr>
 	  </tbody>
 	</table>	
