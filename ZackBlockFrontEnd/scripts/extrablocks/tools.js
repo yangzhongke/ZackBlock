@@ -347,7 +347,7 @@ Blockly.CSharp['promptDouble'] = function(block) {
 Blockly.defineBlocksWithJsonArray([
   {
     "type": "readLine",
-    "message0": "readLine",
+    "message0": "ReadLine",
 	"output":"String",
     "style": "text_blocks",
   }
