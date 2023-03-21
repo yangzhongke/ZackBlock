@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
   {
     "type": "convert",
-    "message0": "convert %1 to %2",
+    "message0": "Convert %1 to %2",
     "args0": [
       {
         "type": "input_value",
